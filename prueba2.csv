@@ -1,0 +1,54 @@
+numero;cate1;cate2
+1;1;Enlatados y envasados
+2;1;Pastas y Granos
+3;1;Aceites y condimentos
+4;1;Salsas, sopas y aderezos
+5;1;Azúcar y Edulcorante
+6;1;Harinas, Postres y Untables
+7;1;Café, Te, Yerbas
+8;1;Snacks y Cereales
+9;1;Galletitas y Golosinas
+10;1;Legunbres Secas
+11;1;Frutos Secos y Semillas
+12;1;ConfiterIa
+13;2;Frutas
+14;2;Verduras
+15;2;Panificados 
+16;2;Huevos
+17;2;Congelados
+18;3;Carne Vacuna
+19;3;Carne de Pollo
+20;3;Embutidos 
+21;3;Hamburguesas
+22;3;Fiambres 
+23;3;Pescados 
+24;3;Carne Porcina
+25;3;Carne de Pavo
+26;4;Leches
+27;4;Yogures
+28;4;Quesos 
+29;4;Chocolatadas
+30;4;Cremas
+31;4;Manteca / Margarina
+32;5;Aguas
+33;5;Jugos
+34;5;Gaseosas
+35;5;Con Alcohol
+36;5;Especiales
+37;5;Vinos
+38;6;Cuidado de la Ropa
+39;6;Productos de Limpieza
+40;6;Papel & Desechables
+41;6;Accesorios para limpiezas
+42;6;Escenciales
+43;6;Mascotas
+44;7;Cuidado Capilar
+45;7;Cuidado Corporal/Facial
+46;7;Higiene Bucal
+47;7;Cuidado Masculino
+48;7;Cuidado Femenino
+49;7;Bebés
+50;8;Sin Glúten
+51;8;Sin Azúcar
+52;8;Sin Lactosa
+53;8;Productos Veganos

@@ -15,7 +15,7 @@ class CreateCategoriasTable extends Migration
     {
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categoria_id')->nullable();
+            $table->unsignedBigInteger('categoria_id')->nullable()->default(null);
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->text('nombre');
             $table->unsignedBigInteger('tipo_categoria_id');

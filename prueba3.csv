@@ -1,0 +1,328 @@
+numero;cate1;cate2;cate3
+1;1;1;Atun 
+2;1;1;Palmito
+3;1;1;Picadillo
+4;1;1;Sardinas
+5;1;1;Carne Conservada
+6;1;1;Choclo
+7;1;1;Arveja
+8;1;1;Fruta Enlatada
+9;1;1;Aceituna
+10;1;1;Pepinos
+11;1;2;Fideo
+12;1;2;Arroz
+13;1;2;Ñoquis
+14;1;2;Ravioles
+15;1;2;Discos para tartas
+16;1;2;Capelletis
+17;1;3;Aceite de Girasol
+18;1;3;Aceite de Oliva
+19;1;3;Vinagre
+20;1;3;Sal
+21;1;3;Picante
+22;1;3;Salsa de Soja
+23;1;3;Aceto Balsámico
+24;1;3;Orégano
+25;1;3;Provenzal
+26;1;3;Especias
+27;1;3;Polvo de Hornear
+28;1;4;Salsa de Tomate
+29;1;4;Salsas
+30;1;4;Extracto de Tomate
+31;1;4;Caldos
+32;1;4;Ketchup
+33;1;4;Mostaza
+34;1;4;Mayonesa
+35;1;4;Mayonesa Light
+36;1;5;Azúcar
+37;1;5;Edulcorante
+38;1;5;Esencias
+39;1;6;Harinas
+40;1;6;Leche Condensada
+41;1;6;Dulce de Leche
+42;1;6;Levaduras
+43;1;6;Para hornear
+44;1;6;Dulce de Guayaba
+45;1;6;Miel de Abeja
+46;1;6;Dulce de Batata
+47;1;6;Flan
+48;1;6;Gelatina
+49;1;6;Cremosos
+50;1;6;Mermelada
+51;1;6;Bizcochuelos
+52;1;6;Galleta Molida
+53;1;6;Dulce de Mamón
+54;1;6;Harina de Maíz
+55;1;6;Mantequilla de Maní
+56;1;6;Tapiocas
+57;1;7;Café
+58;1;7;Té
+59;1;7;Yerba Mate
+60;1;7;Cocido
+61;1;7;Café Molido
+62;1;7;Filtro para Café
+63;1;8;Chocolate
+64;1;8;Barritas de Cereal
+65;1;8;Alfajores
+66;1;8;Papas Fritas
+67;1;8;Avena
+68;1;8;Cereales
+69;1;8;Budínes
+70;1;8;Nachos
+71;1;8;Turrones
+72;1;9;Galletitas Dulces
+73;1;9;Galletitas Saladas
+74;1;9;Chupetines
+75;1;9;Caramelos
+76;1;9;Chicles
+77;1;9;Galletitas Saludables
+78;1;10;Pororó
+79;1;10;Lentejas
+80;1;10;Maíz
+81;1;10;Locro
+82;1;10;Poroto
+83;1;11;Frutos Secos
+84;1;11;Semillas
+85;1;12;Medialunas
+86;1;12;Tortas
+87;2;13;Tropical
+88;2;13;Manzanas y Peras
+89;2;13;Con Pulpa
+90;2;13;Cítricos
+91;2;14;De Frutos
+92;2;14;Tubérculos/Raíces
+93;2;14;En Hojas
+94;2;14;Hidropónicas
+95;2;14;Verduras Congeladas
+96;2;15;Pan Árabe
+97;2;15;Pan de Sandwich Blanco
+98;2;15;Pan Integral
+99;2;15;Pan de Gluten
+100;2;15;Pan de Hamburguesa
+101;2;15;Prepizzas
+102;2;15;Galleta
+103;2;15;Pan Felipe
+104;2;15;Pan de Ajo
+105;2;15;Pan Dulces
+106;2;16;De Gallina
+107;2;16;De Codorniz
+108;2;17;Congelados
+109;3;18;Tapa Cuadril
+110;3;18;Costilla
+111;3;18;Vacío
+112;3;18;Peceto
+113;3;18;Colita Cuadril
+114;3;18;Bife de Chorizo
+115;3;18;Entre Costilla
+116;3;18;Sobre Costilla
+117;3;18;Lomito
+118;3;18;Picada Parrillera
+119;3;18;Ojo de Bife
+120;3;18;Milanesa al vacío
+121;3;18;Carne Molida
+122;3;18;Lomo
+123;3;18;Osobuco
+124;3;18;Carnaza Blanca
+125;3;18;Albóndigas
+126;3;18;Falda
+127;3;18;Rabadilla
+128;3;19;Pollo
+129;3;19;Muslo
+130;3;19;Pechuga
+131;3;19;Puchero
+132;3;19;Gallina
+133;3;19;Patas
+134;3;19;Caderas
+135;3;19;Alas
+136;3;19;Corazón de Pollo
+137;3;19;Molleja de Pollo
+138;3;19;Milanesa de Pollo
+139;3;19;Nuggets de Pollo
+140;3;19;Hamburguesa de pollo
+141;3;20;Chorizos
+142;3;20;Panchos
+143;3;20;Morcilla
+144;3;20;Butifarra
+145;3;20;Pate
+146;3;20;Al vacio
+147;3;20;Besito
+148;3;21;Vacuno
+149;3;21;Light
+150;3;21;De Aves
+151;3;22;Jamón Cocido
+152;3;22;Jamón Crudo
+153;3;22;Panceta
+154;3;22;Salame
+155;3;22;Fiambres
+156;3;22;Mortadela
+157;3;22;Jamonada
+158;3;23;Tilapia
+159;3;23;Salmon
+160;3;23;Mariscos
+161;3;24;Lomo de Cerdo
+162;3;25;Jamon de Pavo
+163;4;26;Leche Entera
+164;4;26;Leche Descremada
+165;4;26;Leche en Polvo
+166;4;26;Leche de Almendras
+167;4;27;Bebibles Enteros
+168;4;27;Con Cereal
+169;4;27;Sachet Entero
+170;4;27;Bebibles Light
+171;4;27;Sachet Light
+172;4;28;Queso Untable
+173;4;28;Queso Sandwich
+174;4;28;Queso Rallado
+175;4;28;Cremoso/Cuartirolo
+176;4;28;Queso Paraguay
+177;4;28;Roquefort
+178;4;28;Queso Sardo
+179;4;28;Queso Danbo
+180;4;28;Gouda
+181;4;28;Queso de Ricota
+182;4;29;Chocolate en polvo
+183;4;29;Chocolatadas
+184;4;30;Crema de Leche
+185;4;31;Manteca
+186;4;31;Manteca Light
+187;4;31;Margarina
+188;4;31;Margarina Light
+189;5;32;Agua Mineral
+190;5;32;Agua Mineral con Gas
+191;5;32;Agua Tónica
+192;5;32;Agua Saborizada
+193;5;33;Jugo en Polvo
+194;5;33;Jugos Líquido
+195;5;33;De Soja
+196;5;34;Gaseosa Normal
+197;5;34;Gaseosa Light
+198;5;35;Cervezas
+199;5;35;Caña
+200;5;35;Whisky
+201;5;35;Vino Tinto
+202;5;35;Cachaza
+203;5;35;Espumosos
+204;5;35;Licores
+205;5;35;Vodka
+206;5;35;Tequila
+207;5;35;Sidra
+208;5;35;Gin
+209;5;36;Energizantes
+210;5;36;Bebidas Isotónicas
+211;5;37;Malbec
+212;5;37;Cabernet Sauvignon
+213;5;37;Pinot Noir
+214;5;37;Blend
+215;6;38;Enjuages/ Suavizantes
+216;6;38;Jabón en Polvo
+217;6;38;Jabón Líquido
+218;6;38;Quita Manchas
+219;6;38;Jabón de Lavar
+220;6;38;Planchado
+221;6;38;Perfume para Ropa
+222;6;39;Detergentes
+223;6;39;Lavandinas
+224;6;39;Desodorantes Piso
+225;6;39;Limpiador
+226;6;39;Insecticidas
+227;6;39;Desodorantes de baño
+228;6;39;Hormiguicida
+229;6;39;Aromatizantes
+230;6;39;Desodorantes de Ambiente
+231;6;39;Desinfectantes de Ambiente
+232;6;39;Alcohol de Quemar
+233;6;39;Ceras
+234;6;39;Limpiavidrios
+235;6;39;Desengrasantes
+236;6;39;Limpiahornos
+237;6;39;Lustramuebles
+238;6;39;Pastillas
+239;6;39;Desodorantes Líquido
+240;6;39;Desodorantes Aerosol
+241;6;39;Desinfectante Piso
+242;6;39;Destapa Cañería
+243;6;39;Para el baño
+244;6;40;Papel Higiénico
+245;6;40;Servilletas
+246;6;40;Bolsa de Basura
+247;6;40;Rollos de Cocina
+248;6;40;Rollo Pack
+249;6;40;Pañuelos Desechables
+250;6;40;Trapos
+251;6;40;Vaso de Plástico
+252;6;40;Bolsas Herméticas
+253;6;41;Trapos de Piso
+254;6;41;Escurridores
+255;6;41;Escoba
+256;6;41;Palita
+257;6;41;Esponja
+258;6;41;Guantes
+259;6;41;Paño Esponja
+260;6;41;Lana de Acero
+261;6;41;Cepillo para Ropa
+262;6;41;Cepillo para Inodoro
+263;6;41;Plumeros
+264;6;41;Virulana
+265;6;41;Baldes
+266;6;41;Palangana
+267;6;41;Pastillas para Inodoro
+268;6;41;Plumeros
+269;6;42;Papel de Aluminio
+270;6;42;Fósforo
+271;6;42;Foco
+272;6;42;Repelentes
+273;6;42;Espiral
+274;6;42;Papel Manteca
+275;6;42;Papel Film
+276;6;42;Escarbadientes
+277;6;42;Pilas
+278;6;42;Carbón
+279;6;42;Plásticos
+280;6;42;Librería
+281;6;42;Cigarrillos
+282;6;42;Pajillas
+283;6;42;Trampa para Ratones
+284;6;42;Betún
+285;6;42;Cloros
+286;6;42;Velas
+287;6;43;Perros
+288;6;43;Gatos
+289;7;44;Shampoo
+290;7;44;Acondicionador
+291;7;44;Tratamientos
+292;7;44;Cremas para peinar
+293;7;44;Fijadores/Gel
+294;7;45;Jabón de mano
+295;7;45;Gel de ducha
+296;7;45;Desodorantes
+297;7;45;Cremas Faciales
+298;7;45;Talcos
+299;7;45;Jabón Líquido
+300;7;45;Protectores/Bronceadores
+301;7;45;Cremas Corporales
+302;7;45;Alcohol en Gel
+303;7;45;Cotonetes
+304;7;46;Pasta Dental
+305;7;46;Cepillo Dental
+306;7;46;Hilo Dental
+307;7;46;Enjuage Bucal
+308;7;47;Afeitadoras/ Depiladoras
+309;7;47;Espumas de Afeitar
+310;7;47;Repuestos
+311;7;47;Lociones
+312;7;47;Aftershave
+313;7;47;Otros
+314;7;48;Toallas higiénicas
+315;7;48;Protector Diario
+316;7;48;Tampones
+317;7;48;Quitaesmalte
+318;7;49;Pañales
+319;7;49;Toallitas Humedas
+320;8;50;Galletitas Sin Glúten
+321;8;50;Galletas de Arroz
+322;8;50;Fideos Zero Glúten
+323;8;51;Galletitas Sin Azúcar
+324;8;52;Queso Sin Lactosa
+325;8;52;Leche Sin Lactosa
+326;8;52;Yogurt Sin Lactosa
+327;8;53;Leche de Arroz

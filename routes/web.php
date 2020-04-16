@@ -1,5 +1,6 @@
 <?php
 
+use App\Categoria;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+//    return view('welcome');
+    foreach(Categoria::where('categoria_id',null)->get() as $cate){
+        echo $cate->nombre . '<br>';
+        foreach(Categoria::where('categoria_id',$cate->id)->get() as $cate2){
+            echo '---------------------------------------------'.$cate2->nombre . '<br>';
+            foreach(Categoria::where('categoria_id',$cate2->id)->get() as $cate3){
+                echo '------------------------------------------------------------------------------------------------------------------------'.$cate3->nombre . '<br>';
+            }
+        }
+    }
 });
