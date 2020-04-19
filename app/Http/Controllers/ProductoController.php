@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use App\TipoRespuesta;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -10,54 +11,61 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        $prod =  Producto::all();
+        return view('producto.index')->with('productos',$prod);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('producto.editar');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        return [
+            'op'=>'store',
+            'data' => $request->all()
+        ];
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Producto $producto)
     {
-        //
+        return view('producto.visor',[
+            'producto' => $producto
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Producto $producto)
     {
-        //
+        return view('producto.editar',[
+            'producto' => $producto
+        ]);
     }
 
     /**
@@ -65,11 +73,12 @@ class ProductoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Producto  $producto
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function update(Request $request, Producto $producto)
-    {
-        //
+    public function update(Request $request, Producto $producto){
+        $respuesta = new TipoRespuesta();
+        $respuesta->setDato(['producto'=>$producto,'request'=>$request->all()]);
+        return $respuesta->toJSON();
     }
 
     /**
@@ -80,6 +89,6 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        return 'destroy';
     }
 }

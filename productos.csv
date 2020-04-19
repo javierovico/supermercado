@@ -1,0 +1,733 @@
+id;categoria_id;nombre;precio;tipo_id
+1;1001;Atun Norte Lomitos de Atun en aceite de oliva 150gr;11500;1
+2;1001;Atun Van Camps en Aceite 160gr;13000;1
+3;1001;Atun Norte Solido en Agua y sal 170gr;11500;1
+4;1002;Palmito San Sebastian en Trozos 400gr;12500;1
+5;1002;Palmito San Diego Lata 500gr;32250;1
+6;1002;Palmito Enteros Nuar 400gr;10500;1
+7;1003;Picadillo Safra;2900;1
+8;1003;Picadillo La Negrita;2700;1
+9;1004;Sardina Sun al Aceite Abre Fácil Lata 125gr;4900;1
+10;1004;Sardina Sun con Salsa de Tomate Abre Fácil Lata;4850;1
+11;1004;Sardina Sun al Agua Abre Fácil Lata 125gr;4800;1
+12;1005;Carne Conservada Indega 340gr;12800;1
+13;1005;Carne de Soja Mickey 400gr;12500;1
+14;1006;Choclo Lar 200gr;3450;1
+15;1006;Choclo Primicia 200gr Lata;3300;1
+16;1006;Choclo Excellent Lata 200gr;3550;1
+17;1007;Arveja Primicia 200gr;2800;1
+18;1007;Arveja Lar 300gr;2850;1
+19;1007;Arveja Norte 200gr;2900;1
+20;1008;Durazno Enlatado En Almibar Norte 820gr;9900;1
+21;1008;Durazno en Almibar Arcor 820gr;10400;1
+22;1008;Durazno Enlatado Lar 820gr;11700;1
+23;1009;Aceitunas Verde Cébila Rellenas con Pasta de Pimiento 300gr;8600;1
+24;1009;Aceitunas Verdes En Sal Muera Nucete 500gr;24250;1
+25;1009;Aceitunas Verdes Descarozadas La Cebila 300gr;7600;1
+26;1010;Pepino Neuland Clásico frasco 300gr;16900;1
+27;1011;Fideo Tirabuzon Primavera Anita Paquete 400gr;3600;1
+28;1011;Fideo Spaghetti Fino Nido Hildebrand Paquete 400gr;3125;1
+29;1011;Fideo Spaghetti Largo Anita Paquete 400gr;3600;1
+30;1012;Arroz Tio Nico Azul 250gr;1140;1
+31;1012;Arroz Tio Nico Azul 1kg;4200;1
+32;1012;Arroz Primicia Rojo 1kg;12900;1
+33;1013;Ñoquis Quiero Más Rellenos con Cheddar 500gr;15150;1
+34;1013;Ñoquis Quiero Más Pre-cocidos al Huevo 500gr;5950;1
+35;1013;Ñoquis Edward 450gr;6000;1
+36;1014;Sorrentinos de Ricota Edward 600gr;21900;1
+37;1014;Ravioles de Ricota Edward 500gr;21900;1
+38;1014;Ravioles Quiero Más Pollo 600gr;20600;1
+39;1015;Disco Empanada Edward para Freir Medianos 12 unidades;3750;1
+40;1015;Disco Empanadas Edward Semi Hojaldrada Para Hornear 12 uni;5450;1
+41;1015;Disco para empanada La Criolla para hornear 12 unidades;4250;1
+42;1017;Aceite de Girasol Vicentin 900ml;13100;1
+43;1017;Aceite de Girasol Vicentin 4.5 lts;62500;1
+44;1017;Aceite de Girasol Vicentin 1.5lts;20250;1
+45;1018;Aceite de Oliva Extra Virgen La Española 250ml;26800;1
+46;1018;Aceite de Oliva Carbonell Extra Virgen 250ml;23900;1
+47;1018;Aceite de Oliva Cocinero 500ml;31500;1
+48;1019;Vinagre de Vino Tinto Alcazar 300ml;4700;1
+49;1019;Vinagre de Manzana Alcazar 750ml;6900;1
+50;1019;Vinagre de Vino Tinto Alcazar 750cc;6600;1
+51;1020;Sal Fina Primicia 500 gr;2250;1
+52;1020;Sal Fina Celusal Paquete 500gr;5800;1
+53;1020;Sal Fina Celusal Frasco 250gr;14200;1
+54;1021;Salsa de Ají Alcazar 130ml;4900;1
+55;1021;Condimento Parrillero Alcazar 500ml;8000;1
+56;1021;Molho de Pimienta Knorr 150ml;8400;1
+57;1022;Salsa de Soja Sanken 240ml;3300;1
+58;1022;Salsa de Soja Sanken 3lt;22500;1
+59;1022;Salsa de Soja Sanken 950ml;8150;1
+60;1023;Aceto Balsamico Alcazar 250ml;11300;1
+61;1023;Aceto Balsamico Alcazar 500ml;17600;1
+62;1023;Aceto Balsámico Cocinero 500ml;25000;1
+63;1024;Orégano Arcoiris Paquete 50gr;5600;1
+64;1025;Provenzal Arcoiris 15gr;2300;1
+65;1026;Vainilla en Polvo Hierbapar 15gr;1500;1
+66;1026;Canela Arcoiris 50gr;3800;1
+67;1026;Comino en Grano Carmencita 40gr;14600;1
+68;1027;Polvo de Hornear Copalsa 30gr;3500;1
+69;1027;Polvo Para Hornear Royal 100 gr;4900;1
+70;1028;Pure de Tomate Arcor 520gr;4750;1
+71;1028;Pure de Tomate de La Huerta 530gr;4300;1
+72;1028;Salsa de Tomate Pontevedra Pomarola 340gr;5500;1
+73;1029;Salsa Pronto Pizza Pontevedra 200gr;3400;1
+74;1029;Salsa para Pizza Frutika 220gr;3400;1
+75;1029;Salsa Lista Filetto con oregano Knorr 340gr;6800;1
+76;1030;Extracto de Tomate Perita 70gr;950;1
+77;1030;Extracto de Tomate Norte Lata 140gr;3100;1
+78;1030;Extracto de Tomate Frutika 70 gr;1050;1
+79;1031;Caldo Knorr de Verduras Caja 6 Cubos;4300;1
+80;1031;Caldo Knorr de Verduras Caja 12 Cubos;7200;1
+81;1031;Caldo Vegetal Instantaneo Knorr Quick 5 Sobres;14500;1
+82;1032;Ketchup Pontevedra Doypack 200gr;5700;1
+83;1032;Ketchup Hellmans Sachet 60 gr;3000;1
+84;1032;Ketchup Hellmans Pote Tradicional 400 gr;13400;1
+85;1033;Mostaza Savora Original Doypack 60gr;3000;1
+86;1033;Mostaza Savora Original Pote 370gr;13600;1
+87;1033;Mostaza Savora Original Doypack 500gr;13400;1
+88;1034;Mayonesa Natura Sachet 500 gr;9950;1
+89;1034;Mayonesa Mayoliva 475gr Sachet;12800;1
+90;1034;Mayonesa Hellmanns Oliva DoyPack 475 gr;15300;1
+91;1035;Mayonesa Hellmans Light 495 gr Frasco;19500;1
+92;1035;Mayonesa Hellmanns Light DoyPack 950 gr;26900;1
+93;1035;Mayonesa Hellmanns Light DoyPack 237 gr;7900;1
+94;1036;Azucar Orgánica Azpa 1 kg;11500;1
+95;1036;Azucar Azpa Blanca 2kg;14500;1
+96;1036;Azucar Azpa Blanca 5kg;36500;1
+97;1037;Edulcorante Hecodulc Tradicional 30ml;5900;1
+98;1037;Edulcorante Hecodulc Tradicional 250ml;21900;1
+99;1037;Edulcorante Sidiet 600ml;12500;1
+100;1038;Vainilla Hierbapar 25gr;2000;1
+101;1038;Esencia de Vainilla Kado 30ml;3100;1
+102;1038;Esencia de Vainilla Kado 100ml;6600;1
+103;1039;Harina de Trigo Primicia 000 1kg;4100;1
+104;1039;Harina de Trigo Leudante Primicia 1kg;6950;1
+105;1039;Harina Hildebrand 0000 5kg;22500;1
+106;1040;Leche Condensada Norte 395gr lata;7900;1
+107;1040;Leche Condensada Nestlé 397gr lata;11900;1
+108;1040;Leche Condensada Moca Nestle 395gr;11300;1
+109;1041;Dulce de Leche Coop 470gr pote;9300;1
+110;1041;Dulce de Leche La Pradera Pote 450 gr;9900;1
+111;1041;Postre Exquisita Dulce de Leche Light 60gr;5500;1
+112;1042;Levadura Fresca Copalsa;6000;1
+113;1043;Almidon de Maiz Maizena 215gr paquete;7500;1
+114;1043;Almidon de Maiz Maizena 520gr paquete;13700;1
+115;1044;Dulce de Guayaba Dulcesar 500gr;6250;1
+116;1044;Dulce de Guayaba Dulcesar 250gr;3750;1
+117;1044;Dulce de Guayaba Dulcesar 1kg;10000;1
+118;1045;"Miel de Abeja ""Abeja de Oro"" 250gr Frasco";13800;1
+119;1045;Miel de Caña Dulce Dul Cesar 500ml;8690;1
+120;1045;"Miel de Abeja ""Abeja de Oro"" 1.4kg botella";58300;1
+121;1046;Dulce de batata con chocolate 3 Hermanas 250gr;5900;1
+122;1046;Dulce de Batata Dulcesar Premium 250gr plastico;5500;1
+123;1046;Dulce de Batata Dulcesar con Chocolate 400gr;6450;1
+124;1047;Postre Exquisita Vainilla Caja 80gr;6700;1
+125;1047;Flan Exquisita Vainilla 60gr;6500;1
+126;1048;Gelatina Exquisita Frutilla Light 25gr;7900;1
+127;1048;Gelatina Exquisita Frutilla 50gr;7500;1
+128;1048;Gelatina La Pradera Diet. Naranja 120gr;1700;1
+129;1049;Nutella Ferrero 350gr;38900;1
+130;1049;Nutella 140gr;21100;1
+131;1049;Nutella Ferrero 750gr;64900;1
+132;1050;Mermelada Sabores de Aregua Guayaba 440gr;9700;1
+133;1050;Mermelada Sabores de Aregua Ciruela 440gr;9700;1
+134;1050;Mermelada Sabores de Aregua Frutilla 440gr;13300;1
+135;1051;Brownie Chocolate Exquisita 425gr;18500;1
+136;1051;Bizcochuelo Exquisita Vainilla 540gr;18950;1
+137;1051;Bizcochuelo Exquisita Chocolate 540gr;18200;1
+138;1052;Galleta Molida Primicia 400gr;3050;1
+139;1052;Galleta Molida Primicia 800gr;6500;1
+140;1052;Galleta Molida Mickey 800gr;7800;1
+141;1053;Dulce de Mamón en Almibar Primicia 1kg frasco;19300;1
+142;1054;Harina de Maíz Fresca por Kilo;8600;1
+143;1055;Manteca de Mani Dulcesar 230gr;20700;1
+144;1055;Mantequilla de Maní Nature Fit 370gr;25500;1
+145;1056;Masa Para Tapioca Tapioguay 1kg;22500;1
+146;1056;Tapioca Hidratada Da Terrinha 500gr;17200;1
+147;1057;Cafe Nescafe Sachet 50gr;8100;1
+148;1057;Nescafe Gold 100gr;45900;1
+149;1057;Café Nescafé Frasco 50gr;9800;1
+150;1058;Te Hornimans Rojo Clásico x25;9500;1
+151;1058;Te Guarani Verde x10;4500;1
+152;1058;Te Guarani Verde Menta 15gr;6650;1
+153;1059;Yerba Pajarito Especial 500gr;9359;1
+154;1059;Yerba Pajarito Especial 1 kg;18100;1
+155;1059;Yerba Kurupi Compuesta Menta y Boldo 500gr;9450;1
+156;1060;MATE COCIDO KURUPI TORRADO;7300;1
+157;1060;Cocido Pajarito soluble bolsa 75gr;17100;1
+158;1060;Cocido Abuelita Saquitos caja de 25 unidades;7350;1
+159;1061;Cafe Mayo Molido Paquete 100gr;5900;1
+160;1061;Cafe Mayo Molido Paquete 200gr;11850;1
+161;1061;Cafe Mayo Molido 500gr;28900;1
+162;1062;Filtro para Cafe Melitta Num. 102;6200;1
+163;1063;Snacks Doritos Queso 180gr Bolsa;15000;1
+164;1063;Turrón de Maní Arcor 50gr;960;1
+165;1063;Chocolate Vizzio Costa Almendras 72g caja;11300;1
+166;1064;Barrita Cereal Bar Golden 21gr;1700;1
+167;1064;Barrita Cereal Bar Frutos Rojos Con Yogurt 21gr;1700;1
+168;1064;Barrita Cereal Bar Chocolate 21gr;1900;1
+169;1065;Alfajor Bon o Bon Negro 40g;3000;1
+170;1065;Alfajor Bon o Bon Blanco 40g;3000;1
+171;1065;Alfajor Aguila Mini Torta Coco 72gr;4550;1
+172;1066;Papas Fritas Pringles Original 71gr;8400;1
+173;1066;Papas Fritas Pringles Original 40gr;5600;1
+174;1066;Papas Fritas Lays Clásicas 250gr;20000;1
+175;1067;Quadritos de Avena Quaker 300gr;28750;1
+176;1067;Avena Instantanea Quaker 400gr;12100;1
+177;1067;Avena Instantanea Quaker 700gr;19200;1
+178;1068;Nesfit Cereal Integral Trigo Arroz Maiz Miel Almendras 300gr;22900;1
+179;1068;Cereal Kellogs Zucaritas 500gr;22750;1
+180;1068;Cereal Kellogs Zucaritas 150gr;10900;1
+181;1069;Budín Bauducco Marmolada 200gr;9900;1
+182;1069;Budín Bauducco de coco 200gr;9900;1
+183;1069;Budin Bimbo Sabor Vainilla 200gr;9400;1
+184;1070;Nachos Tostitos Evercrisp Bolsa 300gr;15000;1
+185;1070;Nachos con Picante Taco Villa 300gr;13550;1
+186;1070;Nachos sabor cebolla Taco Villa 300gr;13550;1
+187;1071;Turrón Navideño Arcor 120gr;4800;1
+188;1072;Galletita Aventura Relleno de Frutilla 120gr;1900;1
+189;1072;Galletita Toddy Chispas Chocolate 75gr;4500;1
+190;1072;Galletita Vainilla Frac 130gr;5050;1
+191;1073;Galletitas Cerealitas Salvado 200gr;5500;1
+192;1073;Galletita Mazzei Crackers Semillas de Chia 245gr;4900;1
+193;1073;Galletita Saladix Duo Jamon/Queso 25gr;1890;1
+194;1074;Chupetin Mr. Pop Arcor Frutal 50 Unidades;13750;1
+195;1075;Caramelo Soberana Cafe 600gr;13500;1
+196;1075;Caramelo Arcor Rellenos Frutales 810gr;20500;1
+197;1075;Caramelo Ambrosoli Mentitas 25gr;2000;1
+198;1076;Chicle Trident Frutilla 8gr;1500;1
+199;1076;Chicle Bendent Menta 10gr;2500;1
+200;1076;Chicle Bendent Frutilla 10gr;2500;1
+201;1078;Maíz para Pororó Arcoiris 800gr;8500;1
+202;1078;Maiz para Pororó Arcoiris 400gr;4500;1
+203;1078;Maíz para Pororó Arcoiris 200gr;2200;1
+204;1079;Lenteja Arcoiris 500gr;13700;1
+205;1079;Lenteja Arcoiris 200gr;5500;1
+206;1079;Lenteja Primicia 200gr;5800;1
+207;1080;Maiz Blanco por kilo;9500;2
+208;1080;Maíz Chipa;11500;2
+209;1081;Locro Primicia bolsa de 800gr;7900;1
+210;1082;Poroto Negro Primicia 500gr;8900;1
+211;1082;Poroto Colorado Primicia 200gr;6100;1
+212;1082;Poroto Colorado Primicia 500gr;16500;1
+213;1083;Nuez Mariposa;160000;2
+214;1083;Ciruela Seca ;49900;2
+215;1083;Almendras ;152500;2
+216;1084;Semilla de Sésamo Sésami Tostada 300gr;14500;1
+217;1084;Maní Salado Guasu 250gr;10900;1
+218;1084;Semilla de Lino Arcoíris 200gr;5100;1
+219;1085;Medialuna con Relleno de Guayaba;2750;1
+220;1085;Medialuna con Relleno de Dulce de leche;2750;1
+221;1086;Torta Marmolada por porción;3850;1
+222;1087;Naranja;6100;1
+223;1087;Uva Negra Brasilera;27400;1
+224;1087;Mburucuya;27500;2
+225;1088;Pera de Agua;9800;2
+226;1088;Manzana Verde;12900;2
+227;1088;Manzana Colegiala;8500;2
+228;1089;Ciruela;21250;2
+229;1090;Mandarina Nacional;12900;2
+230;1090;Pomelo Nacional;4200;2
+231;1090;Limon Taití;7900;2
+232;1091;Zapallo Nacional;4100;2
+233;1091;Zapallo Brasilero;5500;2
+234;1091;Zapallito Italiano Zucchini;11900;2
+235;1092;Zanahoria Por Kilo;10800;2
+236;1092;Mandioca;2700;2
+237;1092;Remolacha por kilo;10500;2
+238;1093;Apio Mazo Grande;10500;3
+239;1093;Cilantro Por Mazo;2000;3
+240;1093;Lechuga Común Por Unidad;2900;3
+241;1095;Arvejas Frutos del Maipo 500gr;12400;1
+242;1095;Acelga Sadia IQF 500gr;13000;1
+243;1095;Salteado Frutos del Maipo Chap Sui 500gr;15700;1
+244;1096;Pan Árabe Bimbo Rapiditas Light 310gr;11500;1
+245;1096;Pan Árabe Bimbo Rapiditas Clásicas 310gr;11200;1
+246;1096;Tortillas Finitas Mazzei con Sésamo y Lino 10 unidades;10900;1
+247;1097;Pan de Viena Pancho Pan Todos 12 uni;7500;1
+248;1097;Pan de Sandwich Blanco Bimbo Liviano 400gr;9500;1
+249;1097;Pan Sandwich Bimbo Lacteado Actileche 700gr;11950;1
+250;1098;Pan de Sandwich PanTodos Salvado 460gr;7900;1
+251;1098;Pan de Sandwich Bimbo Integral 680gr;11900;1
+252;1098;Pan Bimbo Oroweat Semillas 600gr;17500;1
+253;1099;Pan de Glúten El Germano 300gr;15900;1
+254;1100;Pan para Hamburguesa paquete 6 unidades;3600;1
+255;1100;Pan para Hamburguesa PanTodos x6 Unidades;6800;1
+256;1101;Pre pizzas PanTodos Blanco 250gr;5900;1
+257;1101;Pre-pizzas My Friend Integral;4300;1
+258;1101;Pre-pizzas El Germano masa fina 120gr;4800;1
+259;1102;Coquito por kg;14300;2
+260;1102;Galleta Por Kg;6300;2
+261;1102;Pan Baguette Por Unidad;5500;1
+262;1103;Pan Felipe Por Kg;5250;2
+263;1104;Pan de Ajo Santa Massa Tradicional 270gr;20100;1
+264;1104;Pan de Ajo Santa Massa Levemente Picante 270gr;13250;1
+265;1104;Pan de Ajo Santa Massa Levemente Picante 400gr;19900;1
+266;1105;Pan Dulce Mazzei Tradicional con Frutas 400gr;16500;1
+267;1105;Pan Dulce Arcor 400gr;20100;1
+268;1105;Pan Dulce Panettone Bauducco 400gr;20600;1
+269;1106;Huevos Yemita caja de 6 unidades;5550;1
+270;1106;Huevos Yemita caja de 30 unidades;26900;1
+271;1106;Huevos Yemita caja de 12 unidades;9500;1
+272;1107;Huevo de Codorniz caja 24 unidades;12800;1
+273;1108;Masa Granopar para Mbeju 1kg;25200;1
+274;1108;Masa Granopar para Sopa Paraguaya 1kg;30000;1
+275;1108;Masa Granopar para Chipa 1kg;30000;1
+276;1109;Neuland Tapa Cuadril al vacío;78900;1
+277;1110;Tira Costilla Neuland al Vacio;35900;1
+278;1111;Neuland Vacío al vacío;52900;1
+279;1112;Neuland Peceto al vacío;33900;1
+280;1112;eceto Congelado Concepcion Por Kilo;38500;2
+281;1113;Neuland Colita Cuadril al vacío;54900;1
+282;1114;Neuland Bife de Chorizo;44900;1
+283;1115;Neuland Entrecostilla al vacío;48900;1
+284;1117;Neuland Lomito al vacío;79900;1
+285;1118;Neuland Picada Parrillera al vacío;33900;1
+286;1119;Neuland Ojo de Bife al vacío;44950;1
+287;1120;Neuland Milanesa Especial al vacío;45900;1
+288;1121;Neuland Carne Molida Popular 500gr;10900;1
+289;1121;Neuland Carne Molida Especial 500gr;14900;1
+290;1121;Carne Molida De Primera Por Kg;33900;2
+291;1122;Bola de Lomo;36900;1
+292;1122;Carne Lomo Limpio Por Kg;43750;1
+293;1122;Carne Lomo Fileteado por kg;44900;1
+294;1123;Osobuco;22800;2
+295;1123;Mondongo Vacuno;21900;1
+296;1124;Carnaza Blanca Fileteada Por Kg;31900;2
+297;1124;Carnaza Blanca por Kg;31900;2
+298;1124;Carnaza Negra por kilo;38750;2
+299;1125;Albóndigas de Carne Concepción Congeladas bolsa de 800gr;21900;1
+300;1126;Falda Por Kilo;16900;2
+301;1127;Rabadilla Fileteada por kg;43000;2
+302;1127;Rabadilla Por Kg;38000;2
+303;1127;Hígado Vacuno Por Kg;13000;2
+304;1128;Pollo Pechugon Pollo Parrillero Fresco;11615;1
+305;1128;Pollo Pechugon Entero Especial Fresco sin Menudos;11800;1
+306;1128;Pollo Pechugon El gran pollo sin menudos;10450;1
+307;1129;Pollo Don Juan Muslo Cadera Fresco a Granel;14300;1
+308;1129;Pollo Pechugon Muslo Entero Congelado;10300;1
+309;1129;Pollo Don Juan Muslo Cadera Paquete congelado;12900;1
+310;1130;Pollo Pechugon Pechuga Deshuesada Sin Piel por kg;27850;2
+311;1130;Pollo Don Juan Pechuga Entera Fresca;13900;1
+312;1130;Pollo Pechugon Tiritas de Pechuga IQF;25900;1
+313;1131;Puchero Popular Neuland;7900;1
+314;1131;Puchero de Primera por Kilo;12900;2
+315;1131;Puchero Especial Neuland;9900;1
+316;1132;Pollo Pechugon Gallina Congelada por kilo;10900;2
+317;1133;Pollo Pechugon Patitas congeladas IQF;14450;1
+318;1134;Pollo Pechugon Caderitas congeladas IQF;13400;1
+319;1135;Pollo Pechugon Alita congelada IQF bolsa de 800gr;12200;1
+320;1136;Pollo Don Juan Corazón de Pollo fresco a granel;16700;1
+321;1136;Pollo Don Juan Corazón de Pollo Paquete congelado;14600;1
+322;1137;Pollo Don Juan Molleja fresca a granel;8500;2
+323;1137;Pollo Don Juan Molleja paquete congelado;7200;1
+324;1138;Milanesa de Pollo Don Juan Muslito Ale bandeja;31900;1
+325;1138;Pollo Pechugon Milanesa de pollo x6 unidades;17825;1
+326;1139;Nuggets de Pollo Sadia Crocante 300gr;19500;1
+327;1139;Pollo Pechugon Pechu Nuggets bolsa de 800gr;24900;1
+328;1139;Pollo Pechugon Pechu Nuggets 300gr;9900;1
+329;1140;Hamburguesa de Pollo Guaraní 12 unidades;27900;1
+330;1141;Chorizo de Viena Franz;22900;1
+331;1141;Chorizo Parrillero Picante Ochsi a granel;27900;1
+332;1141;Chorizo de Viena Ochsi a granel;27000;1
+333;1142;Pancho Ochsi Por Kg;27800;2
+334;1142;Pancho Franz;21500;2
+335;1142;Super Pancho Ochsi por kilo;27100;2
+336;1143;Morcilla Ochsi a granel;24250;2
+337;1144;Butifarra Ochsi a granel;40250;2
+338;1144;Butifarra Mutti a granel;25900;2
+339;1145;Mini Pate Ochsi;4200;1
+340;1146;Besito Oschi a granel;30500;2
+341;1147;Hamburguesa de Carne Efege 16 unidades;25900;1
+342;1147;Hamburguesa de Carne Efege caja 60 unidades;90000;1
+343;1147;Guarani Hamburguesa Parrillera XXL 4unid;36500;1
+344;1148;Guarani Hamburguesa Light 6unid;21300;1
+345;1148;Guarani Hamburguesa Light 12unid;45000;1
+346;1150;Jamon Cocido Sadia Por Kg;29900;2
+347;1150;Jamón Cocido Ochsi Por Kg en Fetas;49200;2
+348;1150;Jamón Cocido Franz;37900;2
+349;1151;Jamón Crudo Ochsi paquete 250 gr;15500;1
+350;1152;Panceta Upisa;30800;1
+351;1152;Panceta Ochsi en paquete 200 - 250 gr;14900;1
+352;1154;Fiambre Ochsi Por Kilo;26900;2
+353;1157;Jamonada Ochsi a granel;32500;2
+354;1157;Jamonada Guarani;30000;2
+355;1158;Filet de Tilapia Ocho Fuentes 500gr paquete;46600;1
+356;1158;Filet de Tilapia Mennopez Congelado 500gr;45950;1
+357;1159;Filet de Salmón Congelado al vacío;166700;1
+358;1160;Preparado de Mariscos Congelado Brasmar 450gr;72500;1
+359;1161;Lomo de Cerdo por Kg;28500;2
+360;1161;Paleta de Cerdo;18200;2
+361;1162;Jamón de Pavo Sadia paquete de 200gr;20200;1
+362;1162;Jamón de Pavo Ahumado Light paquete 150gr;19300;1
+363;1162;Jamón de Pavo Ahumado Light paquete 150gr;48950;1
+364;1163;Leche Entera Los Colonos 1 Litro Tetrapak;5350;1
+365;1163;Leche Coop Entera UAT 1 lt Tetrapak;5300;1
+366;1163;Leche Entera Trebol 1lt Tetrapak;5400;1
+367;1164;Leche Descremada Doña Angela Sachet 1 Litro;4150;1
+368;1164;Leche Descremada Trebol 1lt Tetrapak;5500;1
+369;1164;Leche Descremada Lactolanda Vital Light 1lt tetrapak;4950;1
+370;1165;Leche Descremada en Polvo iLolay caja 30 unidades;20400;1
+371;1165;Leche En Polvo Nido FortiGrow Lata 800gr;42500;1
+372;1165;Leche en Polvo Nido Crecimiento 1+ 760gr;48400;1
+373;1167;Yogurt Coop Entero Bebible Coco 200ml;1900;1
+374;1167;Yogurt Lactolanda Vainilla botella 900gr;8900;1
+375;1167;Yogurt Lactolanda Vainilla 350gr;3550;1
+376;1168;Yogurt Coop Dueto Con Zucaritas 150gr;3500;1
+377;1168;Yogurt Coop Dueto Con Froot Loops 150gr;3300;1
+378;1168;Yogurt Coop Vida Descremado Muesli 150gr;3190;1
+379;1169;Yogurt Lactolanda Vainilla sachet 1lt;6600;1
+380;1169;Yogurt Trebol Sachet Vainilla 500ml;3300;1
+381;1169;Yogurt Trebol Sachet Frutilla 1lt;6600;1
+382;1170;Yogurt Coop Dietetico Vida Vainilla 350gr;3490;1
+383;1170;Yogurt Lactolanda Vital Light Vainilla 900gr;9100;1
+384;1170;Yogurt Lactolanda Vital Light Vainilla 350gr;3350;1
+385;1172;Queso Untable La Serenisima Finlandia Light 300gr;19400;1
+386;1172;Queso Untable Polenghi Tradicional 150gr;14500;1
+387;1172;Queso Untable Polenghi tradicional 200gr;12000;1
+388;1173;Queso Sandwich Polenghi Cheddar paquete de 144gr;14450;1
+389;1173;Queso Muzzarella Ilolay;49200;1
+390;1173;Queso Muzzarella Sancor;48500;1
+391;1174;Queso Rallado Sancor 100gr;14900;1
+392;1174;Queso Rallado Sancor 40gr;5800;1
+393;1174;Queso Rallado Ilolay 100gr;19000;1
+394;1175;Queso Cuartirolo Coop por kg;51700;1
+395;1175;Queso Cuartirolo La Padrera por kilo;42900;2
+396;1175;Queso Cuartirolo por kg;38000;2
+397;1176;Queso Paraguay Lactolanda Por Kg;39900;2
+398;1176;Queso Paraguay Casero Por Kg;34500;2
+399;1177;Queso Roquefort por kilo;65000;2
+400;1178;Queso Sardo Trebol por kg;72000;2
+401;1179;Queso Danbo Sancor Feteado;47500;2
+402;1179;Queso Danbo Sandwich Lactolanda por kilo;43500;2
+403;1181;Queso de Ricota San Cristobal;11200;2
+404;1182;Chocolate en Polvo Toddy 800gr;22900;1
+405;1182;Chocolate en Polvo Nescau 400gr lata;11900;1
+406;1182;Chocolate en Polvo Light Nescau 400gr lata;18400;1
+407;1183;Leche Chocolatada Trebol 1lt;7950;1
+408;1183;Chocolatada Lactolanda 1 litro;7450;1
+409;1183;Leche Chocolatada Trebol 200ml;2200;1
+410;1184;Crema de Leche Lactolanda 200gr tetrapak;6700;1
+411;1184;Crema de Leche Nestle Lata 300gr;9500;1
+412;1184;Crema de Leche Lactolanda 1 Litro Sachet;17200;1
+413;1185;Manteca Soya 250gr;4000;1
+414;1185;Manteca Trebol Plateada Sin Sal 200gr;10900;1
+415;1185;Manteca Delicata 250gr;5650;1
+416;1186;Manteca Light Untable La Serenisima Pote 200gr;17700;1
+417;1187;Margarina con sal Soya 500gr pote;7900;1
+418;1187;Margarina con sal Soya 250gr pote;3900;1
+419;1189;Agua Mineral Dasani sin gas 3lts;4700;1
+420;1189;Agua Seltz mineral sin gas 500ml;1650;1
+421;1189;Agua Dasani Mineral sin gas 500ml;2350;1
+422;1190;Agua Genesis Mineral con gas 500ml;2000;1
+423;1190;Agua Mineral La Fuente Con Gas 2Lt;2400;1
+424;1190;Agua Dasani Mineral con gas 500ml;2350;1
+425;1191;Agua Tónica Schweppes 500ml;4800;1
+426;1191;Agua Tónica Schweppes 2 Litros;10500;1
+427;1192;Agua Saborizada Aquarius Pomelo 500 ml;3900;1
+428;1192;Agua Saborizada Aquarius Pomelo 1.5 Litros;7800;1
+429;1193;Jugo Caricia Polvo Frutilla 200g;5400;1
+430;1193;Jugo Caricia Polvo Piña Sobre 25g;900;1
+431;1193;Jugo Caricia Polvo Frutilla Sobre 25g;900;1
+432;1194;Jugo Purifru Naranja 1 LT;15900;1
+433;1194;Jugo Puro Sol Manzana 200ml;2400;1
+434;1194;Jugo Watts 200ml Naranja;2950;1
+435;1195;Jugo Ades 200ml Naranja;3400;1
+436;1195;Jugo Ades 200ml Manzana;3400;1
+437;1195;Jugo Ades 1lt Manzana;8400;1
+438;1196;Pulp Naranja Botella 2 Lts;9500;1
+439;1196;Sprite Normal Botella 500ml descartable;5000;1
+440;1196;Sprite Normal Botella 2lt descartable;10800;1
+441;1197;Gaseosa Coca Cola Sin Azucar 3 litros Descartable;13900;1
+442;1197;Gaseosa Mirinda Guaraná Free 2lt;9900;1
+443;1198;Cerveza Coronita Extra 207ml;6100;1
+444;1198;Cerveza Stella Artois 335ml;5800;1
+445;1198;Cerveza Pilsen Lata 354ml;4000;1
+446;1199;Caña Aristócrata Etiqueta negra 450ml;12600;1
+447;1199;Caña Tres leones E.N. ¼;4100;1
+448;1199;Caña Tres leones ½ L;3700;1
+449;1200;Whisky Johnnie Walker Double Black Label 750ml;197500;1
+450;1200;Whisky Old Parr botella 500ml 12 años;92000;1
+451;1200;Whisky Johnnie Walker Red Label 1lt;99000;1
+452;1201;Vino Luigi Bosca Cabernet Sauvignot 750ml;85000;1
+453;1201;Uvita Vino Tinto 1 litro;8900;1
+454;1201;Vino Luigi Bosca Malbec 750ml;98000;1
+455;1202;Bello Barreiro 910ml;20100;1
+456;1203;Champagne Espumante Chandon Extra Brut 750ml;74500;1
+457;1203;Champagne Chandon Extra Brut 6lts;1100000;1
+458;1203;Champagne Mini Chandon Rose 187ml;39000;1
+459;1204;Jagermeister Licor Amargo 1 Lt;130000;1
+460;1204;Jagermeister Licor Amarga 700ml;95000;1
+461;1204;Fernet Branca Botella 750ml;49500;1
+462;1205;Vodka Ciroc Peach 750ml;138000;1
+463;1205;Vodka Absolut 1 Litro;110000;1
+464;1205;Vodka Smirnoff Roja 1 LT;37500;1
+465;1206;Tequila Blanco Don Julio 750ml;130000;1
+466;1207;Sidra Preferida 910ml;9850;1
+467;1208;Gin Bombay 750ml;118000;1
+468;1208;Gin Tanqueray 750ml;109500;1
+469;1210;Bebida Gatorade Mandarina 500ml;6800;1
+470;1210;Powerade Mount Blast Azul 500ml;7000;1
+471;1210;Bebida Gatorade Cool Blue 500ml;6800;1
+472;1211;Vino Fond de Cave Gran Reserva Malbec 750ml;90000;1
+473;1211;Vino Emilia Nieto Senetiner Malbec;49000;1
+474;1214;Vino Nicasia Malbec Blend 750ml;92400;1
+475;1214;Vino Nicasia Cabernet Franc 750ml;92400;1
+476;1215;Suavizante Cavallaro Clásico 500ml;7500;1
+477;1215;Suavizante Vivere Violeta y Flores Blancas 900ml doy pack;15000;1
+478;1215;Suavizante Comfort Original Concentrado 90ml doy pack;4000;1
+479;1216;Jabón en Polvo Omo Lavado Perfecto 3.6.kg;52500;1
+480;1216;Jabon en Polvo Blanqueador Moroti 2.5kg;26600;1
+481;1216;Jabon en Polvo Baja Espuma Moroti 2.5kg;32300;1
+482;1217;Jabón Liquido Persil Brisa de Frescura 830ml Sachet;16900;1
+483;1217;Jabón Líquido Para Ropa Candela 1 Litro;14750;1
+484;1217;Jabón liquido Skip Perfect Result 800 ml Doy Pack;23500;1
+485;1218;Quitamanchas Vanish liquido blanqueador 750ml;28800;1
+486;1218;Quitamanchas Vanish Pre Lavado 400ml gel doy pack;17900;1
+487;1218;Quitamanchas Vanish liquido multiuso 750ml;28800;1
+488;1219;Jabón de Coco en Pan Cavallaro 10u x40gr;13800;1
+489;1219;Jabon de lavar Cuñatai 180gr caja 20 unidades;41000;1
+490;1219;Jabón de Coco en Pan Cavallaro pack 100gr;3400;1
+491;1220;Plancha Fácil Base Base Ternura 500ml Repuesto;8800;1
+492;1220;Apresto Robin facilita planchado 900ml doy pack;21100;1
+493;1220;Apresto Robin facilita planchado 500ml doy pack;12200;1
+494;1221;Perfume para tela Poett Suavidad de Algodón 250ml frasco;23800;1
+495;1221;Perfume para tela Poett Suavidad Bebé 250ml frasco;23800;1
+496;1221;Perfume para ropa Querubin Flores Silvestres 900ml;25900;1
+497;1222;Detergente Quatro Manzana 475cc;3900;1
+498;1222;Detergente Activo 100 Limón 750ml;6500;1
+499;1222;Detergente Activo 100 Limón 500ml;4950;1
+500;1223;Lavandina Ayudín Multiacción Multisuperficies Original 1lt;7900;1
+501;1223;Lavandina Candela 500 ml;2700;1
+502;1223;Lavandina Quatro 1 Litro;3250;1
+503;1224;Desodorante de Piso Pino Leche Jazmín 1lt botella;7500;1
+504;1224;Desodorante para piso Cavallaro Azahar 900ml botella;9000;1
+505;1224;Desodorante Ambiente Quatro Pino Max 900 cc;4125;1
+506;1225;Limpiador Procenex Crema Baño/Cocina 730gr bot;19900;1
+507;1225;Lustra Muebles Virginia 500ml;22000;1
+508;1225;Limpiador Cif Baño 500ml gatillo;19000;1
+509;1226;Insecticida Raid mata voladores 360ml aereosol;25200;1
+510;1226;Insecticida Raid mata cucarachas 360ml aereosol;23100;1
+511;1226;Insecticida Mapex Verde Insectos Rastreros 330ml Aereosol;18300;1
+512;1227;Insecticida Raid mata voladores 360ml aereosol;25200;1
+513;1227;Insecticida Raid mata cucarachas 360ml aereosol;23100;1
+514;1227;Insecticida Mapex Verde Insectos Rastreros 330ml Aereosol;18300;1
+515;1228;Limpiador para baño Lysoform Desinfectante 500ml doypack;17350;1
+516;1228;Desinfectante para baño Procenex 420ml doy pack;12290;1
+517;1228;Desinfectante Para Baño Lysoform 500ml Gatillo;28900;1
+518;1229;Hormiguicida Matiris Talquera 120gr;4400;1
+519;1229;Homiguicida Mapex Polvo 500gr frasco;17000;1
+520;1230;Desodorante Ambiente Poett Primavera 360 cc;11500;1
+521;1230;Desodorante Ambiente Poett Lavanda 360cc;11950;1
+522;1230;Desodorante de Ambiente Pino Leche Lavanda 400ml aereosol;17400;1
+523;1231;Desinfectante de Ambiente Pino Leche Secretos del Campo 400ml aereosol;15300;1
+524;1231;Desinfectante Ambiente Lysoform Original 360ml Aereosol;25000;1
+525;1231;Desinfectante de Ambiente Lysoform Floral 360ml Aereosol;26000;1
+526;1232;Alcohol de Quemar Puppy bidón de 5lt;49450;1
+527;1232;Alcohol de Quemar Base Base Botella plastico 1lt;13500;1
+528;1232;Alcohol de quemar Base Base Botella 1lt;12200;1
+529;1233;Cera Roja Canario en Pasta 375gr;20900;1
+530;1233;Cera Liquida Base Base Neutra 500cc;8650;1
+531;1233;Cera Base Base Furia Roja 750cc;6500;1
+532;1234;Limpiavidrios Base Base 500ml repuesto botella;8500;1
+533;1234;Limpiavidrios Procenex Respuesto 420 ml doy pack;8200;1
+534;1234;Limpiavidrios Procenex 500ml gatillo;20500;1
+535;1235;Desengrasante Candela Gatillo 500 ml;11800;1
+536;1235;Antigrasa Mr. Músculo Total Cocina Naranja 500ml gatillo;15900;1
+537;1235;Antigrasa Mr. Músculo Total Cocina 900ml doy pack;17500;1
+538;1236;Limpia Hornos Zitron Aerosol;22300;1
+539;1237;Lustramuebles Blem Original 420gr aereosol;37950;1
+540;1237;Lustramuebles Blem Crema Original 200ml;20500;1
+541;1237;Lustra Muebles Virginia Vainilla 250ml;12900;1
+542;1240;Desodorante de Ambiente Glade Campos de Lavanda 360ml;12800;1
+543;1243;Limpiador Adhesivo Mr. Musculo Mañana de Campo 4 en 1;9500;1
+544;1243;Limpiador Adhesivo Mr. Musculo Lavanda 4 en 1;9700;1
+545;1243;Limpiador Adhesivo Glade Campos Lavanda caja 3 unidades;9500;1
+546;1244;Papel Higiénico Higienol Texturado Paq 4 Unidades;5200;1
+547;1244;Papel Higienico Sublime Doble Hoja 16 Unidades;36500;1
+548;1244;Papel Higienico Cacia Perfumado 4 unidades;5400;1
+549;1245;Servilletas Snob Gala hoja grande 50 unidades;11200;1
+550;1245;Servilletas Scott 50 unidades 24cmx23cm;3000;1
+551;1245;Servilletas Scott 100 unidades 24cmx23cm;5800;1
+552;1246;Bolsa de Basura Faemplast Económica 200lts;7900;1
+553;1246;Bolsa para baño Praktibol de 50lts;1500;1
+554;1246;Bolsa de Basura Limcrom Alta Resistencia 150lts;7200;1
+555;1247;Rollo Papel Cocina Scott Duramax 1 unidad;13400;1
+556;1247;Rollo de Cocina Scott Multiusos 3 unidades;15900;1
+557;1247;Rollo Papel Cocina Elite Doble Hoja 2 uni;13900;1
+558;1249;Pañuelo Descartable Elite;1650;1
+559;1249;Pañuelo Doble Hoja Kleenex caja de 75 unidades;9500;1
+560;1249;Pañuelos Desechables Elite Doble Hoja 100 unidades caja;10500;1
+561;1251;Vaso Plastico para Agua 250ml Tira 100 unidades;6500;1
+562;1251;Vaso de Plástico 100ml Tira de 100 uni;5500;1
+563;1252;Bolsa Hermetica Bolzip doble cierre 5 unidades;11200;1
+564;1252;Bolsa Hermetica Ilko 50 unidades;16500;1
+565;1253;Trapo Polifoam Rejilla;3700;1
+566;1253;Trapo de piso Polifoam Azul;4800;1
+567;1253;Franela La brujita 1 unidad;4990;1
+568;1254;Escurridor para Piso Puloil doble goma de 40cm;19900;1
+569;1254;Escurridor para Piso Condor 30cm;26500;1
+570;1254;Escurridor para piso Condor Una Goma 40cm;16250;1
+571;1255;Escoba Condor con Cerda;23300;1
+572;1255;Escoba Condor Cerda Plástico común;12200;1
+573;1255;Escoba Condor con Cerda v-3;25000;1
+574;1256;Palita para Basura de aluminio mango corto;11250;1
+575;1257;Esponja Virulana Salva Uñas cuadraditos unidad;3550;1
+576;1257;Esponja Virulana Lisa Fuerte Paquete 1 unidad;3550;1
+577;1257;Esponja Virulana CuidaUñas Multiuso unidad;3350;1
+578;1258;Guante Limpieza Polifoam Mediano;11900;1
+579;1258;Guante Virulana Multiuso Pequeño;11950;1
+580;1258;Guante Virulana Multiuso Grande;12500;1
+581;1259;Paño Videla para piso;12000;1
+582;1259;Paño Videla Multiuso con Microfibra 6 unidades;29000;1
+583;1259;Paño Secatodo Scotch Brite paquete 3 unidades;15500;1
+584;1260;Rolo Virulana Inoxy Plateado 2 unidades;6500;1
+585;1260;Rolo Virulana Inoxy Plateado 1 unidad;3400;1
+586;1260;Lana de Acero Virulana Rollitos 6 unidades;3100;1
+587;1261;Cepillo Condor para ropa ovalado;3700;1
+588;1261;Cepillo Condor para ropa con mango;10500;1
+589;1262;Cepillo para Inodoro Sanit largo;14400;1
+590;1265;Balde Plastico 15lts;9750;1
+591;1267;Pastillas para Inodoro Poett Lavanda 25gr;5600;1
+592;1269;Rollo Papel Aluminio Theoto 1 caja de 7.5m;11500;1
+593;1269;Rollo Papel Aluminio Theoto 1 caja de 30cm x 4m;8700;1
+594;1269;Fuego Fácil Theoto Aluminio Para Cocina 24x8;11500;1
+595;1270;Encendedor Bic handy recargable;16900;1
+596;1270;Fósforo Fiat Luz Grande 240 fósforos;3750;1
+597;1270;Fósforo Queluz caja chica 40 unidades;3600;1
+598;1271;Foco Osram 60 Watts;3000;1
+599;1272;Repelente LivOpen Maxima Duracion 165ml aerosol;38900;1
+600;1272;Repelente Vais Spray 200ml;17000;1
+601;1272;Repelente Vais Crema Frasco 200ml;16500;1
+602;1273;Espirales Matiris Sticks Palillos x 4 uni;12000;1
+603;1273;Espiral Raid Doble Acción ahuyenta mosquitos 150gr caja;8000;1
+604;1273;Espiral Raid Doble Acción 150gr 12 noches caja;10100;1
+605;1274;Rollo Papel Manteca Rolopaper de 5m;11800;1
+606;1275;Rollo Papel Film Easypack una caja de 30m;11400;1
+607;1275;Film Transparente Best Caja 30cmx100m;30900;1
+608;1276;Escarbadientes Theoto Caja 100 unidades;1300;1
+609;1276;Escarbadientes Gaboardi Caja 100 Unidades;1300;1
+610;1277;Pila Duracell AAA 2 unidades;11700;1
+611;1277;Pila Duracell AA pack de 4 + 2 unidades;24900;1
+612;1277;Pila Panasonic Grande Caja 20 unidades;49900;1
+613;1278;Carbon Green Valley 5 Kg;14375;1
+614;1278;Carbon Green Valley 3 Kg;8400;1
+615;1278;Leña Green Valley 8 kg;18750;1
+616;1279;Basurero de Plástico Jaguar 30lt;28500;1
+617;1279;Basurero Metálico Oficina Rejilla;34900;1
+618;1279;Basurero de Plástico San Remo 19lts;43700;1
+619;1280;Cinta de embalaje transparente por unidad;7900;1
+620;1280;Resma Chamex Oficio 500 hojas;36500;1
+621;1280;Resma Chamex A4 500 Hojas;33000;1
+622;1281;Gruesa Cigarrillo Kentucky Caja Blanda;25500;1
+623;1281;Gruesa Cigarrillo Kentucky caja dura;28900;1
+624;1282;Palitos de Brochet Theoto 100 unid;8500;1
+625;1282;Pajilla Plastica Flexible Theoto paquete 40 unidades;4500;1
+626;1282;Pajilla Plastica Theoto paquete 100 unidades;9600;1
+627;1283;Trampa para Ratones Adhesivas;7500;1
+628;1284;Betún Kiwi Marrón en Pasta para Calzados 88ml;7500;1
+629;1284;Betún Kiwi Negro en Pasta para Calzados 88ml;7500;1
+630;1285;Cloro HTH Granulado 2.5kg;175000;1
+631;1285;Cloro alguicida HTH de Mantenimiento 1lt;45500;1
+632;1285;Cloro HTH Granulado 1kg;74500;1
+633;1286;Velas Nilo numero 3 paquete 8 unidades;1550;1
+634;1287;Purina para perros Dog Chow Cachorros Razas M y G 3kg;68900;1
+635;1287;Purina para perros Dogui Adultos Carne y Vegetales 3kg;46000;1
+636;1287;Purina para perros Dog Chow Cachorros Razas P 3kg;70000;1
+637;1288;Comida para Gato Whiskas Pescado 3kg;74900;1
+638;1288;Alimento para Gato Raza sabor pollo y leche 500gr;10500;1
+639;1288;Alimento Para Gato Whiskas Salmón 1kg;30900;1
+640;1289;Shampoo Head and Shoulders 2 en 1 Suave y Manejable 180ml;18400;1
+641;1289;Shampoo TresEmmé Oil Radiante 750ml;41500;1
+642;1289;Shampoo TresEmmé Oil Radiante 400ml;33500;1
+643;1290;Acondicionador Head and Shoulders Manzana Fresh 375ml;34600;1
+644;1290;Acondicionador TresEmmé Liso Keratina 750ml;45000;1
+645;1290;Acondicionador Suave Niños Frutilla Glamorosa 350ml;18975;1
+646;1291;Tratamiento Capilar Loreal Elvive Oleo Cabello Liso 100ml;63000;1
+647;1291;Tratamiento Capilar Loreal Elvive Oleo Cabello Frizz 100ml;63000;1
+648;1291;Crema Tratamiento Elvive RT5 Extreme 300gr;41500;1
+649;1292;Crema Capilar Dove Oleo Nutricion 350gr;34000;1
+650;1292;Crema para peinar Sedal Sos Ceramidas 300ml;19000;1
+651;1292;Crema para peinar Sedal Lizo Perfecto 300ml;19000;1
+652;1294;Jabón de Tocado Dover Baby 75 g;6700;1
+653;1294;Jabón Mar de Glicerina 125 gr;5500;1
+654;1294;Jabón Protex Aloe 125gr;5800;1
+655;1295;Gel de Ducha Nivea Cremoso Hidratante 250ml;17500;1
+656;1296;Desodorante Dove Men Sin Perfume 150ml aerosol;25900;1
+657;1296;Desodorante Dove Beauty Finish 150ml aerosol;26300;1
+658;1296;Desodorante Speed Stick Men Hypoallergenic Bar 5;20400;1
+659;1298;Talco Pedico Algabo Frasco 200gr;10000;1
+660;1298;Talco Pédico Algabo Frasco 100gr;8000;1
+661;1299;Jabon Liquido Mar Antibac Piel Cuidada 1 litro;49900;1
+662;1299;Jabón Liquido Algabo Floral 300ml Repuesto Doy pack;7000;1
+663;1301;Crema Corporal St Ives Reafirmante 350ml;37000;1
+664;1301;Crema Corporal St Ives Piel Renovada Colageno y Elastina 350ml;28000;1
+665;1303;Cotonete Johnson & Johnson Caja 150;16950;1
+666;1303;Cotonete Johnson & Johnson Caja 75u;10200;1
+667;1304;Pasta Dental Oral B Complete 4 en 1 pack x3;16000;1
+668;1304;Pasta Dental Colgate Máxima Protección Anticaries 180gr;9500;1
+669;1304;Pasta Dental Kolynos Super Blanco 50gr;3800;1
+670;1305;Kit Cepillo Dental Oral B Pasta Dental 24ml;26700;1
+671;1305;Cepillo Dental Oral B Complete 2x1;14800;1
+672;1305;Cepillo Dental Kolynos Master Plus;6000;1
+673;1306;Hilo Dental Johnson & Johnson Reach Expansion Plus Menta 50m;18600;1
+674;1306;Hilo Dental Colgate Total 25m;17500;1
+675;1306;Hilo Dental Colgate Menta 50m;15600;1
+676;1307;Enjuague Bucal Colgate Sensitive Pro Alivio 250ml;26100;1
+677;1307;Enjuangue Bucal Listerine Zero 500ml;43500;1
+678;1307;Enjuangue Bucal Listerine Whitening 2 en 1 473ml;47700;1
+679;1308;Maquina de Afeitar Gillette Ultragrip paquete de 5 unidades;20500;1
+680;1308;Maquina de Afeitar Gillette Prestobarba Azul;5700;1
+681;1308;Máquina Afeitar Gillette Mach3 Turbo Negro;41500;1
+682;1309;Espuma de Afeitar Nivea Sensitive 200ml;48000;1
+683;1309;Espuma de Afeitar Nivea Hidratante 200ml;48000;1
+684;1309;Espuma de Afeitar Algabo Men 415ml;22400;1
+685;1310;Repuesto Gillette Mach 3 Turbo caja de 4 unidades;66200;1
+686;1310;Repuesto Gillette Mach 3 Sensitive caja de 4 unidades;60000;1
+687;1310;Repuesto Gillette Mach 3 Sensitive caja de 2 unidades;31000;1
+688;1312;Aftershave Nivea for Men Sensitive 100ml frasco;59000;1
+689;1312;Aftershave Nivea for Men Hidratante 100ml frasco;59000;1
+690;1313;Preservativo Control Nature XL Caja 3 unidades;8500;1
+691;1313;Preservativo Control Natural Caja 3 unidades;8500;1
+692;1313;Preservativo Control Finissimo Caja 6 unidades;15000;1
+693;1314;Toallas Higienicas Nosotras Ultra Invisible paquete 8 unidades;9400;1
+694;1314;Toallas Higienicas Nosotras ultra invisible paquete 10 unidades;11800;1
+695;1314;Toallas Higienicas Nosotras tanga tela paquete 10 unidades;9100;1
+696;1315;Protector Diario Nosotras Normal paquete 120 unidades;33400;1
+697;1315;Protector Diario Nosotras Normal paquete 15 unidades;4650;1
+698;1315;Protector Diario Nosotras Multiestilo paquete 150 unidades;40000;1
+699;1316;Tampones Kotex Evolution Mini Caja 8 Unidades;9600;1
+700;1316;Tampones Ob Medio Caja 20 Unidades;21900;1
+701;1316;Tampones Ob Medio Caja 10 Unidades;12400;1
+702;1317;Quitaesmalte Carey Humectante 60ml;5250;1
+703;1317;Quitaesmalte Carey Fortificante 60ml;5500;1
+704;1317;Quitaesmalte Algabo Humectante 120ml;9200;1
+705;1318;Pañal Huggies Natural Care Recién Nacidos 100 días 34 unidades;55000;1
+706;1318;Pañal Pampers Confort Sec G 20 unidades;31500;1
+707;1318;Pañal Pampers Confort XG 10 unidades;17200;1
+708;1319;Toallitas Humedas Qsoft Baby Clasica 50 unidades;16800;1
+709;1319;Toallitas Húmedas Huggies One/Done Refreshing 64 unidades;34900;1
+710;1319;Toallitas Húmedas Huggies Fresh 48 unidades;18100;1
+711;1320;Galletita Gullón Chip Choco Sin Glúten 130gr;15900;1
+712;1320;Galletita Dibus Sharkies Gullon Sin Gluten 250gr;18900;1
+713;1320;Mini Galletita Gullón María Sin Glúten 400gr;19500;1
+714;1321;Galletita Cerealitas de Arroz 160gr;9900;1
+715;1321;Galletita Arroz Vitalday Gullón 28gr;3300;1
+716;1321;Galletita de Arroz Natural 85gr B Light;7400;1
+717;1322;Fideo Urbano Zero Glúten Padre Nosso 500gr;14900;1
+718;1322;Fideo Urbano Zero Glúten Espaguette 500gr;14900;1
+719;1322;Fideo Urbano Zero Glúten Parafuso 500gr;14900;1
+720;1323;Galletita Gullón Cereales Integrales con Yogurt Sin Azúcar 220gr;17300;1
+721;1323;Galletita Gullón Rellena con Chocolate Sin Azúcar 250gr;16300;1
+722;1323;Galletita Gullón Sin Azúcar Ronditas 186gr;17500;1
+723;1324;Queso Lactolanda Sin Lactosa Feteado 500g;30500;1
+724;1325;Leche Semidescremada Sin Lactosa Lactolanda 1lt;6700;1
+725;1325;Leche Deslactosada Los Colonos 1lt;6900;1
+726;1325;Leche Deslactosada Trebol 1lt;6500;1
+727;1326;Yoghurt Trebol Entera Sin Lactosa Natural 350gr;4500;1
+728;1326;Yoghurt Trebol Descremado Sin Lactosa Natural 350gr;4500;1
+729;1326;Yoghurt Lactolanda Semi Desc. Sin Lactosa Vainilla 180g;2400;1
+730;1327;Leche de Arroz The Bridge Bio Rice Drink Vainilla 1lt;22900;1
+731;1327;Leche de Arroz The Bridge Bio Rice Drink Cacao 1lt;22900;1
+732;1327;Leche de Arroz Nesfit Avena Integral 1lt;22900;1

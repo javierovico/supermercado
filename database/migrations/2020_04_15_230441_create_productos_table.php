@@ -16,8 +16,10 @@ class CreateProductosTable extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->text('nombre');
-            $table->text('thumbnail');
+            $table->text('thumbnail')->nullable();
             $table->text('contenido')->nullable();
+            $table->unsignedBigInteger('tipo_medida_producto_id');
+            $table->foreign('tipo_medida_producto_id')->references('id')->on('tipo_medida_productos');
             $table->integer('precio');
             $table->timestamps();
         });
