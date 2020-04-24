@@ -1,7 +1,7 @@
 <template>
     <div class="row">
 <!--        <form-component @new="addThought"></form-component>-->
-        <div class="col s4"
+        <div class="col s12 m4 l3 xl2"
              v-for="(thought, index) in thoughts"
              :key="thought.id">
             <thought-component

@@ -38048,7 +38048,7 @@ var render = function() {
       _vm._l(_vm.thoughts, function(thought, index) {
         return _c(
           "div",
-          { key: thought.id, staticClass: "col s4" },
+          { key: thought.id, staticClass: "col s12 m4 l3 xl2" },
           [
             _c("thought-component", {
               attrs: { thought: thought },
