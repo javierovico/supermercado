@@ -33,10 +33,13 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', 'MainController@index');
+Route::get('/prueba', function (){
+    return view('prueba');
+});
 Route::resource('/producto', 'ProductoController',['as' => 'prefix']);
 
 Auth::routes(/*['register'=>false]*/);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::apiResource('thoughts', 'ThoughtController');
+Route::apiResource('thoughts', 'ProductoApiController');

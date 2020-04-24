@@ -1,18 +1,16 @@
 <template>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-
-            <form-component @new="addThought"></form-component>
-
+<!--        <form-component @new="addThought"></form-component>-->
+        <div class="col s4"
+             v-for="(thought, index) in thoughts"
+             :key="thought.id">
             <thought-component
-                v-for="(thought, index) in thoughts"
-                :key="thought.id"
                 :thought="thought"
                 @update="updateThought(index, ...arguments)"
                 @delete="deleteThought(index)">
             </thought-component>
-
         </div>
+        <modal-nuevo-producto @new="addThought"></modal-nuevo-producto>
     </div>
 </template>
 

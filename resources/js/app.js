@@ -19,9 +19,13 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue'));
-Vue.component('form-component', require('./components/FormComponent.vue'));
-Vue.component('thought-component', require('./components/ThoughtComponent.vue'));
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('puta', require('./components/PerraComponent.vue').default);
+
+Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue').default);
+Vue.component('form-component', require('./components/FormComponent.vue').default);
+Vue.component('modal-nuevo-producto', require('./components/ModalNuevoProducto.vue').default);
+Vue.component('thought-component', require('./components/ThoughtComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

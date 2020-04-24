@@ -1,35 +1,38 @@
 <template>
-    <div class="panel panel-default">
-        <div class="panel-heading">Publicado en {{ thought.created_at }} - Última actualización: {{ thought.updated_at }}</div>
-
-        <div class="panel-body">
-
-            <input v-if="editMode" type="text" class="form-control" v-model="thought.description">
-            <p v-else>{{ thought.description }}</p>
-
-        </div>
-
-        <div class="panel-footer">
-            <button v-if="editMode" class="btn btn-success" v-on:click="onClickUpdate()">
-                Guardar cambios
-            </button>
-            <button v-else class="btn btn-default" v-on:click="onClickEdit()">
-                Editar
-            </button>
-
-            <button class="btn btn-danger" v-on:click="onClickDelete()">
-                Eliminar
-            </button>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" :src="urlBase+((thought.thumbnail)?('productos/'+thought.thumbnail):'img/producto.jpg')">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4 truncate">{{thought.nombre}}<i class="material-icons right">more_vert</i></span>
+                    <p><a href="#">Precio: {{thought.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}} Gs.</a></p>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">Detalles<i class="material-icons right">close</i></span>
+                    <p>
+                        {{thought.nombre}}
+                    </p>
+                </div>
+                <div class="card-action">
+                    <a href="#">Agregar al carrito</a>
+                    <a href="#">Lista de deseos</a>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+
+    // <img class="activator" :src="urlBase+((thought.thumbnail)?('productos/'+thought.thumbnail):'img/producto.jpg')">
     export default {
         props: ['thought'],
         data() {
             return {
-                editMode: false
+                editMode: false,
+                urlBase: urlBase +'/'
             };
         },
         mounted() {
@@ -46,7 +49,7 @@
             },
             onClickUpdate() {
                 const params = {
-                    description: this.thought.description
+                    nombre: this.thought.nombre
                 };
                 axios.put(`/thoughts/${this.thought.id}`, params).then((response) => {
                     this.editMode = false;
