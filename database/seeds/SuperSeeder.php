@@ -53,18 +53,40 @@ class SuperSeeder extends Seeder
         }
 
         //Productos
-        $res = new LectorFilas(base_path().'/'.'productos.csv');
+        $res = new LectorFilas(base_path().'/'.'infprod_csv.csv');
         while ($fila = $res->leerSiguiente()){
+            $tipoProd= -1;
+            switch (strtoupper($fila[2])){
+                case '0':
+                case '1':
+                case 'DESA':
+                case 'UNIDAD':
+                case 'UNIDADES':
+                case 'LITROS':
+                    $tipoProd = 1;
+                    break;
+                case 'PESABLE':
+                    $tipoProd = 2;
+                    break;
+                default:
+                    echo ('NO SE PUEDE ' .$fila[2] . ' '. $res->lineaActual);
+            }
             DB::table('productos')->insert([
-                'id' => $fila[0],
-                'nombre' => $fila[2],
-                'precio' => $fila[3],
-                'tipo_medida_producto_id' => $fila[4]
+//                'id' => $fila[0],
+                'codigo' => $fila[0],
+                'nombre' => ucfirst(strtolower($fila[1])),
+                'linea' => $fila[3],
+                'impuesto' => $fila[4],
+                'descuento' => $fila[5],
+                'precio' => str_replace('.','',$fila[6]),
+                'precio_mayorista' => str_replace('.','',$fila[7]),
+                'precio_costo' => str_replace('.','',$fila[8]),
+                'tipo_medida_producto_id' => $tipoProd
             ]);
-            DB::table('categoria_producto')->insert([
-                'categoria_id' => $fila[1],
-                'producto_id' => $fila[0],
-            ]);
+//            DB::table('categoria_producto')->insert([
+//                'categoria_id' => $fila[1],
+//                'producto_id' => $fila[0],
+//            ]);
         }
     }
 }

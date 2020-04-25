@@ -15,12 +15,19 @@ class CreateProductosTable extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo',100)->unique();
+            $table->integer('impuesto')->default(10);
+            $table->integer('descuento')->default(0);
+            $table->integer('stock')->default(0);
+            $table->integer('linea')->default(0);
             $table->text('nombre');
             $table->text('thumbnail')->nullable();
             $table->text('contenido')->nullable();
             $table->unsignedBigInteger('tipo_medida_producto_id');
             $table->foreign('tipo_medida_producto_id')->references('id')->on('tipo_medida_productos');
             $table->integer('precio');
+            $table->integer('precio_mayorista')->default(0);
+            $table->integer('precio_costo')->default(0);
             $table->timestamps();
         });
     }

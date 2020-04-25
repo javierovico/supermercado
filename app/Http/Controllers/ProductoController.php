@@ -11,12 +11,12 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Producto[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        $prod =  Producto::all();
-        return view('producto.index')->with('productos',$prod);
+        return  Producto::limit(200)->get();
+//        return view('producto.index')->with('productos',$prod);
     }
 
     /**

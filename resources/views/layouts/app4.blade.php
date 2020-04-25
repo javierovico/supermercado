@@ -1,31 +1,72 @@
-<template>
-    <div id="principal">
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}"  media="screen,projection"/>
+
+    <script src="{{ asset('js/materialize.min.js') }}" defer></script>
+
+    <link rel="icon" href="http://www.kamaleon360.com/wp-content/uploads/2019/04/logo.png" sizes="32x32" />
+{{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+    <script>
+        const urlBase = "{{URL::to('/')}}";
+    </script>
+    <style>
+        #app {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
         <header>
             <!-- Dropdown Structure -->
             <ul id="dropdown1" class="dropdown-content">
                 <li><a v-on:click="cambiarSeccion('categorias')">Categorias</a></li>
                 <li><a v-on:click="cambiarSeccion('productos')">Productos</a></li>
                 <li class="divider"></li>
-                <li v-if="auth.iniciado">
-                    <a v-on:click="cerrarSesion">Salir</a>
-                </li>
-                <li v-else>
-                    <a v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
-                    <a v-on:click="cambiarSeccion('registro')">Registrarse</a>
-                </li>
+                @auth
+                    <li>
+                        <a href="#" onclick="$('#logout-form').submit()">Salir</a>
+                    </li>
+                @else
+                    <li>
+                        <a v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
+                        @if(Route::has('register'))
+                            <a href="{{route('register')}}">Registrarse</a>
+                        @endif
+                    </li>
+                @endif
             </ul>
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" v-on:click="cambiarSeccion('inicio')" data-target="mobile-demo" class="brand-logo">Logo</a>
+                    <a href="{{route('index')}}" data-target="mobile-demo" class="brand-logo">Logo</a>
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <!-- Dropdown Trigger -->
                         <li>
                             <a class="dropdown-trigger" href="#!" data-target="dropdown1">
-                                {{auth.iniciado?auth.name:'Invitado'}}
+                                {{auth()->check()?Auth::user()->name:'Invitado'}}
                                 <i class="material-icons right">arrow_drop_down</i>
                             </a>
                         </li>
+                        @auth()
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        @endauth
                     </ul>
                 </div>
             </nav>
@@ -37,11 +78,7 @@
             </ul>
         </header>
         <main class="py-4">
-            <div class="container">
-                <seccion-producto v-if="sel === 'productos'"></seccion-producto>
-                <seccion-categoria v-if="sel === 'categorias'"></seccion-categoria>
-                <seccion-iniciar @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
-            </div>
+            @yield('content')
         </main>
         <footer class="page-footer">
             <div class="container">
@@ -69,49 +106,17 @@
             </div>
         </footer>
     </div>
-
-<!--    <div class="container">-->
-<!--        <seccion-producto v-if="sel === 'producto'"></seccion-producto>-->
-<!--        <seccion-categoria v-if="sel === 'categorias'"></seccion-categoria>-->
-<!--        <seccion-iniciar v-if="sel === 'iniciar'"></seccion-iniciar>-->
-<!--    </div>-->
-</template>
-
-<script>
-    export default {
-        data() {
-            return {
-                auth:{
-                    iniciado: false,
-                    name: ''
-                },
-                sel: 'categorias'
+    <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        },
-
-        mounted() {
-            this.checkUser();
-        },
-
-        methods: {
-            cambiarSeccion: function (secc) {
-                this.sel = secc;
-            },
-            cerrarSesion: function () {
-                axios.post('/logout').then((response) => {
-                    this.auth.iniciado = false;
-                    this.auth.name = '';
-                }).catch((error)=>{
-                    console.error(error.response);
-                });
-            },
-            checkUser: function () {
-                axios.get('/checkUser').then((response) => {
-                    this.auth = response.data;
-                }).catch((error)=>{
-                    console.error(error.response);
-                });
-            }
-        }
-    }
-</script>
+        });
+        $(document).ready(function () {
+            $('.dropdown-trigger').dropdown();
+            $('.sidenav').sidenav();
+        })
+    </script>
+</body>
+</html>

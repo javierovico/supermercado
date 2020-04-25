@@ -74,7 +74,7 @@ class LectorFilas
             }
         }else{
             if(!feof($this->recurso)){
-                $array = explode(";",fgets($this->recurso));
+                $array = fgetcsv($this->recurso,0,';');//explode(";",changeSemiColonByColon(fgets($this->recurso)));
             }else{
                 return FALSE;
             }

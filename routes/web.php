@@ -32,14 +32,18 @@ use Illuminate\Support\Facades\Route;
 ////    }
 //});
 
-Route::get('/', 'MainController@index');
+Route::get('/', 'MainController@index')->name('index');
 Route::get('/prueba', function (){
     return view('prueba');
 });
-Route::resource('/producto', 'ProductoController',['as' => 'prefix']);
+Route::apiResource('/producto', 'ProductoController');
+Route::get('/categoria/vista', 'CategoriaController@vista')->name('categoria.vista');
+Route::apiResource('/categoria', 'CategoriaController');
+
 
 Auth::routes(/*['register'=>false]*/);
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/checkUser', 'HomeController@checkUser')->name('checkUser');
 
-Route::apiResource('thoughts', 'ProductoApiController');
+//Route::apiResource('thoughts', 'ProductoApiController');

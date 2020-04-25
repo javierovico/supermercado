@@ -19,13 +19,17 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('puta', require('./components/PerraComponent.vue').default);
 
 Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('modal-nuevo-producto', require('./components/ModalNuevoProducto.vue').default);
 Vue.component('thought-component', require('./components/ThoughtComponent.vue').default);
+
+Vue.component('seccion-categoria', require('./components/CategoriasView.vue').default);
+Vue.component('seccion-producto', require('./components/ProductosView.vue').default);
+Vue.component('seccion-iniciar', require('./components/IniciarView.vue').default);
+
+Vue.component('item-categoria', require('./components/ItemCategoriaView.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,6 +37,6 @@ Vue.component('thought-component', require('./components/ThoughtComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+const appV = new Vue({
     el: '#app',
 });

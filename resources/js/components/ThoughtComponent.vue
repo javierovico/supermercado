@@ -6,7 +6,7 @@
                     <img class="activator" :src="urlBase+((thought.thumbnail)?('productos/'+thought.thumbnail):'img/producto.jpg')">
                 </div>
                 <div class="card-content">
-                    <span class="card-title activator grey-text text-darken-4 truncate">{{thought.nombre}}<i class="material-icons right">more_vert</i></span>
+                    <span class="card-title activator grey-text text-darken-4 truncate">{{thought.nombre}}</span>
                     <p><a href="#">Precio: {{thought.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}} Gs.</a></p>
                 </div>
                 <div class="card-reveal">

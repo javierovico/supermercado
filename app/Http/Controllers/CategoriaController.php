@@ -10,11 +10,17 @@ class CategoriaController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Categoria[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        $categoria_id = $request->input('categoria_id');
+        return Categoria::porPadreId($categoria_id);
+    }
+
+
+    public function vista(){
+
     }
 
     /**
