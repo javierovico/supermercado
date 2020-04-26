@@ -39,7 +39,7 @@
         <main class="py-4">
             <div class="container">
                 <seccion-producto v-if="sel === 'productos'"></seccion-producto>
-                <seccion-categoria v-if="sel === 'categorias'"></seccion-categoria>
+                <seccion-categoria :_idPadre="null" v-if="sel === 'categorias'"></seccion-categoria>
                 <seccion-iniciar @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
             </div>
         </main>

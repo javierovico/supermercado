@@ -1927,32 +1927,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['_idPadre', '_tituloPadre'],
   data: function data() {
     return {
-      categorias: []
+      categorias: [],
+      // padreId: null,
+      categoriasAnteriores: [] //[{nombre:,id:}]
+
     };
   },
   mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/categoria').then(function (response) {
-      _this.categorias = response.data;
-    });
-    var vueI = this;
-    $(document).ready(function () {
-      $('.collapsible').collapsible(); //{
-      // onOpenStart:function (e) {
-      //     let id = $(e).attr('data-index');
-      //     console.log('abierto '+id);
-      //     vueI.$children[id].cargar();
-      // }
-      // })
-    });
+    console.log('Creado con _idPadre: ' + this._idPadre + ' Titulo ' + this._tituloPadre);
+    this.leer(this._tituloPadre ? this._idPadre : 'Categoria', this._idPadre); // this.padreId = this._idPadre;
+    // this.leer('Categorias',null);
   },
   methods: {
-    llamar: function llamar(id) {
-      console.log(id);
+    cambiarCategoria: function cambiarCategoria(index) {
+      var categoria = this.categorias[index];
+      console.log('cambiando categoria a id:');
+      this.leer(categoria.nombre, categoria.id); // this.padreId = id;
+      // this.leer();
+    },
+    leer: function leer(nombre, id) {
+      var _this = this;
+
+      axios.get('/categoria', {
+        params: {
+          categoria_id: id
+        }
+      }).then(function (response) {
+        _this.categoriasAnteriores.push({
+          nombre: nombre,
+          id: id
+        });
+
+        _this.categorias = response.data;
+      });
+    },
+    desapilar: function desapilar(index) {
+      if (index + 1 === this.categoriasAnteriores.length) {
+        return;
+      }
+
+      var antes = this.categoriasAnteriores[index];
+      this.categoriasAnteriores.splice(index, this.categoriasAnteriores.length);
+      this.leer(antes.nombre, antes.id);
+    },
+    llamarHijo: function llamarHijo(id) {
+      this.$children[id].cargar();
     },
     addCategoria: function addCategoria(thought) {
       this.categorias.push(thought);
@@ -38185,46 +38223,81 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "ul",
-    { staticClass: "collapsible popout" },
-    _vm._l(_vm.categorias, function(categoria, index) {
-      return _c("li", { key: categoria.id, attrs: { "data-index": index } }, [
-        _c("div", { staticClass: "collapsible-header" }, [
-          _c("i", { staticClass: "material-icons" }, [_vm._v("filter_drama")]),
-          _vm._v(_vm._s(categoria.nombre))
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "collapsible-body" },
-          [
-            _c("item-categoria", {
-              ref: categoria.id,
-              refInFor: true,
-              attrs: { categoriaId: categoria.id },
-              on: {
-                update: function($event) {
-                  var i = arguments.length,
-                    argsArray = Array(i)
-                  while (i--) argsArray[i] = arguments[i]
-                  return _vm.updateCategoria.apply(
-                    void 0,
-                    [index].concat(argsArray)
-                  )
-                },
-                delete: function($event) {
-                  return _vm.deleteCategoria(index)
-                }
+    { staticClass: "collection with-header" },
+    [
+      _c("li", { staticClass: "collection-header" }, [
+        _c("nav", [
+          _c("div", { staticClass: "nav-wrapper" }, [
+            _c(
+              "div",
+              { staticClass: "col s12" },
+              _vm._l(_vm.categoriasAnteriores, function(catAnt, index) {
+                return _c(
+                  "a",
+                  {
+                    key: index,
+                    staticClass: "breadcrumb",
+                    attrs: { href: "#!" },
+                    on: {
+                      click: function($event) {
+                        return _vm.desapilar(index)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(catAnt.nombre) +
+                        "\n                    "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.categorias, function(categoria, index) {
+        return _c(
+          "a",
+          {
+            key: categoria.id,
+            staticClass: "collection-item",
+            attrs: { "data-index": index, href: "#!" },
+            on: {
+              click: function($event) {
+                return _vm.cambiarCategoria(index)
               }
-            })
-          ],
-          1
+            }
+          },
+          [
+            _c("div", [
+              _vm._v(
+                "\n            " + _vm._s(categoria.nombre) + "\n            "
+              ),
+              _vm._m(0, true)
+            ])
+          ]
         )
-      ])
-    }),
-    0
+      })
+    ],
+    2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "secondary-content", attrs: { href: "#!" } },
+      [_c("i", { staticClass: "material-icons" }, [_vm._v("send")])]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -38714,7 +38787,9 @@ var render = function() {
         [
           _vm.sel === "productos" ? _c("seccion-producto") : _vm._e(),
           _vm._v(" "),
-          _vm.sel === "categorias" ? _c("seccion-categoria") : _vm._e(),
+          _vm.sel === "categorias"
+            ? _c("seccion-categoria", { attrs: { _idPadre: null } })
+            : _vm._e(),
           _vm._v(" "),
           _vm.sel === "iniciar"
             ? _c("seccion-iniciar", {
