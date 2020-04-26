@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller
 {
@@ -16,6 +18,19 @@ class CategoriaController extends Controller
     public function index(Request $request){
         $categoria_id = $request->input('categoria_id');
         return Categoria::porPadreId($categoria_id);
+    }
+
+    public function updateProductosList(Request $request){
+        $user = Auth::user();
+        if($user && $user->hasAnyRole('admin')){
+            $post = $request->all();
+            $lista = json_decode($post['lista']);
+            $categoria = $post['categoria'];
+            Categoria::updateProducto($categoria,$lista);
+            return ['success' => true];
+        }else{
+            return response(['success'=>false,'message'=>'tenes que iniciar sesion como admin'],401);
+        }
     }
 
 

@@ -1942,27 +1942,109 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['_idPadre', '_tituloPadre'],
   data: function data() {
     return {
       categorias: [],
-      // padreId: null,
-      categoriasAnteriores: [] //[{nombre:,id:}]
-
+      productos: [],
+      categoriasAnteriores: [],
+      //[{nombre:,id:}]
+      productoBuscado: '',
+      resultadoBusquedaProducto: [],
+      // paginacionBusqueda: [],     //  []
+      cantidadTotalResultado: 0,
+      limiteInferiorBuscado: 0,
+      cantidadBuscada: 10
     };
   },
   mounted: function mounted() {
     console.log('Creado con _idPadre: ' + this._idPadre + ' Titulo ' + this._tituloPadre);
-    this.leer(this._tituloPadre ? this._idPadre : 'Categoria', this._idPadre); // this.padreId = this._idPadre;
-    // this.leer('Categorias',null);
+    this.leer(this._tituloPadre ? this._idPadre : 'Categoria', this._idPadre);
   },
   methods: {
     cambiarCategoria: function cambiarCategoria(index) {
       var categoria = this.categorias[index];
       console.log('cambiando categoria a id:');
-      this.leer(categoria.nombre, categoria.id); // this.padreId = id;
-      // this.leer();
+      this.leer(categoria.nombre, categoria.id);
     },
     leer: function leer(nombre, id) {
       var _this = this;
@@ -1979,6 +2061,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.categorias = response.data;
       });
+      axios.get('/producto', {
+        params: {
+          categoria_id: id
+        }
+      }).then(function (response) {
+        _this.productos = response.data.productos;
+      });
     },
     desapilar: function desapilar(index) {
       if (index + 1 === this.categoriasAnteriores.length) {
@@ -1988,6 +2077,49 @@ __webpack_require__.r(__webpack_exports__);
       var antes = this.categoriasAnteriores[index];
       this.categoriasAnteriores.splice(index, this.categoriasAnteriores.length);
       this.leer(antes.nombre, antes.id);
+    },
+    buscarProducto: function buscarProducto() {
+      var _this2 = this;
+
+      axios.get('/producto', {
+        params: {
+          busqueda: this.productoBuscado,
+          categoria_id: this.getCategoriaIdActual(),
+          limite_inferior: this.limiteInferiorBuscado,
+          cantidad: this.cantidadBuscada
+        }
+      }).then(function (response) {
+        _this2.resultadoBusquedaProducto = response.data.productos;
+        _this2.cantidadTotalResultado = response.data.cantidad;
+      });
+    },
+    getCategoriaIdActual: function getCategoriaIdActual() {
+      return this.categoriasAnteriores.length > 0 ? this.categoriasAnteriores[this.categoriasAnteriores.length - 1].id : null;
+    },
+    paginacionClick: function paginacionClick(n) {
+      this.limiteInferiorBuscado = this.cantidadBuscada * (n - 1);
+      this.buscarProducto();
+    },
+    enviarResultados: function enviarResultados() {
+      var valorEnviar = [];
+      this.resultadoBusquedaProducto.forEach(function (e) {
+        if (typeof e.seleccionado === "boolean") {
+          valorEnviar.push({
+            id: e.id,
+            valor: e.seleccionado
+          });
+        }
+      });
+      axios.post('/categoria/updateProductosList', {
+        lista: JSON.stringify(valorEnviar),
+        categoria: this.getCategoriaIdActual()
+      }).then(function (response) {
+        console.log('guardado');
+      })["catch"](function (error) {
+        alert('No tenes permisos');
+        console.log(error);
+      });
+      console.log(valorEnviar, this.getCategoriaIdActual());
     },
     llamarHijo: function llamarHijo(id) {
       this.$children[id].cargar();
@@ -38221,81 +38353,345 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    { staticClass: "collection with-header" },
-    [
-      _c("li", { staticClass: "collection-header" }, [
-        _c("nav", [
-          _c("div", { staticClass: "nav-wrapper" }, [
-            _c(
-              "div",
-              { staticClass: "col s12" },
-              _vm._l(_vm.categoriasAnteriores, function(catAnt, index) {
-                return _c(
-                  "a",
-                  {
-                    key: index,
-                    staticClass: "breadcrumb",
-                    attrs: { href: "#!" },
-                    on: {
-                      click: function($event) {
-                        return _vm.desapilar(index)
-                      }
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col s12" }, [
+      _c("nav", [
+        _c("div", { staticClass: "nav-wrapper" }, [
+          _c(
+            "div",
+            { staticClass: "col s12" },
+            _vm._l(_vm.categoriasAnteriores, function(catAnt, index) {
+              return _c(
+                "a",
+                {
+                  key: index,
+                  staticClass: "breadcrumb",
+                  attrs: { href: "#!" },
+                  on: {
+                    click: function($event) {
+                      return _vm.desapilar(index)
                     }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(catAnt.nombre) +
-                        "\n                    "
-                    )
-                  ]
-                )
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(catAnt.nombre) +
+                      "\n                    "
+                  )
+                ]
+              )
+            }),
+            0
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col s12" }, [
+      _c(
+        "div",
+        { staticClass: "collection" },
+        _vm._l(_vm.categorias, function(categoria, index) {
+          return _c(
+            "a",
+            {
+              key: categoria.id,
+              staticClass: "collection-item",
+              attrs: { "data-index": index, href: "#!" },
+              on: {
+                click: function($event) {
+                  return _vm.cambiarCategoria(index)
+                }
+              }
+            },
+            [
+              _c("span", { staticClass: "badge" }, [
+                _vm._v(_vm._s(categoria.cant_sub_cat))
+              ]),
+              _vm._v(_vm._s(categoria.nombre) + "\n                "),
+              categoria.cant_prod > 0
+                ? _c("span", { staticClass: "new badge" }, [
+                    _vm._v(_vm._s(categoria.cant_prod) + " Prod")
+                  ])
+                : _vm._e()
+            ]
+          )
+        }),
+        0
+      )
+    ]),
+    _vm._v(" "),
+    _vm.productos.length > 0
+      ? _c("div", { staticClass: "col s12" }, [
+          _c(
+            "h3",
+            { staticClass: "header", staticStyle: { color: "#ee6e73" } },
+            [_vm._v("Productos")]
+          ),
+          _vm._v(" "),
+          _c("table", [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.productos, function(producto, index) {
+                return _c("tr", { key: index }, [
+                  _c("td", [_vm._v(_vm._s(producto.codigo))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(producto.nombre))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(producto.precio))])
+                ])
               }),
               0
             )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.categorias, function(categoria, index) {
-        return _c(
-          "a",
-          {
-            key: categoria.id,
-            staticClass: "collection-item",
-            attrs: { "data-index": index, href: "#!" },
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "col s12" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "input-field col s12" }, [
+          _c("i", { staticClass: "material-icons prefix" }, [
+            _vm._v("textsms")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.productoBuscado,
+                expression: "productoBuscado"
+              }
+            ],
+            staticClass: "autocomplete",
+            attrs: { type: "text", id: "autocomplete-input" },
+            domProps: { value: _vm.productoBuscado },
             on: {
-              click: function($event) {
-                return _vm.cambiarCategoria(index)
+              change: _vm.buscarProducto,
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.productoBuscado = $event.target.value
               }
             }
-          },
-          [
-            _c("div", [
-              _vm._v(
-                "\n            " + _vm._s(categoria.nombre) + "\n            "
-              ),
-              _vm._m(0, true)
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "autocomplete-input" } }, [
+            _vm._v("Busqueda")
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col s12" }, [
+      _c(
+        "ul",
+        { staticClass: "collection" },
+        _vm._l(_vm.resultadoBusquedaProducto, function(producto, index) {
+          return _c("li", { key: index, staticClass: "collection-item" }, [
+            _c("p", [
+              _c("label", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: producto.seleccionado,
+                      expression: "producto.seleccionado"
+                    }
+                  ],
+                  staticClass: "filled-in",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(producto.seleccionado)
+                      ? _vm._i(producto.seleccionado, null) > -1
+                      : producto.seleccionado
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$a = producto.seleccionado,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              producto,
+                              "seleccionado",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              producto,
+                              "seleccionado",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(producto, "seleccionado", $$c)
+                      }
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", [_vm._v(_vm._s(producto.nombre))])
+              ])
             ])
-          ]
-        )
-      })
-    ],
-    2
-  )
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm.resultadoBusquedaProducto.length > 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn waves-effect waves-light",
+              attrs: { type: "submit", name: "action" },
+              on: {
+                click: function($event) {
+                  return _vm.enviarResultados()
+                }
+              }
+            },
+            [
+              _vm._v("Enviar\n            "),
+              _c("i", { staticClass: "material-icons right" }, [_vm._v("send")])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.cantidadTotalResultado > 0
+        ? _c(
+            "ul",
+            { staticClass: "pagination" },
+            [
+              _c(
+                "li",
+                {
+                  class:
+                    _vm.limiteInferiorBuscado === 0
+                      ? "disabled"
+                      : "waves-effect"
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#!" },
+                      on: {
+                        click: function($event) {
+                          !(_vm.limiteInferiorBuscado === 0) &&
+                            _vm.paginacionClick(
+                              _vm.limiteInferiorBuscado / _vm.cantidadBuscada
+                            )
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "material-icons" }, [
+                        _vm._v("chevron_left")
+                      ])
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm._l(
+                Math.ceil(_vm.cantidadTotalResultado / _vm.cantidadBuscada),
+                function(n) {
+                  return _c(
+                    "li",
+                    {
+                      class:
+                        _vm.limiteInferiorBuscado < n * _vm.cantidadBuscada &&
+                        (n - 1) * _vm.cantidadBuscada <=
+                          _vm.limiteInferiorBuscado
+                          ? "active"
+                          : "waves-effect"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#!" },
+                          on: {
+                            click: function($event) {
+                              return _vm.paginacionClick(n)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(n))]
+                      )
+                    ]
+                  )
+                }
+              ),
+              _vm._v(" "),
+              _c(
+                "li",
+                {
+                  class:
+                    _vm.cantidadTotalResultado - _vm.limiteInferiorBuscado <=
+                    _vm.cantidadBuscada
+                      ? "disabled"
+                      : "waves-effect"
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#!" },
+                      on: {
+                        click: function($event) {
+                          !(
+                            _vm.cantidadTotalResultado -
+                              _vm.limiteInferiorBuscado <=
+                            _vm.cantidadBuscada
+                          ) &&
+                            _vm.paginacionClick(
+                              _vm.limiteInferiorBuscado / _vm.cantidadBuscada +
+                                2
+                            )
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "material-icons" }, [
+                        _vm._v("chevron_right")
+                      ])
+                    ]
+                  )
+                ]
+              )
+            ],
+            2
+          )
+        : _vm._e()
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "secondary-content", attrs: { href: "#!" } },
-      [_c("i", { staticClass: "material-icons" }, [_vm._v("send")])]
-    )
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Codigo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Precio")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -38788,7 +39184,7 @@ var render = function() {
           _vm.sel === "productos" ? _c("seccion-producto") : _vm._e(),
           _vm._v(" "),
           _vm.sel === "categorias"
-            ? _c("seccion-categoria", { attrs: { _idPadre: null } })
+            ? _c("seccion-categoria", { attrs: { _idPadre: 1039 } })
             : _vm._e(),
           _vm._v(" "),
           _vm.sel === "iniciar"

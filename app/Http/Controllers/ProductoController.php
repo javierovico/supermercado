@@ -4,19 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Producto;
 use App\TipoRespuesta;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
-class ProductoController extends Controller
-{
+class ProductoController extends Controller{
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Producto[]|\Illuminate\Database\Eloquent\Collection
+     * @param Request $request
+     * @return mixed
      */
-    public function index()
-    {
-        return  Producto::limit(200)->get();
-//        return view('producto.index')->with('productos',$prod);
+    public function index(Request $request){
+        $arrayRetorno = [];
+        $categoria_id = $request->input('categoria_id');
+        $palabraClave = $request->input('busqueda');
+        $limiteInferior = intval($request->input('limite_inferior',0));
+        $cantidad = intval($request->input('cantidad',10));
+        if($palabraClave != null && strlen($palabraClave)>4){
+            $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
+            $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
+        }else{
+            $arrayRetorno['productos'] = Producto::porCategoria($categoria_id);
+        }
+        return $arrayRetorno;
     }
 
     /**
