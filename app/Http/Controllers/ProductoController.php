@@ -22,8 +22,11 @@ class ProductoController extends Controller{
         if($palabraClave != null && strlen($palabraClave)>4){
             $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
             $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
-        }else{
+        }else if($categoria_id !== null){
             $arrayRetorno['productos'] = Producto::porCategoria($categoria_id);
+        }else{
+            $arrayRetorno['productos'] = Producto::porLimite($limiteInferior,$cantidad);
+            $arrayRetorno['cantidad'] = Producto::getCantidad(null);
         }
         return $arrayRetorno;
     }

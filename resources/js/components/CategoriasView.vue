@@ -29,29 +29,9 @@
                 </a>
             </div>
         </div>
-        <div v-if="productos.length>0" class="col s12">
-            <h3 class="header" style="color: #ee6e73;">Productos</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>Codigo</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                    <tr
-                        v-for="(producto,index) in productos"
-                        :key="index"
-                    >
-                        <td>{{producto.codigo}}</td>
-                        <td>{{producto.nombre}}</td>
-                        <td>{{producto.precio}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <lista-productos
+            :_categoriaId="idPadre"
+        ></lista-productos>
         <div class="col s12">
             <div class="row">
                 <div class="input-field col s12">
@@ -115,6 +95,7 @@
         props:['_idPadre','_tituloPadre'],
         data() {
             return {
+                idPadre:null,
                 categorias: [],
                 productos: [],
                 categoriasAnteriores: [],   //[{nombre:,id:}]
@@ -129,6 +110,7 @@
 
         mounted() {
             console.log('Creado con _idPadre: '+ this._idPadre+ ' Titulo '+this._tituloPadre);
+            this.idPadre = this._idPadre;
             this.leer((this._tituloPadre)?this._idPadre:'Categoria',this._idPadre);
         },
 
@@ -142,10 +124,11 @@
                 axios.get('/categoria',{params:{categoria_id:id}}).then((response) => {
                     this.categoriasAnteriores.push({nombre:nombre,id:id});
                     this.categorias = response.data;
+                    this.idPadre = id;
                 });
-                axios.get('/producto',{params:{categoria_id:id}}).then((response) => {
-                    this.productos = response.data.productos;
-                });
+                // axios.get('/producto',{params:{categoria_id:id}}).then((response) => {
+                //     this.productos = response.data.productos;
+                // });
 
             },
             desapilar(index){

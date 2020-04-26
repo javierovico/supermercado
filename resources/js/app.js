@@ -31,6 +31,9 @@ Vue.component('seccion-iniciar', require('./components/IniciarView.vue').default
 
 Vue.component('item-categoria', require('./components/ItemCategoriaView.vue').default);
 
+//componentes pequenhos
+Vue.component('lista-productos', require('./components/ListaProductos.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

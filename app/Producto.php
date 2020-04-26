@@ -38,6 +38,15 @@ class Producto extends Model
     }
 
     public static function getCantidad($palabraClave){
-        return DB::table('productos')->selectRaw('count(*) total')->where('nombre','like','%'.$palabraClave.'%')->get()->first()->total;
+        if($palabraClave !==null){
+            return DB::table('productos')->selectRaw('count(*) total')->where('nombre','like','%'.$palabraClave.'%')->get()->first()->total;
+        }else{
+            return DB::table('productos')->selectRaw('count(*) total')->get()->first()->total;
+        }
+
+    }
+
+    public static function porLimite(int $limiteInferior, int $cantidad){
+        return Producto::skip($limiteInferior)->take($cantidad)->get()->all();
     }
 }
