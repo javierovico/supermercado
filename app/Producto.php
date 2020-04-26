@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class Producto extends Model
 {
-    //
+    protected $casts = ['seleccionado' => 'integer'];
+
     public static function porCategoria($categoria_id){
         return Producto::hydrate(DB::table('categoria_producto','cp')
             ->where('cp.categoria_id',$categoria_id)

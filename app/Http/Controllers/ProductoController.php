@@ -19,7 +19,7 @@ class ProductoController extends Controller{
         $palabraClave = $request->input('busqueda');
         $limiteInferior = intval($request->input('limite_inferior',0));
         $cantidad = intval($request->input('cantidad',10));
-        if($palabraClave != null && strlen($palabraClave)>4){
+        if($palabraClave != null){
             $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
             $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
         }else if($categoria_id !== null){
