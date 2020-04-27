@@ -25,7 +25,7 @@
                     @click="cambiarCategoria(index)"
                     class="collection-item">
                     <span class="badge">{{categoria.cant_sub_cat}}</span>{{categoria.nombre}}
-                    <span v-if="categoria.cant_prod > 0" class="new badge">{{categoria.cant_prod}} Prod</span>
+                    <span v-if="categoria.cant_prod > 0" class="new badge">{{categoria.cant_prod}}</span>
                 </a>
             </div>
         </div>
@@ -61,31 +61,12 @@
                 class="btn waves-effect waves-light" type="submit" name="action">Enviar
                 <i class="material-icons right">send</i>
             </button>
-            <ul
-                v-if="cantidadTotalResultado > 0"
-                class="pagination">
-                <li :class="(limiteInferiorBuscado === 0 )?'disabled':'waves-effect'">
-                    <a
-                        @click="!(limiteInferiorBuscado===0) && paginacionClick((limiteInferiorBuscado/cantidadBuscada))"
-                        href="#!">
-                        <i class="material-icons">chevron_left</i>
-                    </a>
-                </li>
-                <li
-                    v-for="n in Math.ceil(cantidadTotalResultado/cantidadBuscada)"
-                    :class="((limiteInferiorBuscado < (n*cantidadBuscada)) && (((n-1)*(cantidadBuscada)) <= limiteInferiorBuscado))?'active':'waves-effect'">
-                    <a
-                        @click="paginacionClick(n)"
-                        href="#!">{{n}}</a>
-                </li>
-                <li :class="((cantidadTotalResultado - limiteInferiorBuscado) <= cantidadBuscada)?'disabled':'waves-effect'">
-                    <a
-                        @click="!((cantidadTotalResultado - limiteInferiorBuscado) <= cantidadBuscada) && paginacionClick((limiteInferiorBuscado/cantidadBuscada)+2)"
-                        href="#!">
-                        <i class="material-icons">chevron_right</i>
-                    </a>
-                </li>
-            </ul>
+            <vista-paginacion
+                :cantidadTotalResultado="cantidadTotalResultado"
+                :limiteInferiorBuscado="limiteInferiorBuscado"
+                :cantidadBuscada="cantidadBuscada"
+                @paginacionClick="paginacionClick"
+            ></vista-paginacion>
         </div>
     </div>
 </template>
@@ -101,7 +82,6 @@
                 categoriasAnteriores: [],   //[{nombre:,id:}]
                 productoBuscado: '',
                 resultadoBusquedaProducto: [],
-                // paginacionBusqueda: [],     //  []
                 cantidadTotalResultado: 0,
                 limiteInferiorBuscado: 0,
                 cantidadBuscada: 10,
@@ -126,9 +106,6 @@
                     this.categorias = response.data;
                     this.idPadre = id;
                 });
-                // axios.get('/producto',{params:{categoria_id:id}}).then((response) => {
-                //     this.productos = response.data.productos;
-                // });
 
             },
             desapilar(index){

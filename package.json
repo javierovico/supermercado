@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "materialize-css": "^1.0.0-rc.2",
-        "tailwindcss": "^1.2.0"
+        "tailwindcss": "^1.2.0",
+        "vue-sliding-pagination": "^1.0.4"
     }
 }

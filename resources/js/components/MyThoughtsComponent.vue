@@ -30,10 +30,16 @@
                 </div>
             </nav>
             <ul class="sidenav" id="mobile-demo">
-                <li><a href="sass.html">Sass</a></li>
-                <li><a href="badges.html">Components</a></li>
-                <li><a href="collapsible.html">Javascript</a></li>
-                <li><a href="mobile.html">Mobile</a></li>
+                <li><a v-on:click="cambiarSeccion('categorias')">Categorias</a></li>
+                <li><a v-on:click="cambiarSeccion('productos')">Productos</a></li>
+                <li class="divider"></li>
+                <li v-if="auth.iniciado">
+                    <a v-on:click="cerrarSesion">Salir</a>
+                </li>
+                <li v-else>
+                    <a v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
+                    <a v-on:click="cambiarSeccion('registro')">Registrarse</a>
+                </li>
             </ul>
         </header>
         <main class="py-4">
@@ -91,6 +97,13 @@
 
         mounted() {
             this.checkUser();
+            $(document).ready(function(){
+                $('.sidenav')
+                    .sidenav()
+                    .on('click tap', 'li a', () => {
+                        $('.sidenav').sidenav('close');
+                    });
+            });
         },
 
         methods: {

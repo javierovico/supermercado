@@ -19,6 +19,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+import SlidingPagination from 'vue-sliding-pagination'
+
 
 Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
@@ -33,6 +35,8 @@ Vue.component('item-categoria', require('./components/ItemCategoriaView.vue').de
 
 //componentes pequenhos
 Vue.component('lista-productos', require('./components/ListaProductos.vue').default);
+Vue.component('vista-paginacion', require('./components/PaginationView.vue').default);
+Vue.component('sliding-pagination',SlidingPagination);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
