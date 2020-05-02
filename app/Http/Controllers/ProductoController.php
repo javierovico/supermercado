@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Categoria;
 use App\Producto;
 use App\TipoRespuesta;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller{
 
@@ -83,14 +85,18 @@ class ProductoController extends Controller{
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Producto  $producto
-     * @return array
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Producto $producto
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(Request $request, Producto $producto){
-        $respuesta = new TipoRespuesta();
-        $respuesta->setDato(['producto'=>$producto,'request'=>$request->all()]);
-        return $respuesta->toJSON();
+        $user = Auth::user();
+        if($user && $user->hasAnyRole('admin')){
+            $producto->update($request->all());
+            return response(['success'=>true],200);
+        }else{
+            return response(['success'=>false,'message'=>'tenes que iniciar sesion como admin'],401);
+        }
     }
 
     /**
@@ -99,8 +105,17 @@ class ProductoController extends Controller{
      * @param  \App\Producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
-    {
-        return 'destroy';
+    public function destroy(Producto $producto){
+        $user = Auth::user();
+        if($user && $user->hasAnyRole('admin')){
+            try {
+                $producto->delete();
+                return response(['success'=>true],200);
+            } catch (\Exception $e) {
+                return response(['success'=>false,'message'=>$e->getMessage()],401);
+            }
+        }else{
+            return response(['success'=>false,'message'=>'tenes que iniciar sesion como admin'],401);
+        }
     }
 }

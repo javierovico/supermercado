@@ -30,6 +30,7 @@ Vue.component('thought-component', require('./components/ThoughtComponent.vue').
 Vue.component('seccion-categoria', require('./components/CategoriasView.vue').default);
 Vue.component('seccion-producto', require('./components/ProductosView.vue').default);
 Vue.component('seccion-iniciar', require('./components/IniciarView.vue').default);
+Vue.component('seccion-registro', require('./components/RegistrarView.vue').default);
 
 Vue.component('item-categoria', require('./components/ItemCategoriaView.vue').default);
 

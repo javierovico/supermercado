@@ -50,7 +50,7 @@ return [
             'port' => '3306',//env('DB_PORT', '3306'),
             'database' => 'supermercado',//env('DB_DATABASE', 'forge'),
             'username' => 'root',
-            'password' => 'YTgZ2TKw1B',
+            'password' => 'putamadre',
             'unix_socket' => '',
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-class Producto extends Model
-{
+class Producto extends Model{
+    protected $fillable = ['nombre','codigo','impuesto','descuento','stock','linea','thumbnail','contenido','tipo_medida_producto_id','precio','precio_mayorista','precio_costo'];
+
     protected $casts = ['seleccionado' => 'integer'];
 
     public static function porCategoria($categoria_id){

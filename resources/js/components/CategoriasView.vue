@@ -61,18 +61,22 @@
                 class="btn waves-effect waves-light" type="submit" name="action">Enviar
                 <i class="material-icons right">send</i>
             </button>
-            <vista-paginacion
-                :cantidadTotalResultado="cantidadTotalResultado"
-                :limiteInferiorBuscado="limiteInferiorBuscado"
-                :cantidadBuscada="cantidadBuscada"
+            <pagination-view
+                :actual="paginaActual"
+                :total="paginaTotal"
+                :slidingEndingSize="10"
                 @paginacionClick="paginacionClick"
-            ></vista-paginacion>
+            ></pagination-view>
         </div>
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
 <script>
+
+    import PaginationView from "./PaginationView";
+
     export default {
+        components: {PaginationView},
         props:['_idPadre','_tituloPadre'],
         data() {
             return {
@@ -82,9 +86,9 @@
                 categoriasAnteriores: [],   //[{nombre:,id:}]
                 productoBuscado: '',
                 resultadoBusquedaProducto: [],
-                cantidadTotalResultado: 0,
-                limiteInferiorBuscado: 0,
-                cantidadBuscada: 10,
+                paginaActual: 1,
+                paginaTotal: 1,
+                paginaCantidadItem: 10,
             }
         },
 
@@ -120,18 +124,18 @@
                 axios.get('/producto',{params:{
                     busqueda:this.productoBuscado,
                     categoria_id: this.getCategoriaIdActual(),
-                    limite_inferior: this.limiteInferiorBuscado,
-                    cantidad: this.cantidadBuscada
+                    limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+                    cantidad: this.paginaCantidadItem
                 }}).then((response) => {
                     this.resultadoBusquedaProducto = response.data.productos;
-                    this.cantidadTotalResultado = response.data.cantidad;
+                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
                 });
             },
             getCategoriaIdActual(){
                 return (this.categoriasAnteriores.length > 0)?(this.categoriasAnteriores[this.categoriasAnteriores.length-1].id):null;
             },
             paginacionClick(n){
-                this.limiteInferiorBuscado = this.cantidadBuscada * (n-1);
+                this.paginaActual = n;
                 this.buscarProducto();
             },
             enviarResultados(){
