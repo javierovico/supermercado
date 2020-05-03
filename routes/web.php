@@ -36,6 +36,7 @@ Route::get('/', 'MainController@index')->name('index');
 Route::get('/prueba', function (){
     return view('prueba');
 });
+Route::post('/producto/thumbnail/{id}', 'ProductoController@thumbnail');
 Route::apiResource('/producto', 'ProductoController');
 Route::get('/categoria/vista', 'CategoriaController@vista')->name('categoria.vista');
 

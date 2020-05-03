@@ -8,6 +8,7 @@ use App\TipoRespuesta;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller{
 
@@ -117,5 +118,15 @@ class ProductoController extends Controller{
         }else{
             return response(['success'=>false,'message'=>'tenes que iniciar sesion como admin'],401);
         }
+    }
+
+    public function thumbnail(Request $request,$id){
+        $validatedData = $request->validate([
+            'thumbnail' => 'required|mimes:jpeg|dimensions:min_width=100,min_height=100,max_width=500,max_height=500',
+        ]);
+        /** @var Producto $producto */
+        $producto = Producto::find($id);
+        $producto->setThumbnail($validatedData['thumbnail']->get());
+        return response(['success'=>true,'message'=>'Se alzo el archivo'],200);
     }
 }

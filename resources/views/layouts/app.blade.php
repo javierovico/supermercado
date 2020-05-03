@@ -14,7 +14,7 @@
     <script src="{{ asset('js/materialize.min.js') }}" defer></script>
 
     <link rel="icon" href="http://www.kamaleon360.com/wp-content/uploads/2019/04/logo.png" sizes="32x32" />
-{{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
+{{--    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">--}}
     <script>
         const urlBase = "{{URL::to('/')}}";
     </script>

@@ -55,7 +55,9 @@ return [
             'visibility' => 'public',
         ],
 
+//        aws s3 cp . s3://supermercado.kamaleon360.com/elsuper/ --recursive --acl public-read
         's3' => [
+            'root' => 'elsuper',
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -63,6 +65,7 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+            'visibility' => 'public',
         ],
 
     ],

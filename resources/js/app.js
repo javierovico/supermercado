@@ -39,12 +39,14 @@ Vue.component('lista-productos', require('./components/ListaProductos.vue').defa
 Vue.component('vista-paginacion', require('./components/PaginationView.vue').default);
 Vue.component('sliding-pagination',SlidingPagination);
 
+Vue.component('seccion-inicio', require('./components/SeccionInicio.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.prototype.$url = 'https://s3.us-east-2.amazonaws.com/supermercado.kamaleon360.com/elsuper/';
 const appV = new Vue({
     el: '#app',
 });

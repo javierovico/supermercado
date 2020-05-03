@@ -5,11 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Producto extends Model{
     protected $fillable = ['nombre','codigo','impuesto','descuento','stock','linea','thumbnail','contenido','tipo_medida_producto_id','precio','precio_mayorista','precio_costo'];
 
     protected $casts = ['seleccionado' => 'integer'];
+
+    public function getNombreArchivo(){
+        return $this->codigo . '.jpg';
+    }
+
 
     public static function porCategoria($categoria_id){
         return Producto::hydrate(DB::table('categoria_producto','cp')
@@ -50,5 +56,17 @@ class Producto extends Model{
 
     public static function porLimite(int $limiteInferior, int $cantidad){
         return Producto::skip($limiteInferior)->take($cantidad)->get()->all();
+    }
+
+    /**
+     * @param $thumbnailString string
+     */
+    public function setThumbnail($thumbnailString){
+        if(Storage::disk('s3')->exists($this->getNombreArchivo())){
+            Storage::disk('s3')->delete($this->getNombreArchivo());
+            Storage::disk('s3')->put($this->getNombreArchivo(),$thumbnailString);
+        }else{
+            Storage::disk('s3')->put($this->getNombreArchivo(),$thumbnailString);
+        }
     }
 }

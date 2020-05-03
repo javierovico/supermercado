@@ -43,11 +43,12 @@
             </ul>
         </header>
         <main class="py-4">
-            <div class="container">
+            <div class="container-fluid">
                 <seccion-producto v-if="sel === 'productos'"></seccion-producto>
                 <seccion-categoria :_idPadre="null" v-if="sel === 'categorias'"></seccion-categoria>
                 <seccion-iniciar @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
                 <seccion-registro @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'registro'"></seccion-registro>
+                <seccion-inicio v-if="sel === 'inicio'"></seccion-inicio>
             </div>
         </main>
         <footer class="page-footer">
@@ -92,7 +93,7 @@
                     iniciado: false,
                     name: ''
                 },
-                sel: 'productos'
+                sel: 'inicio'
             }
         },
 

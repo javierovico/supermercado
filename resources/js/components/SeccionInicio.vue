@@ -20,38 +20,39 @@
                         </div>
                     </li>
                     <li v-show="!busqueda.mostrar"><a href="#!" @click="busqueda.mostrar = true"><i class="material-icons">search</i></a></li>
-                    <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
-                    <li><a href="#!"><i class="material-icons">add</i></a></li>
-                    <li><a href="#!"><i class="material-icons">more_vert</i></a></li>
                 </ul>
             </div>
         </nav>
-        <table>
-            <thead>
-            <tr>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr
-                v-for="(producto,index) in productos"
-                :key="index"
-            >
-                <td>{{producto.codigo}}</td>
-                <td>{{producto.nombre}}</td>
-                <td>{{producto.precio}}</td>
-                <td>
-                    <a @click="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
-                    <a @click="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
-                    <a @click="borrarProducto(index)" href="#!"><i class="material-icons">delete</i></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<!--        Empieza la tabla principal-->
+        <div class="container">
+            <div class="row">
+                <div
+                    v-for="(producto,index) in productos"
+                    :key="index"
+                    class="col s12 m6 l4 xl4">
+                    <div class="card">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="activator responsive-img" :src="$url+producto.codigo+'.jpg'">
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title activator grey-text text-darken-4 truncate">{{producto.nombre}}</span>
+                            <p><a href="#">Precio: {{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}} Gs.</a></p>
+                        </div>
+                        <div class="card-reveal">
+                            <span class="card-title grey-text text-darken-4">Detalles<i class="material-icons right">close</i></span>
+                            <p>
+                                {{producto.nombre}}
+                            </p>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Agregar al carrito</a>
+                            <a href="#">Lista de deseos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        Termina la vista princppa tabla-->
         <pagination-view
             :actual="paginaActual"
             :total="paginaTotal"
