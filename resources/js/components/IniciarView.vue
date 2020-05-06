@@ -1,24 +1,21 @@
 <template>
     <div class="row">
-        <form class="col s12" action="" v-on:submit.prevent="iniciar()">
-            <div class="row">
-                <div class="input-field col s12">
-                    <input id="email" type="email" class="validate" v-model="email.valor">
-                    <label for="email">Email</label>
-                    <span class="helper-text" :data-error="email.mensajeError" data-success="">escribi tu correo</span>
-                </div>
-                <div class="input-field col s12">
-                    <input id="password" type="password" class="validate" required="" aria-required="true" v-model="password.valor">
-                    <label for="password">Password</label>
-                    <span class="helper-text" :data-error="password.mensajeError" data-success="">escribi tu contrasena</span>
-                </div>
-
-                <div class="input-field col s12">
-                    <button class="btn waves-effect waves-light" type="submit">Iniciar
-                        <i class="material-icons right">send</i>
-                    </button>
+        <form class="col-md-12" action="" v-on:submit.prevent="iniciar()">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Correo</label>
+                <input v-model="email.valor" type="email" class="form-control" id="exampleInputEmail1" required>
+                <div id="correoError" class="invalid-feedback">
+                    {{email.mensajeError}}
                 </div>
             </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Clave</label>
+                <input v-model="password.valor" type="password" class="form-control" id="exampleInputPassword1">
+                <div id="passError" class="invalid-feedback">
+                    {{password.mensajeError}}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Iniciar</button>
         </form>
     </div>
 
@@ -43,9 +40,7 @@
         },
 
         mounted() {
-            axios.get('/producto').then((response) => {
-                this.thoughts = response.data;
-            });
+
         },
 
         methods: {
@@ -63,14 +58,14 @@
                     .catch((error) =>{
                         const errorMensaje = error.response.data.errors;
                         if(errorMensaje.email !== undefined){
-                            this.password.mensajeError = errorMensaje.email;
-                            this.email.mensajeError = errorMensaje.email;
+                            this.password.mensajeError = errorMensaje.email[0];
+                            this.email.mensajeError = errorMensaje.email[0];
                         }else{
                             this.password.mensajeError = 'Datos Inconsistentes';
                             this.email.mensajeError = 'Datos Inconsistentes';
                         }
-                        $('#email').removeClass('valid').addClass('invalid');
-                        $('#password').removeClass('valid').addClass('invalid');
+                        $('#exampleInputEmail1').removeClass('is-valid').addClass('is-invalid');
+                        $('#exampleInputPassword1').removeClass('is-valid').addClass('is-invalid');
                         console.log('error',error.response.data);
                     })
                     // .then(() => {

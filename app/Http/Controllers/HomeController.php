@@ -28,9 +28,16 @@ class HomeController extends Controller
     }
 
     public function checkUser(){
+        $roles = [];
+        if(Auth::check()){
+            foreach (auth()->user()->roles as $rol){
+                $roles[] = $rol->name;
+            }
+        }
         return [
             'iniciado'=>Auth::check(),
-            'name' => Auth::check()?auth()->user()->name:''
+            'name' => Auth::check()?auth()->user()->name:'',
+            'roles' => $roles,
         ];
     }
 }

@@ -1,46 +1,54 @@
 <template>
     <div id="principal">
         <header>
-            <!-- Dropdown Structure -->
-            <ul id="dropdown1" class="dropdown-content">
-                <li><a v-on:click="cambiarSeccion('categorias')">Categorias</a></li>
-                <li><a v-on:click="cambiarSeccion('productos')">Productos</a></li>
-                <li class="divider"></li>
-                <li v-if="auth.iniciado">
-                    <a v-on:click="cerrarSesion">Salir</a>
-                </li>
-                <li v-else>
-                    <a v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
-                    <a v-on:click="cambiarSeccion('registro')">Registrarse</a>
-                </li>
-            </ul>
-            <nav>
-                <div class="nav-wrapper">
-                    <a href="#" v-on:click="cambiarSeccion('inicio')" data-target="mobile-demo" class="brand-logo">Logo</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <!-- Dropdown Trigger -->
-                        <li>
-                            <a class="dropdown-trigger" href="#!" data-target="dropdown1">
-                                {{auth.iniciado?auth.name:'Invitado'}}
-                                <i class="material-icons right">arrow_drop_down</i>
+            <nav class="navbar navbar-expand-lg navbar-light navbar-dark bg-primary">
+                <a class="navbar-brand" href="#" v-on:click="cambiarSeccion('inicio')">Del Super</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a @click="cambiarSeccion('inicio')" class="nav-link" href="#">Inicio <span v-if="sel==='inicio'" class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Carrito<span v-if="sel==='carrito'" class="sr-only">(current)</span></a>
+                        </li>
+                        <li v-if="auth.roles.includes('admin')" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Administracion
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" v-on:click="cambiarSeccion('categorias')" href="#">Categorias</a>
+                                <a class="dropdown-item" v-on:click="cambiarSeccion('productos')" href="#">Productos</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Otros</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSessi" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{auth.iniciado?auth.name:'Invitado'}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownSessi">
+                                <template v-if="auth.iniciado">
+                                    <a href="#" class="dropdown-item" v-on:click="cerrarSesion">Salir</a>
+                                </template>
+                                <template v-else>
+                                    <a href="#" class="dropdown-item" v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
+                                    <a href="#" class="dropdown-item" v-on:click="cambiarSeccion('registro')">Registrarse</a>
+                                </template>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                    </form>
                 </div>
             </nav>
-            <ul class="sidenav" id="mobile-demo">
-                <li><a v-on:click="cambiarSeccion('categorias')">Categorias</a></li>
-                <li><a v-on:click="cambiarSeccion('productos')">Productos</a></li>
-                <li class="divider"></li>
-                <li v-if="auth.iniciado">
-                    <a v-on:click="cerrarSesion">Salir</a>
-                </li>
-                <li v-else>
-                    <a v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
-                    <a v-on:click="cambiarSeccion('registro')">Registrarse</a>
-                </li>
-            </ul>
         </header>
         <main class="py-4">
             <div class="container-fluid">
@@ -91,21 +99,22 @@
             return {
                 auth:{
                     iniciado: false,
-                    name: ''
+                    name: '',
+                    roles:[],
                 },
-                sel: 'inicio'
+                sel: 'productos',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
             }
         },
 
         mounted() {
             this.checkUser();
-            $(document).ready(function(){
-                $('.sidenav')
-                    .sidenav()
-                    .on('click tap', 'li a', () => {
-                        $('.sidenav').sidenav('close');
-                    });
-            });
+            // $(document).ready(function(){
+            //     $('.sidenav')
+            //         .sidenav()
+            //         .on('click tap', 'li a', () => {
+            //             $('.sidenav').sidenav('close');
+            //         });
+            // });
         },
 
         methods: {
@@ -116,6 +125,7 @@
                 axios.post('/logout').then((response) => {
                     this.auth.iniciado = false;
                     this.auth.name = '';
+                    this.auth.roles = [];
                 }).catch((error)=>{
                     console.error(error.response);
                 });
@@ -124,6 +134,9 @@
                 axios.get('/checkUser').then((response) => {
                     this.auth = response.data;
                 }).catch((error)=>{
+                    this.auth.iniciado = false;
+                    this.auth.name = '';
+                    this.auth.roles = [];
                     console.error(error.response);
                 });
             }

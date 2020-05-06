@@ -1,5 +1,5 @@
 <template>
-    <div v-show="productos.length>0" class="col s12">
+    <div v-show="productos.length>0" class="col-md-12">
         <nav>
             <div class="nav-wrapper">
                 <a href="#!" class="brand-logo"><i class="material-icons">storefront</i>Productos</a>
@@ -7,9 +7,9 @@
                     <li v-show="busqueda.mostrar" >
                         <div class="container">
                             <div class="row">
-                                <div class="col s12">
+                                <div class="col-md-12">
                                     <div class="row">
-                                        <div class="input-field col s12">
+                                        <div class="input-field col-md-12">
                                             <i class="material-icons prefix white-text">search</i>
                                             <input v-on:change="buscarProducto" v-model="busqueda.buscarProducto" type="text" id="autocomplete-input" class="autocomplete white-text">
                                             <label class="white-text" for="autocomplete-input">Busqueda</label>
@@ -29,7 +29,7 @@
                 <div
                     v-for="(producto,index) in productos"
                     :key="index"
-                    class="col s12 m6 l4 xl4">
+                    class="col-md-12 m6 l4 xl4">
                     <div class="card">
                         <div class="card-image waves-effect waves-block waves-light">
                             <img class="activator responsive-img" :src="$url+producto.codigo+'.jpg'">
@@ -64,13 +64,13 @@
             <div class="modal-content">
                 <div class="container">
                     <div class="row">
-                        <div class="col s12">
+                        <div class="col-md-12">
                             <h4 v-if="modalEditar.indexEditando>=0">Editar Producto {{modalEditar.productoEditando.nombre}}</h4>
                             <h4 v-else>Agregar nuevo producto</h4>
                         </div>
-                        <form class="col s12">
+                        <form class="col-md-12">
                             <div class="row">
-                                <div class="input-field col s12">
+                                <div class="input-field col-md-12">
                                     <input v-model="modalEditar.productoEditando.nombre" id="producto-nombre" type="text" class="validate">
                                     <label for="producto-nombre">Nombre</label>
                                 </div>

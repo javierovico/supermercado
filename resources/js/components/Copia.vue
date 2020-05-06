@@ -77,16 +77,100 @@
             :slidingEndingSize="10"
             @paginacionClick="paginacionClick"
         ></pagination-view>
-<!--        Modal para editar o agregar-->
-        <modal-editar-producto
-            @cambiosGuardados="guardarCambios"
-            :modalEditar="modalEditar"
-        >
-        </modal-editar-producto>
-        <modal-editar-producto-thumbnail
-            :producto="modalThumbnail.producto"
-        >
-        </modal-editar-producto-thumbnail>
+        <!-- Modal Structure -->
+        <div id="modalEditar" class="modal">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 v-if="modalEditar.indexEditando>=0">Editar Producto {{modalEditar.productoEditando.nombre}}</h4>
+                            <h4 v-else>Agregar nuevo producto</h4>
+                        </div>
+                        <form class="col-md-12">
+                            <div class="row">
+                                <div class="input-field col-md-12">
+                                    <input v-model="modalEditar.productoEditando.nombre" id="producto-nombre" type="text" class="validate">
+                                    <label for="producto-nombre">Nombre</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input v-on:change="ponerNumeros" v-model="modalEditar.productoEditando.precio" placeholder="Solo numero sin puntos" id="producto-precio" type="text" class="validate">
+                                    <label for="producto-precio">Precio en Gs</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.codigo" min="0" step="1" id="producto-codigo" placeholder="solo numero" type="number" class="validate">
+                                    <label for="producto-codigo">Codigo</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.impuesto" min="0" step="1" placeholder="Impuesto en porcentaje" id="producto-impuesto" type="number" class="validate">
+                                    <label for="producto-impuesto">Impuesto</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.descuento" id="producto-descuento" placeholder="solo numero en porcentaje" type="number" class="validate">
+                                    <label for="producto-descuento">Descuento</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.stock" min="0" step="1" placeholder="Stock Disponible" id="producto-stock" type="number" class="validate">
+                                    <label for="producto-stock">En stock</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.precio_mayorista" id="producto-precio-mayorista" placeholder="Dejar vacio si no aplica" type="number" class="validate">
+                                    <label for="producto-precio-mayorista">Precio Mayorista</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input v-model="modalEditar.productoEditando.precio_costo" min="0" step="1" placeholder="Precio Costo" id="producto-precio-costo" type="number" class="validate">
+                                    <label for="producto-precio-costo">Precio Costo</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button @click="guardarCambios" class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                    <i class="material-icons right">save</i>
+                </button>
+            </div>
+        </div>
+        <!-- Modal Structure -->
+        <div id="modalBorrar" class="modal">
+            <div class="modal-content">
+                <h4>Seguro de querer eliminar?</h4>
+                <p>No se puede deshacer</p>
+            </div>
+            <div class="modal-footer">
+                <button @click="confirmarBorrar()" class="btn waves-effect waves-light" type="submit" name="action">ELIMINAR
+                    <i class="material-icons right">save</i>
+                </button>
+            </div>
+        </div>
+        <!-- Modal Thumbnail -->
+        <div id="modalThumbnail" class="modal">
+            <div class="modal-content">
+                <h4>Miniatura</h4>
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Miniatura</span>
+                        <input type="file" accept="image/jpeg" @change="processFile($event)">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button @click="confirmarThumbnail()" class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                    <i class="material-icons right">save</i>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
@@ -117,24 +201,14 @@
                         codigo: 0,
                         nombre: '',
                         impuesto: 10,
-                        tipo_medida_producto_id: "",
                     },
                 },
                 modalBorrar:{
                     indexBorrando: -1,
                 },
                 modalThumbnail:{
-                    producto:{
-                        precio_costo:0,
-                        precio_mayorista: 0,
-                        stock: 0,
-                        descuento:0,
-                        precio: 0,
-                        codigo: 0,
-                        nombre: '',
-                        impuesto: 10,
-                        tipo_medida_producto_id: "",
-                    }
+                    index: -1,
+                    file: '',
                 }
             }
         },
@@ -144,6 +218,9 @@
             },
         },
         mounted() {
+            $(document).ready(function(){
+                $('.modal').modal();
+            });
             console.log('Visor de productos iniciado con categoriaId = '+this._categoriaId);
             this.leer(this._categoriaId);
         },
@@ -167,8 +244,8 @@
                 this.modalThumbnail.file = event.target.files[0]
             },
             editarThumbnail(indice){
-                this.modalThumbnail.producto = this.productos[indice];
-                $('#modalEditarProductoThumbnail').modal();
+                this.modalThumbnail.index = indice;
+                $('#modalThumbnail').modal('open')
             },
             confirmarBorrar(){
                 axios.delete('/producto/'+this.productos[this.modalBorrar.indexBorrando].id)
@@ -187,7 +264,15 @@
                 $('#modalBorrar').modal('open')
             },
             guardarCambios(){
-                this.productos.splice(this.modalEditar.indexEditando,1,this.modalEditar.productoEditando);
+                axios.put('/producto/'+this.modalEditar.productoEditando.id, this.modalEditar.productoEditando)
+                    .then((response) => {
+                        console.log(response);
+                        this.productos.splice(this.modalEditar.indexEditando,1,this.modalEditar.productoEditando);
+                        $('.modal').modal('close')
+                    }).catch((error)=>{
+                        console.log(error);
+                        alert(error.response.data.message);
+                });
             },
             ponerNumeros(){
                 let num = this.modalEditar.productoEditando.precio.replace(/\./g,'');
@@ -203,7 +288,7 @@
                 console.log('editando producto '+indice);
                 this.modalEditar.indexEditando = indice;
                 this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
-                $('#modalEditarProducto').modal()
+                $('#modalEditar').modal('open')
             },
             buscarProducto(){
                 console.log('buscar '+this.busqueda.buscarProducto);

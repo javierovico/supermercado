@@ -6,14 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}"  media="screen,projection"/>
-
-    <script src="{{ asset('js/materialize.min.js') }}" defer></script>
-
+{{--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--}}
     <link rel="icon" href="http://www.kamaleon360.com/wp-content/uploads/2019/04/logo.png" sizes="32x32" />
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 {{--    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">--}}
     <script>
         const urlBase = "{{URL::to('/')}}";
@@ -33,17 +28,19 @@
     <div id="app">
         @yield('content')
     </div>
-    <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+{{--    <script src="{{asset('js/jquery-3.4.0.min.js')}}"></script>--}}
+{{--    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>--}}
     <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $(document).ready(function () {
-            $('.dropdown-trigger').dropdown();
-            $('.sidenav').sidenav();
-        })
+        // $.ajaxSetup({
+        //     headers: {
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     }
+        // });
+        // $(document).ready(function () {
+        //     $('.dropdown-trigger').dropdown();
+        //     $('.sidenav').sidenav();
+        // })
     </script>
 </body>
 </html>

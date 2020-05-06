@@ -1,45 +1,45 @@
 <template>
     <div class="row">
-        <form class="col s12" action="" v-on:submit.prevent="registrarse()">
+        <form class="col-md-12" action="" v-on:submit.prevent="registrarse()">
             <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="name" type="text" class="validate" v-model="nombre.valor">
                     <label for="name">Nombre</label>
                     <span class="helper-text" :data-error="nombre.mensajeError" data-success="">escribi tu Nombre</span>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="apellido" type="text" class="validate" v-model="apellido.valor">
                     <label for="apellido">Apellido</label>
                     <span class="helper-text" :data-error="apellido.mensajeError" data-success="">escribi tu Apellido</span>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="telefono" type="text" class="validate" v-model="telefono.valor">
                     <label for="telefono">Telefono</label>
                     <span class="helper-text" :data-error="telefono.mensajeError" data-success="">escribi tu telefono</span>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="direccion" type="text" class="validate" v-model="direccion.valor">
                     <label for="direccion">direccion</label>
                     <span class="helper-text" :data-error="direccion.mensajeError" data-success="">escribi tu direccion</span>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="email" type="email" class="validate" v-model="email.valor">
                     <label for="email">Email</label>
                     <span class="helper-text" :data-error="email.mensajeError" data-success="">escribi tu correo</span>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="password" type="password" class="validate" required="" aria-required="true" v-model="password.valor">
                     <label for="password">Password</label>
                     <span class="helper-text" :data-error="password.mensajeError" data-success="">escribi tu contrasena</span>
                 </div>
 
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <input id="password-confirm" type="password" class="validate" required="" aria-required="true" v-model="passwordConfirm.valor">
                     <label for="password-confirm">Password</label>
                     <span class="helper-text" :data-error="passwordConfirm.mensajeError" data-success="">volve a escribir tu contrasena</span>
                 </div>
 
-                <div class="input-field col s12">
+                <div class="input-field col-md-12">
                     <button class="btn waves-effect waves-light" type="submit">Registrarse
                         <i class="material-icons right">send</i>
                     </button>

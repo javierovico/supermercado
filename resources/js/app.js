@@ -41,6 +41,10 @@ Vue.component('sliding-pagination',SlidingPagination);
 
 Vue.component('seccion-inicio', require('./components/SeccionInicio.vue').default);
 
+Vue.component('utils-modal', require('./components/UtilsModal.vue').default);
+Vue.component('modal-editar-producto', require('./components/ModalEditarProducto.vue').default);
+Vue.component('modal-editar-producto-thumbnail', require('./components/ModalEditarProductoThumbnail.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

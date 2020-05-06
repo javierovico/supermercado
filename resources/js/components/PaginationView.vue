@@ -1,29 +1,35 @@
 <template>
-    <ul
-        v-if="total > 1"
-        class="pagination">
-        <li :class="(actual === 1 )?'disabled':'waves-effect'">
-            <a
-                @click="!(actual===0) && paginacionClick(actual-1)"
-                href="#!">
-                <i class="material-icons">chevron_left</i>
-            </a>
-        </li>
-        <li
-            v-for="n in arrayIndice"
-            :class="(n===actual)?'active':'waves-effect'">
-            <a
-                @click="paginacionClick(n)"
-                href="#!">{{n}}</a>
-        </li>
-        <li :class="(actual === total)?'disabled':'waves-effect'">
-            <a
-                @click="!(actual === total) && paginacionClick(actual + 1)"
-                href="#!">
-                <i class="material-icons">chevron_right</i>
-            </a>
-        </li>
-    </ul>
+    <nav v-if="total > 1" aria-label="...">
+        <ul class="pagination justify-content-center">
+            <li :class="'page-item'+((actual === 1)?' disabled':'')">
+                <a
+                    @click="!(actual===1) && paginacionClick(actual-1)"
+                    class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li
+                v-for="n in arrayIndice"
+                :class="'page-item'+((n===actual)?' active':'')" :aria-current="n===actual?'page':''">
+                <a v-if="n!==actual"
+                   @click="paginacionClick(n)"
+                   class="page-link" href="#">
+                    {{n}}
+                </a>
+                <span v-else class="page-link">
+                    {{n}}
+                    <span class="sr-only">(current)</span>
+                </span>
+            </li>
+            <li :class="'page-item'+((actual === total)?' disabled':'')">
+                <a
+                    @click="!(actual === total) && paginacionClick(actual + 1)"
+                    class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
 <script>

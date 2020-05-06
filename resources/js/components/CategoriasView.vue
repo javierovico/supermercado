@@ -1,72 +1,79 @@
 <template>
-    <div class="row">
-        <div class="col s12">
-            <nav>
-                <div class="nav-wrapper">
-                    <div class="col s12">
-                        <a
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li
                             v-for="(catAnt, index) in categoriasAnteriores"
+                            v-if="(index+1)<categoriasAnteriores.length"
                             :key="index"
-                            @click="desapilar(index)"
-                            href="#!" class="breadcrumb">
-                            {{catAnt.nombre}}
-                        </a>
+                            class="breadcrumb-item">
+                            <a @click="desapilar(index)" href="#">
+                                {{catAnt.nombre}}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            {{categoriasAnteriores[categoriasAnteriores.length-1].nombre}}
+                        </li>
+                    </ol>
+                </nav>
+                <ul class="list-group">
+                    <a href="#!"
+                       @click="cambiarCategoria(index)"
+                       :data-index="index"
+                       v-for="(categoria, index) in categorias"
+                       :key="categoria.id"
+                       class="list-group-item d-flex justify-content-between align-items-center">
+                        {{categoria.nombre}}
+                        <span class="badge badge-primary badge-pill">{{(categoria.cant_sub_cat>0)?categoria.cant_sub_cat+' subcat'+(categoria.cant_prod>0?', ':''):''}}{{(categoria.cant_prod > 0)?categoria.cant_prod+' prod':'' }}</span>
+                    </a>
+                </ul>
+            </div>
+            <template v-if="categoriasAnteriores.length>1">
+                <div class="col-md-6">
+                    <h4>Productos pertenecientes a la categoria {{categoriasAnteriores[categoriasAnteriores.length-1].nombre}}</h4>
+                    <lista-productos
+                        :_categoriaId="idPadre"
+                    ></lista-productos>
+                </div>
+                <h3>Buscar producto para agregar o quitar de la categoria</h3>
+                <div class="col-md-12">
+                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
+                        <input v-on:change.prevent="buscarProducto" v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                        <button
+                            v-if="resultadoBusquedaProducto.length>0"
+                            @click="enviarResultados()"
+                            type="button" class="btn btn-outline-primary">
+                            Guardar
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div class="container">
+                        <div class="row">
+                            <div
+                                v-for="(producto,index) in resultadoBusquedaProducto"
+                                :key="index"
+                                class="list-group-item col-md-5">
+                                <div class="form-check">
+                                    <label class="form-check-label" >
+                                        <input v-model="producto.seleccionado" class="form-check-input" type="checkbox" id="defaultCheck1">
+                                        {{producto.nombre}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-        <div class="col s12">
-            <div class="collection">
-                <a
-                    :data-index="index"
-                    v-for="(categoria, index) in categorias"
-                    :key="categoria.id"
-                    href="#!"
-                    @click="cambiarCategoria(index)"
-                    class="collection-item">
-                    <span class="badge">{{categoria.cant_sub_cat}}</span>{{categoria.nombre}}
-                    <span v-if="categoria.cant_prod > 0" class="new badge">{{categoria.cant_prod}}</span>
-                </a>
-            </div>
-        </div>
-        <lista-productos
-            :_categoriaId="idPadre"
-        ></lista-productos>
-        <div class="col s12">
-            <div class="row">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">textsms</i>
-                    <input v-model="productoBuscado" type="text" id="autocomplete-input" class="autocomplete" v-on:change="buscarProducto">
-                    <label for="autocomplete-input">Busqueda</label>
-                </div>
-            </div>
-        </div>
-        <div class="col s12">
-            <ul class="collection">
-                <li
-                    v-for="(producto,index) in resultadoBusquedaProducto"
-                    :key="index"
-                    class="collection-item">
-                    <p>
-                        <label>
-                            <input v-model="producto.seleccionado" type="checkbox" class="filled-in" />
-                            <span>{{producto.nombre}}</span>
-                        </label>
-                    </p>
-                </li>
-            </ul>
-            <button
-                @click="enviarResultados()"
-                v-if="resultadoBusquedaProducto.length>0"
-                class="btn waves-effect waves-light" type="submit" name="action">Enviar
-                <i class="material-icons right">send</i>
-            </button>
-            <pagination-view
-                :actual="paginaActual"
-                :total="paginaTotal"
-                :slidingEndingSize="10"
-                @paginacionClick="paginacionClick"
-            ></pagination-view>
+                <pagination-view
+                    :actual="paginaActual"
+                    :total="paginaTotal"
+                    :slidingEndingSize="10"
+                    @paginacionClick="paginacionClick"
+                ></pagination-view>
+            </template>
         </div>
     </div>
 </template>
@@ -88,14 +95,14 @@
                 resultadoBusquedaProducto: [],
                 paginaActual: 1,
                 paginaTotal: 1,
-                paginaCantidadItem: 10,
+                paginaCantidadItem: 20,
             }
         },
 
         mounted() {
             console.log('Creado con _idPadre: '+ this._idPadre+ ' Titulo '+this._tituloPadre);
             this.idPadre = this._idPadre;
-            this.leer((this._tituloPadre)?this._idPadre:'Categoria',this._idPadre);
+            this.leer((this._tituloPadre)?this._idPadre:'Categorias',this._idPadre);
         },
 
         methods: {

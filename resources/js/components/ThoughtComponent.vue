@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col s12">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-image waves-effect waves-block waves-light">
                     <img class="activator" :src="urlBase+((thought.thumbnail)?('productos/'+thought.thumbnail):'img/producto.jpg')">
