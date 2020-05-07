@@ -1,65 +1,62 @@
 <template>
-    <div v-show="productos.length>0" class="col-md-12">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Productos</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Acciones</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Agregar Producto</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Administrar</a>
-                </div>
-            </li>
-            <li class="nav-item">
+    <div>
+        <!--                    Inicio de titulo-->
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
+            <a class="navbar-brand" href="#!">Productos de la Cat</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Seleccion
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item disabled" href="#">Eliminar</a>
+                        </div>
+                    </li>
+                </ul>
                 <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
                     <input v-on:change.prevent="buscarProducto" v-model="busqueda.buscarProducto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                    <a href="#!"><i class="material-icons prefix white-text">search</i></a>
                 </form>
-            </li>
-        </ul>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">Codigo</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr
-                v-for="(producto,index) in productos"
-                :key="index"
+            </div>
+        </nav>
+        <!--                    Fin de titulo-->
+        <div v-show="productos.length>0" class="col-md-12 mt-2">
+            <ul class="list-group">
+                <li
+                    v-for="(producto,index) in productos"
+                    :key="index"
+                    class="list-group-item">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" :id="'check'+index">
+                            <label class="form-check-label" :for="'check'+index">
+                                {{producto.nombre}}
+                            </label>
+                        </div>
+                    </li>
+            </ul>
+
+            <vista-paginacion
+                :total="paginaTotal"
+                :actual="paginaActual"
+                slidingEndingSize="5"
+                @paginacionClick="paginacionClick"
             >
-                <th scope="row">{{producto.codigo}}</th>
-                <td>{{producto.nombre}}</td>
-                <td>{{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
-                <td>
-                    <a @click="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
-                    <a @click="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
-                    <a @click="borrarProducto(index)" href="#!"><i class="material-icons">delete</i></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <pagination-view
-            :actual="paginaActual"
-            :total="paginaTotal"
-            :slidingEndingSize="10"
-            @paginacionClick="paginacionClick"
-        ></pagination-view>
-<!--        Modal para editar o agregar-->
-        <modal-editar-producto
-            @cambiosGuardados="guardarCambios"
-            :modalEditar="modalEditar"
-        >
-        </modal-editar-producto>
-        <modal-editar-producto-thumbnail
-            :producto="modalThumbnail.producto"
-        >
-        </modal-editar-producto-thumbnail>
+            </vista-paginacion>
+    <!--        Modal para editar o agregar-->
+            <modal-editar-producto
+                @cambiosGuardados="guardarCambios"
+                :modalEditar="modalEditar"
+            >
+            </modal-editar-producto>
+            <modal-editar-producto-thumbnail
+                :producto="modalThumbnail.producto"
+            >
+            </modal-editar-producto-thumbnail>
+        </div>
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
@@ -67,7 +64,7 @@
     import PaginationView from "./PaginationView";
     export default {
         components: {PaginationView},
-        props:['_categoriaId'],     //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
+        props:['_categoriaId','_actualizar'],     //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
         data() {
             return {
                 categoriaId:null,
@@ -115,6 +112,9 @@
             _categoriaId: function () {
                 this.leer(this._categoriaId)
             },
+            _actualizar: function () {
+                this.leer(this._categoriaId)
+            }
         },
         mounted() {
             console.log('Visor de productos iniciado con categoriaId = '+this._categoriaId);

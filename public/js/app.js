@@ -1989,6 +1989,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2006,7 +2028,9 @@ __webpack_require__.r(__webpack_exports__);
       resultadoBusquedaProducto: [],
       paginaActual: 1,
       paginaTotal: 1,
-      paginaCantidadItem: 20
+      paginaCantidadItem: 20,
+      actualizarProductosSel: 0 //para detectar los cambios nada mas
+
     };
   },
   mounted: function mounted() {
@@ -2069,6 +2093,8 @@ __webpack_require__.r(__webpack_exports__);
       this.buscarProducto();
     },
     enviarResultados: function enviarResultados() {
+      var _this3 = this;
+
       var valorEnviar = [];
       this.resultadoBusquedaProducto.forEach(function (e) {
         if (typeof e.seleccionado === "boolean") {
@@ -2083,11 +2109,17 @@ __webpack_require__.r(__webpack_exports__);
         categoria: this.getCategoriaIdActual()
       }).then(function (response) {
         console.log('guardado');
+        _this3.actualizarProductosSel++;
       })["catch"](function (error) {
         alert('No tenes permisos');
         console.log(error);
       });
       console.log(valorEnviar, this.getCategoriaIdActual());
+    },
+    seleccionarTodoBusqueda: function seleccionarTodoBusqueda() {
+      this.resultadoBusquedaProducto.forEach(function (part, index, theArray) {
+        theArray[index].seleccionado = true;
+      });
     },
     llamarHijo: function llamarHijo(id) {
       this.$children[id].cargar();
@@ -2431,33 +2463,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2511,6 +2516,251 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     _categoriaId: function _categoriaId() {
+      this.leer(this._categoriaId);
+    }
+  },
+  mounted: function mounted() {
+    console.log('Visor de productos iniciado con categoriaId = ' + this._categoriaId);
+    this.leer(this._categoriaId);
+  },
+  methods: {
+    confirmarThumbnail: function confirmarThumbnail() {
+      console.log(this.modalThumbnail.file);
+      var formData = new FormData();
+      formData.append("thumbnail", this.modalThumbnail.file);
+      axios.post('producto/thumbnail/' + this.productos[this.modalThumbnail.index].id, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        $('.modal').modal('close');
+      })["catch"](function (error) {
+        alert(error.response.data.errors.thumbnail[0]);
+      });
+    },
+    processFile: function processFile(event) {
+      this.modalThumbnail.file = event.target.files[0];
+    },
+    editarThumbnail: function editarThumbnail(indice) {
+      this.modalThumbnail.producto = this.productos[indice];
+      $('#modalEditarProductoThumbnail').modal();
+    },
+    confirmarBorrar: function confirmarBorrar() {
+      var _this = this;
+
+      axios["delete"]('/producto/' + this.productos[this.modalBorrar.indexBorrando].id).then(function (response) {
+        console.log(response);
+
+        _this.productos.splice(_this.modalBorrar.indexBorrando, 1);
+
+        $('.modal').modal('close');
+      })["catch"](function (error) {
+        console.log(error);
+        alert(error.response.data.message);
+      });
+    },
+    borrarProducto: function borrarProducto(indice) {
+      console.log('borrando producto ' + indice);
+      this.modalBorrar.indexBorrando = indice;
+      $('#modalBorrar').modal('open');
+    },
+    guardarCambios: function guardarCambios() {
+      this.productos.splice(this.modalEditar.indexEditando, 1, this.modalEditar.productoEditando);
+    },
+    ponerNumeros: function ponerNumeros() {
+      var num = this.modalEditar.productoEditando.precio.replace(/\./g, '');
+
+      if (!isNaN(num)) {
+        num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
+        num = num.split('').reverse().join('').replace(/^[\.]/, '');
+        this.modalEditar.productoEditando.precio = num;
+      } else {
+        alert('Solo se permiten numeros');
+        this.modalEditar.productoEditando.precio = this.modalEditar.productoEditando.precio.replace(/[^\d\.]*/g, '');
+      }
+    },
+    editarProducto: function editarProducto(indice) {
+      console.log('editando producto ' + indice);
+      this.modalEditar.indexEditando = indice;
+      this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
+      $('#modalEditarProducto').modal();
+    },
+    buscarProducto: function buscarProducto() {
+      var _this2 = this;
+
+      console.log('buscar ' + this.busqueda.buscarProducto);
+      axios.get('/producto', {
+        params: {
+          busqueda: this.busqueda.buscarProducto,
+          categoria_id: this.categoriaId,
+          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
+          cantidad: this.paginaCantidadItem
+        }
+      }).then(function (response) {
+        _this2.productos = response.data.productos;
+        _this2.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this2.paginaCantidadItem);
+      });
+    },
+    leer: function leer(categoriaId) {
+      var _this3 = this;
+
+      axios.get('/producto', {
+        params: {
+          categoria_id: categoriaId,
+          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
+          cantidad: this.paginaCantidadItem
+        }
+      }).then(function (response) {
+        _this3.productos = response.data.productos;
+        _this3.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this3.paginaCantidadItem);
+      })["catch"](function (error) {
+        console.log(error);
+        alert(error.toString());
+      });
+      this.categoriaId = categoriaId;
+    },
+    paginacionClick: function paginacionClick(n) {
+      this.paginaActual = n;
+
+      if (this.busqueda.buscarProducto.length > 0) {
+        this.buscarProducto();
+      } else {
+        this.leer(this.categoriaId);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PaginationView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaginationView */ "./resources/js/components/PaginationView.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    PaginationView: _PaginationView__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  props: ['_categoriaId', '_actualizar'],
+  //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
+  data: function data() {
+    return {
+      categoriaId: null,
+      productos: [],
+      paginaActual: 1,
+      paginaTotal: 1,
+      paginaCantidadItem: 10,
+      busqueda: {
+        buscarProducto: '',
+        mostrar: false //para saber si se muestra o no el boton de busqeuda con el texto
+
+      },
+      modalEditar: {
+        indexEditando: -1,
+        productoEditando: {
+          precio_costo: 0,
+          precio_mayorista: 0,
+          stock: 0,
+          descuento: 0,
+          precio: 0,
+          codigo: 0,
+          nombre: '',
+          impuesto: 10,
+          tipo_medida_producto_id: ""
+        }
+      },
+      modalBorrar: {
+        indexBorrando: -1
+      },
+      modalThumbnail: {
+        producto: {
+          precio_costo: 0,
+          precio_mayorista: 0,
+          stock: 0,
+          descuento: 0,
+          precio: 0,
+          codigo: 0,
+          nombre: '',
+          impuesto: 10,
+          tipo_medida_producto_id: ""
+        }
+      }
+    };
+  },
+  watch: {
+    _categoriaId: function _categoriaId() {
+      this.leer(this._categoriaId);
+    },
+    _actualizar: function _actualizar() {
       this.leer(this._categoriaId);
     }
   },
@@ -3039,7 +3289,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         roles: []
       },
-      sel: 'productos' //'inicio', 'carrito','categorias','productos','iniciar','registro'
+      sel: 'categorias' //'inicio', 'carrito','categorias','productos','iniciar','registro'
 
     };
   },
@@ -39240,24 +39490,26 @@ var render = function() {
                     : _vm._e()
                 }),
                 _vm._v(" "),
-                _c(
-                  "li",
-                  {
-                    staticClass: "breadcrumb-item active",
-                    attrs: { "aria-current": "page" }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(
-                          _vm.categoriasAnteriores[
-                            _vm.categoriasAnteriores.length - 1
-                          ].nombre
-                        ) +
-                        "\n                    "
+                _vm.categoriasAnteriores.length > 0
+                  ? _c(
+                      "li",
+                      {
+                        staticClass: "breadcrumb-item active",
+                        attrs: { "aria-current": "page" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(
+                              _vm.categoriasAnteriores[
+                                _vm.categoriasAnteriores.length - 1
+                              ].nombre
+                            ) +
+                            "\n                    "
+                        )
+                      ]
                     )
-                  ]
-                )
+                  : _vm._e()
               ],
               2
             )
@@ -39319,99 +39571,195 @@ var render = function() {
                 "div",
                 { staticClass: "col-md-6" },
                 [
-                  _c("h4", [
-                    _vm._v(
-                      "Productos pertenecientes a la categoria " +
-                        _vm._s(
-                          _vm.categoriasAnteriores[
-                            _vm.categoriasAnteriores.length - 1
-                          ].nombre
-                        )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("lista-productos", {
-                    attrs: { _categoriaId: _vm.idPadre }
+                  _c("lista-productos-sel", {
+                    attrs: {
+                      _categoriaId: _vm.idPadre,
+                      _actualizar: _vm.actualizarProductosSel
+                    }
                   })
                 ],
                 1
               ),
               _vm._v(" "),
-              _c("h3", [
-                _vm._v("Buscar producto para agregar o quitar de la categoria")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "col-md-12 mt-4" }, [
                 _c(
-                  "form",
+                  "nav",
                   {
-                    staticClass: "form-inline my-2 my-lg-0",
-                    on: {
-                      submit: function($event) {
-                        $event.preventDefault()
-                        return _vm.buscarProducto($event)
-                      }
-                    }
+                    staticClass: "navbar navbar-expand-lg navbar-light",
+                    staticStyle: { "background-color": "#e3f2fd" }
                   },
                   [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.productoBuscado,
-                          expression: "productoBuscado"
-                        }
-                      ],
-                      staticClass: "form-control mr-sm-2",
-                      attrs: {
-                        type: "search",
-                        placeholder: "Busqueda...",
-                        "aria-label": "Buscar"
-                      },
-                      domProps: { value: _vm.productoBuscado },
-                      on: {
-                        change: function($event) {
-                          $event.preventDefault()
-                          return _vm.buscarProducto($event)
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.productoBuscado = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
                     _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success my-2 my-sm-0",
-                        attrs: { type: "submit" }
-                      },
-                      [_vm._v("Buscar")]
+                      "a",
+                      { staticClass: "navbar-brand", attrs: { href: "#!" } },
+                      [
+                        _vm._v(
+                          "\n                        Buscar Producto para agregar\n                    "
+                        )
+                      ]
                     ),
                     _vm._v(" "),
-                    _vm.resultadoBusquedaProducto.length > 0
-                      ? _c(
-                          "button",
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "collapse navbar-collapse",
+                        attrs: { id: "navbarNavDropdown" }
+                      },
+                      [
+                        _c("ul", { staticClass: "navbar-nav" }, [
+                          _c("li", { staticClass: "nav-item dropdown" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "nav-link dropdown-toggle",
+                                attrs: {
+                                  href: "#",
+                                  id: "navbarDropdownMenuLink",
+                                  role: "button",
+                                  "data-toggle": "dropdown",
+                                  "aria-haspopup": "true",
+                                  "aria-expanded": "false"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    Seleccion\n                                "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "dropdown-menu",
+                                attrs: {
+                                  "aria-labelledby": "navbarDropdownMenuLink"
+                                }
+                              },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    class:
+                                      _vm.resultadoBusquedaProducto.length > 0
+                                        ? ""
+                                        : " disabled",
+                                    attrs: { href: "#" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.resultadoBusquedaProducto.length >
+                                          0 && _vm.seleccionarTodoBusqueda()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(
+                                          _vm.resultadoBusquedaProducto.length >
+                                            0
+                                            ? "Seleccionar Todo"
+                                            : "Ninguno seleccionado"
+                                        ) +
+                                        "\n                                    "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "form",
                           {
-                            staticClass: "btn btn-outline-primary",
-                            attrs: { type: "button" },
+                            staticClass: "form-inline my-2 my-lg-0",
                             on: {
-                              click: function($event) {
-                                return _vm.enviarResultados()
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.buscarProducto($event)
                               }
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                        Guardar\n                    "
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.productoBuscado,
+                                  expression: "productoBuscado"
+                                }
+                              ],
+                              staticClass: "form-control mr-sm-2",
+                              attrs: {
+                                type: "search",
+                                placeholder: "Busqueda...",
+                                "aria-label": "Buscar"
+                              },
+                              domProps: { value: _vm.productoBuscado },
+                              on: {
+                                change: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.buscarProducto($event)
+                                },
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.productoBuscado = $event.target.value
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(1)
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "form",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.resultadoBusquedaProducto.length > 0,
+                                expression: "resultadoBusquedaProducto.length>0"
+                              }
+                            ],
+                            staticClass: "form-inline my-2 my-lg-0 ml-3"
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                attrs: { href: "#!" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.enviarResultados($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "i",
+                                  {
+                                    staticClass:
+                                      "material-icons prefix white-text"
+                                  },
+                                  [_vm._v("send")]
+                                )
+                              ]
                             )
                           ]
                         )
-                      : _vm._e()
+                      ]
+                    )
                   ]
                 )
               ]),
@@ -39511,7 +39859,38 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#navbarNavDropdown",
+          "aria-controls": "navbarNavDropdown",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "#!" } }, [
+      _c("i", { staticClass: "material-icons prefix white-text" }, [
+        _vm._v("search")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -40019,6 +40398,242 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "nav",
+      {
+        staticClass: "navbar navbar-expand-lg navbar-light",
+        staticStyle: { "background-color": "#e3f2fd" }
+      },
+      [
+        _c("a", { staticClass: "navbar-brand", attrs: { href: "#!" } }, [
+          _vm._v("Productos de la Cat")
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse navbar-collapse",
+            attrs: { id: "navbarNavDropdown" }
+          },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                staticClass: "form-inline my-2 my-lg-0",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.buscarProducto($event)
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.busqueda.buscarProducto,
+                      expression: "busqueda.buscarProducto"
+                    }
+                  ],
+                  staticClass: "form-control mr-sm-2",
+                  attrs: {
+                    type: "search",
+                    placeholder: "Busqueda...",
+                    "aria-label": "Buscar"
+                  },
+                  domProps: { value: _vm.busqueda.buscarProducto },
+                  on: {
+                    change: function($event) {
+                      $event.preventDefault()
+                      return _vm.buscarProducto($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.busqueda,
+                        "buscarProducto",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.productos.length > 0,
+            expression: "productos.length>0"
+          }
+        ],
+        staticClass: "col-md-12 mt-2"
+      },
+      [
+        _c(
+          "ul",
+          { staticClass: "list-group" },
+          _vm._l(_vm.productos, function(producto, index) {
+            return _c("li", { key: index, staticClass: "list-group-item" }, [
+              _c("div", { staticClass: "form-check" }, [
+                _c("input", {
+                  staticClass: "form-check-input",
+                  attrs: { type: "checkbox", value: "", id: "check" + index }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "form-check-label",
+                    attrs: { for: "check" + index }
+                  },
+                  [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(producto.nombre) +
+                        "\n                        "
+                    )
+                  ]
+                )
+              ])
+            ])
+          }),
+          0
+        ),
+        _vm._v(" "),
+        _c("vista-paginacion", {
+          attrs: {
+            total: _vm.paginaTotal,
+            actual: _vm.paginaActual,
+            slidingEndingSize: "5"
+          },
+          on: { paginacionClick: _vm.paginacionClick }
+        }),
+        _vm._v(" "),
+        _c("modal-editar-producto", {
+          attrs: { modalEditar: _vm.modalEditar },
+          on: { cambiosGuardados: _vm.guardarCambios }
+        }),
+        _vm._v(" "),
+        _c("modal-editar-producto-thumbnail", {
+          attrs: { producto: _vm.modalThumbnail.producto }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#navbarNavDropdown",
+          "aria-controls": "navbarNavDropdown",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "navbar-nav" }, [
+      _c("li", { staticClass: "nav-item dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link dropdown-toggle",
+            attrs: {
+              href: "#",
+              id: "navbarDropdownMenuLink",
+              role: "button",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_vm._v("\n                        Seleccion\n                    ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "navbarDropdownMenuLink" }
+          },
+          [
+            _c(
+              "a",
+              { staticClass: "dropdown-item disabled", attrs: { href: "#" } },
+              [_vm._v("Eliminar")]
+            )
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { attrs: { href: "#!" } }, [
+      _c("i", { staticClass: "material-icons prefix white-text" }, [
+        _vm._v("search")
       ])
     ])
   }
@@ -41134,14 +41749,11 @@ var staticRenderFns = [
         }
       }),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-success my-2 my-sm-0",
-          attrs: { type: "submit" }
-        },
-        [_vm._v("Buscar")]
-      )
+      _c("a", { staticClass: "text-white", attrs: { href: "#!" } }, [
+        _c("i", { staticClass: "material-icons prefix white-text" }, [
+          _vm._v("search")
+        ])
+      ])
     ])
   },
   function() {
@@ -54846,6 +55458,7 @@ Vue.component('seccion-registro', __webpack_require__(/*! ./components/Registrar
 Vue.component('item-categoria', __webpack_require__(/*! ./components/ItemCategoriaView.vue */ "./resources/js/components/ItemCategoriaView.vue")["default"]); //componentes pequenhos
 
 Vue.component('lista-productos', __webpack_require__(/*! ./components/ListaProductos.vue */ "./resources/js/components/ListaProductos.vue")["default"]);
+Vue.component('lista-productos-sel', __webpack_require__(/*! ./components/ListaProductosSel.vue */ "./resources/js/components/ListaProductosSel.vue")["default"]);
 Vue.component('vista-paginacion', __webpack_require__(/*! ./components/PaginationView.vue */ "./resources/js/components/PaginationView.vue")["default"]);
 Vue.component('sliding-pagination', vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_0___default.a);
 Vue.component('seccion-inicio', __webpack_require__(/*! ./components/SeccionInicio.vue */ "./resources/js/components/SeccionInicio.vue")["default"]);
@@ -55250,6 +55863,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductos_vue_vue_type_template_id_684fddfb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductos_vue_vue_type_template_id_684fddfb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaProductosSel.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/ListaProductosSel.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListaProductosSel.vue?vue&type=template&id=6de73f8f& */ "./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f&");
+/* harmony import */ var _ListaProductosSel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListaProductosSel.vue?vue&type=script&lang=js& */ "./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ListaProductosSel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ListaProductosSel.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductosSel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaProductosSel.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaProductosSel.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductosSel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ListaProductosSel.vue?vue&type=template&id=6de73f8f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ListaProductosSel.vue?vue&type=template&id=6de73f8f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListaProductosSel_vue_vue_type_template_id_6de73f8f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

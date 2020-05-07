@@ -45,7 +45,7 @@
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
-                        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                        <a href="#!" class="text-white"><i class="material-icons prefix white-text">search</i></a>
                     </form>
                 </div>
             </nav>
@@ -102,7 +102,7 @@
                     name: '',
                     roles:[],
                 },
-                sel: 'productos',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
+                sel: 'categorias',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
             }
         },
 

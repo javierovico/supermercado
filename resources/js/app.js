@@ -36,6 +36,7 @@ Vue.component('item-categoria', require('./components/ItemCategoriaView.vue').de
 
 //componentes pequenhos
 Vue.component('lista-productos', require('./components/ListaProductos.vue').default);
+Vue.component('lista-productos-sel', require('./components/ListaProductosSel.vue').default);
 Vue.component('vista-paginacion', require('./components/PaginationView.vue').default);
 Vue.component('sliding-pagination',SlidingPagination);
 

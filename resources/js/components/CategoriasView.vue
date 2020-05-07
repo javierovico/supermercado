@@ -13,7 +13,7 @@
                                 {{catAnt.nombre}}
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">
+                        <li v-if="categoriasAnteriores.length>0" class="breadcrumb-item active" aria-current="page">
                             {{categoriasAnteriores[categoriasAnteriores.length-1].nombre}}
                         </li>
                     </ol>
@@ -32,23 +32,45 @@
             </div>
             <template v-if="categoriasAnteriores.length>1">
                 <div class="col-md-6">
-                    <h4>Productos pertenecientes a la categoria {{categoriasAnteriores[categoriasAnteriores.length-1].nombre}}</h4>
-                    <lista-productos
+                    <lista-productos-sel
                         :_categoriaId="idPadre"
-                    ></lista-productos>
+                        :_actualizar="actualizarProductosSel"
+                    ></lista-productos-sel>
                 </div>
-                <h3>Buscar producto para agregar o quitar de la categoria</h3>
-                <div class="col-md-12">
-                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
-                        <input v-on:change.prevent="buscarProducto" v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
-                        <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
-                        <button
-                            v-if="resultadoBusquedaProducto.length>0"
-                            @click="enviarResultados()"
-                            type="button" class="btn btn-outline-primary">
-                            Guardar
+                <div class="col-md-12 mt-4">
+                    <!--                    Inicio de titulo-->
+                    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
+                        <a class="navbar-brand" href="#!">
+                            Buscar Producto para agregar
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
                         </button>
-                    </form>
+                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <ul class="navbar-nav">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Seleccion
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a :class="(resultadoBusquedaProducto.length>0?'':' disabled')"
+                                           v-on:click.prevent="resultadoBusquedaProducto.length>0 && seleccionarTodoBusqueda()" class="dropdown-item" href="#">
+                                            {{resultadoBusquedaProducto.length>0?'Seleccionar Todo':'Ninguno seleccionado'}}
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
+                                <input v-on:change.prevent="buscarProducto" v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                                <a href="#!"><i class="material-icons prefix white-text">search</i></a>
+                            </form>
+                            <form v-show="resultadoBusquedaProducto.length>0" class="form-inline my-2 my-lg-0 ml-3">
+                                <a  v-on:click.prevent="enviarResultados"
+                                    href="#!"><i class="material-icons prefix white-text">send</i></a>
+                            </form>
+                        </div>
+                    </nav>
+                    <!--                    Fin de titulo-->
                 </div>
                 <div class="col-md-12">
                     <div class="container">
@@ -96,6 +118,7 @@
                 paginaActual: 1,
                 paginaTotal: 1,
                 paginaCantidadItem: 20,
+                actualizarProductosSel: 0,  //para detectar los cambios nada mas
             }
         },
 
@@ -157,11 +180,17 @@
                         categoria: this.getCategoriaIdActual()
                     }).then((response) => {
                         console.log('guardado');
+                        this.actualizarProductosSel++;
                 }).catch((error)=>{
                     alert('No tenes permisos');
                     console.log(error);
                 });
                 console.log(valorEnviar,this.getCategoriaIdActual());
+            },
+            seleccionarTodoBusqueda(){
+                this.resultadoBusquedaProducto.forEach(function(part, index, theArray) {
+                    theArray[index].seleccionado = true;
+                });
             },
             llamarHijo(id){
                 this.$children[id].cargar();
