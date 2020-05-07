@@ -39720,44 +39720,36 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c(
-                          "form",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.resultadoBusquedaProducto.length > 0,
-                                expression: "resultadoBusquedaProducto.length>0"
-                              }
-                            ],
-                            staticClass: "form-inline my-2 my-lg-0 ml-3"
-                          },
-                          [
-                            _c(
-                              "a",
-                              {
-                                attrs: { href: "#!" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.enviarResultados($event)
-                                  }
-                                }
-                              },
+                        _vm.resultadoBusquedaProducto.length > 0
+                          ? _c(
+                              "form",
+                              { staticClass: "form-inline my-2 my-lg-0 ml-3" },
                               [
                                 _c(
-                                  "i",
+                                  "a",
                                   {
-                                    staticClass:
-                                      "material-icons prefix white-text"
+                                    attrs: { href: "#!" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.enviarResultados($event)
+                                      }
+                                    }
                                   },
-                                  [_vm._v("send")]
+                                  [
+                                    _c(
+                                      "i",
+                                      {
+                                        staticClass:
+                                          "material-icons prefix white-text"
+                                      },
+                                      [_vm._v("send")]
+                                    )
+                                  ]
                                 )
                               ]
                             )
-                          ]
-                        )
+                          : _vm._e()
                       ]
                     )
                   ]

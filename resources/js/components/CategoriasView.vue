@@ -64,7 +64,7 @@
                                 <input v-on:change.prevent="buscarProducto" v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                                 <a href="#!"><i class="material-icons prefix white-text">search</i></a>
                             </form>
-                            <form v-show="resultadoBusquedaProducto.length>0" class="form-inline my-2 my-lg-0 ml-3">
+                            <form v-if="resultadoBusquedaProducto.length>0" class="form-inline my-2 my-lg-0 ml-3">
                                 <a  v-on:click.prevent="enviarResultados"
                                     href="#!"><i class="material-icons prefix white-text">send</i></a>
                             </form>
