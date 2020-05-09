@@ -2464,6 +2464,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2480,7 +2506,9 @@ __webpack_require__.r(__webpack_exports__);
       paginaCantidadItem: 10,
       busqueda: {
         buscarProducto: '',
-        mostrar: false //para saber si se muestra o no el boton de busqeuda con el texto
+        mostrar: false,
+        //para saber si se muestra o no el boton de busqeuda con el texto
+        opcionCategoria: 1 //para mostrar solo productos sin categorias, con categoria o ambos
 
       },
       modalEditar: {
@@ -2517,12 +2545,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     _categoriaId: function _categoriaId() {
-      this.leer(this._categoriaId);
+      this.categoriaId = this._categoriaId;
+      this.leer();
     }
   },
   mounted: function mounted() {
     console.log('Visor de productos iniciado con categoriaId = ' + this._categoriaId);
-    this.leer(this._categoriaId);
+    this.categoriaId = this._categoriaId;
+    this.leer();
   },
   methods: {
     confirmarThumbnail: function confirmarThumbnail() {
@@ -2586,48 +2616,50 @@ __webpack_require__.r(__webpack_exports__);
       this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
       $('#modalEditarProducto').modal();
     },
-    buscarProducto: function buscarProducto() {
+    // buscarProducto(){
+    //     console.log('buscar '+this.busqueda.buscarProducto);
+    //     axios.get('/producto',{params:{
+    //             palabra_clave:this.busqueda.buscarProducto,
+    //             categoria_id: this.categoriaId,
+    //             page: this.paginaActual,
+    //             cantidad: this.paginaCantidadItem
+    //         }}).then((response) => {
+    //         this.productos = response.data.data;
+    //         this.paginaTotal = response.data.last_page;
+    //     });
+    // },
+    leer: function leer() {
       var _this2 = this;
 
-      console.log('buscar ' + this.busqueda.buscarProducto);
-      axios.get('/producto', {
-        params: {
-          busqueda: this.busqueda.buscarProducto,
-          categoria_id: this.categoriaId,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
-          cantidad: this.paginaCantidadItem
-        }
-      }).then(function (response) {
-        _this2.productos = response.data.productos;
-        _this2.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this2.paginaCantidadItem);
-      });
-    },
-    leer: function leer(categoriaId) {
-      var _this3 = this;
+      //toma el valor por defecto si no hubo nada
+      var parametroBusqueda = {
+        categoria_id: this.categoriaId,
+        page: this.paginaActual,
+        cantidad: this.paginaCantidadItem,
+        opcionCategoria: this.busqueda.opcionCategoria
+      };
+
+      if (this.busqueda.buscarProducto.length > 0) {
+        parametroBusqueda.palabra_clave = this.busqueda.buscarProducto;
+      }
 
       axios.get('/producto', {
-        params: {
-          categoria_id: categoriaId,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
-          cantidad: this.paginaCantidadItem
-        }
+        params: parametroBusqueda
       }).then(function (response) {
-        _this3.productos = response.data.productos;
-        _this3.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this3.paginaCantidadItem);
+        _this2.productos = response.data.data;
+        _this2.paginaTotal = response.data.last_page;
       })["catch"](function (error) {
         console.log(error);
         alert(error.toString());
       });
-      this.categoriaId = categoriaId;
     },
     paginacionClick: function paginacionClick(n) {
       this.paginaActual = n;
-
-      if (this.busqueda.buscarProducto.length > 0) {
-        this.buscarProducto();
-      } else {
-        this.leer(this.categoriaId);
-      }
+      this.leer(); // if(this.busqueda.buscarProducto.length > 0){
+      //     this.buscarProducto();
+      // }else{
+      //     this.leer(this.categoriaId);
+      // }
     }
   }
 });
@@ -3290,7 +3322,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         roles: []
       },
-      sel: 'categorias' //'inicio', 'carrito','categorias','productos','iniciar','registro'
+      sel: 'productos' //'inicio', 'carrito','categorias','productos','iniciar','registro'
 
     };
   },
@@ -40180,7 +40212,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.buscarProducto($event)
+                  return _vm.leer($event)
                 }
               }
             },
@@ -40202,10 +40234,6 @@ var render = function() {
                 },
                 domProps: { value: _vm.busqueda.buscarProducto },
                 on: {
-                  change: function($event) {
-                    $event.preventDefault()
-                    return _vm.buscarProducto($event)
-                  },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
@@ -40232,6 +40260,123 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "form-check" }, [
+        _c("div", { staticClass: "form-check" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.busqueda.opcionCategoria,
+                expression: "busqueda.opcionCategoria"
+              }
+            ],
+            staticClass: "form-check-input",
+            attrs: {
+              type: "radio",
+              name: "tipoCantidad",
+              id: "tipoCantidad1",
+              value: "1",
+              checked: ""
+            },
+            domProps: { checked: _vm._q(_vm.busqueda.opcionCategoria, "1") },
+            on: {
+              change: [
+                function($event) {
+                  return _vm.$set(_vm.busqueda, "opcionCategoria", "1")
+                },
+                _vm.leer
+              ]
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "form-check-label",
+              attrs: { for: "tipoCantidad1" }
+            },
+            [_vm._v("\n                    Todos\n                ")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-check" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.busqueda.opcionCategoria,
+                expression: "busqueda.opcionCategoria"
+              }
+            ],
+            staticClass: "form-check-input",
+            attrs: {
+              type: "radio",
+              name: "tipoCantidad",
+              id: "tipoCantidad2",
+              value: "2"
+            },
+            domProps: { checked: _vm._q(_vm.busqueda.opcionCategoria, "2") },
+            on: {
+              change: [
+                function($event) {
+                  return _vm.$set(_vm.busqueda, "opcionCategoria", "2")
+                },
+                _vm.leer
+              ]
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "form-check-label",
+              attrs: { for: "tipoCantidad2" }
+            },
+            [_vm._v("\n                    Sin Categorias\n                ")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-check" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.busqueda.opcionCategoria,
+                expression: "busqueda.opcionCategoria"
+              }
+            ],
+            staticClass: "form-check-input",
+            attrs: {
+              type: "radio",
+              name: "tipoCantidad",
+              id: "tipoCantidad3",
+              value: "3"
+            },
+            domProps: { checked: _vm._q(_vm.busqueda.opcionCategoria, "3") },
+            on: {
+              change: [
+                function($event) {
+                  return _vm.$set(_vm.busqueda, "opcionCategoria", "3")
+                },
+                _vm.leer
+              ]
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "form-check-label",
+              attrs: { for: "tipoCantidad3" }
+            },
+            [_vm._v("\n                    Con Categorias\n                ")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
         _vm._m(2),
         _vm._v(" "),
@@ -40254,6 +40399,8 @@ var render = function() {
                   )
                 )
               ]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(producto.cant_categorias))]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -40385,6 +40532,8 @@ var staticRenderFns = [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Num Cate")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
       ])

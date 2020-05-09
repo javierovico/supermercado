@@ -13,18 +13,43 @@
                 </div>
             </li>
             <li class="nav-item">
-                <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
-                    <input v-on:change.prevent="buscarProducto" v-model="busqueda.buscarProducto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="leer">
+                    <input v-model="busqueda.buscarProducto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                     <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
                 </form>
             </li>
         </ul>
+        <div class="form-check">
+            <div class="form-check">
+                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad1" value="1" checked>
+                <label class="form-check-label" for="tipoCantidad1">
+                    Todos
+                </label>
+            </div>
+            <div class="form-check">
+                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad2" value="2">
+                <label class="form-check-label" for="tipoCantidad2">
+                    Sin Categorias
+                </label>
+            </div>
+            <div class="form-check">
+                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad3" value="3">
+                <label class="form-check-label" for="tipoCantidad3">
+                    Con Categorias
+                </label>
+            </div>
+<!--            <input v-on:change="leer" v-model="busqueda.soloSinCategoria" class="form-check-input" type="checkbox" value="" id="defaultCheck1">-->
+<!--            <label class="form-check-label" for="defaultCheck1">-->
+<!--                Solo Productos Sin Categorias-->
+<!--            </label>-->
+        </div>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col">Codigo</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Num Cate</th>
                 <th scope="col">Acciones</th>
             </tr>
             </thead>
@@ -36,6 +61,7 @@
                 <th scope="row">{{producto.codigo}}</th>
                 <td>{{producto.nombre}}</td>
                 <td>{{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
+                <td>{{producto.cant_categorias}}</td>
                 <td>
                     <a @click="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
                     <a @click="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
@@ -78,6 +104,7 @@
                 busqueda:{
                     buscarProducto: '',
                     mostrar: false,//para saber si se muestra o no el boton de busqeuda con el texto
+                    opcionCategoria: 1,    //para mostrar solo productos sin categorias, con categoria o ambos
                 } ,
                 modalEditar:{
                     indexEditando: -1,
@@ -113,12 +140,14 @@
         },
         watch:{
             _categoriaId: function () {
-                this.leer(this._categoriaId)
+                this.categoriaId = this._categoriaId
+                this.leer()
             },
         },
         mounted() {
             console.log('Visor de productos iniciado con categoriaId = '+this._categoriaId);
-            this.leer(this._categoriaId);
+            this.categoriaId = this._categoriaId
+            this.leer();
         },
 
         methods: {
@@ -178,39 +207,44 @@
                 this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
                 $('#modalEditarProducto').modal()
             },
-            buscarProducto(){
-                console.log('buscar '+this.busqueda.buscarProducto);
-                axios.get('/producto',{params:{
-                        busqueda:this.busqueda.buscarProducto,
-                        categoria_id: this.categoriaId,
-                        limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-                        cantidad: this.paginaCantidadItem
-                    }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
-                });
-            },
-            leer(categoriaId){
-                axios.get('/producto',{params:{
-                    categoria_id:categoriaId,
-                    limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-                    cantidad: this.paginaCantidadItem
-                }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+            // buscarProducto(){
+            //     console.log('buscar '+this.busqueda.buscarProducto);
+            //     axios.get('/producto',{params:{
+            //             palabra_clave:this.busqueda.buscarProducto,
+            //             categoria_id: this.categoriaId,
+            //             page: this.paginaActual,
+            //             cantidad: this.paginaCantidadItem
+            //         }}).then((response) => {
+            //         this.productos = response.data.data;
+            //         this.paginaTotal = response.data.last_page;
+            //     });
+            // },
+            leer(){   //toma el valor por defecto si no hubo nada
+                let parametroBusqueda = {
+                    categoria_id:this.categoriaId,
+                    page: this.paginaActual,
+                    cantidad: this.paginaCantidadItem,
+                    opcionCategoria: this.busqueda.opcionCategoria,
+                };
+                if(this.busqueda.buscarProducto.length > 0){
+                    parametroBusqueda.palabra_clave = this.busqueda.buscarProducto;
+                }
+                axios.get('/producto',{params:parametroBusqueda}).then((response) => {
+                    this.productos = response.data.data;
+                    this.paginaTotal = response.data.last_page;
                 }).catch((error)=>{
                     console.log(error);
                     alert(error.toString());
                 });
-                this.categoriaId = categoriaId;
             },
             paginacionClick(n){
                 this.paginaActual = n;
-                if(this.busqueda.buscarProducto.length > 0){
-                    this.buscarProducto();
-                }else{
-                    this.leer(this.categoriaId);
-                }
+                this.leer();
+                // if(this.busqueda.buscarProducto.length > 0){
+                //     this.buscarProducto();
+                // }else{
+                //     this.leer(this.categoriaId);
+                // }
             },
         }
     }

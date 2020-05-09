@@ -46,20 +46,33 @@ class ProductoController extends Controller{
             'categoria_id' => 'integer',
             'palabra_clave' => 'string|max:40',
             'categoria_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
+            'opcionCategoria' => 'integer'     //1-> todos 2->sincate, 3->con cat
         ]);
         $perpage = $request->input('cantidad',10);
         $page = $request->input('page',1);
         $productosQuery = Producto::query();
+        //cantidad de categorias
+        $productosQuery = $productosQuery->withCount(['categorias as cant_categorias']);
+        //tipo de categorias
+        switch($opcionCategoria = $request->get('opcionCategoria',1)){
+            case 2:
+            case 3:
+                $productosQuery = $productosQuery->has('categorias',$opcionCategoria==2?'=':'>',0);
+                break;
+        }
+        //si pertenece a cierta categoria
         if($categoriaId = $request->get('categoria_match')){
             $productosQuery = $productosQuery->withCount(['categorias','categorias as seleccionado' => function(Builder $query2) use ($categoriaId) {
                 $query2->where('categoria_producto.categoria_id','=',$categoriaId);
             }]);
         }
+        //solo de cierta categoria
         if($categoriaId = $request->get('categoria_id')){
             $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q) use ($categoriaId) {
                 $q->where('id','=',$categoriaId);
             });
         }
+        //solo de cierta palabra clave
         if($palabraClave = $request->get('palabra_clave')){
             $productosQuery->where(function (Builder $query) use ($palabraClave) {
                 $query->where('codigo','=',$palabraClave);
