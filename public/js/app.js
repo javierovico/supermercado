@@ -2075,14 +2075,14 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/producto', {
         params: {
-          busqueda: this.productoBuscado,
-          categoria_id: this.getCategoriaIdActual(),
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
+          palabra_clave: this.productoBuscado,
+          // categoria_id: this.getCategoriaIdActual(),
+          page: this.paginaActual,
           cantidad: this.paginaCantidadItem
         }
       }).then(function (response) {
-        _this2.resultadoBusquedaProducto = response.data.productos;
-        _this2.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this2.paginaCantidadItem);
+        _this2.resultadoBusquedaProducto = response.data.data;
+        _this2.paginaTotal = response.data.last_page;
       });
     },
     getCategoriaIdActual: function getCategoriaIdActual() {
@@ -2836,14 +2836,14 @@ __webpack_require__.r(__webpack_exports__);
       console.log('buscar ' + this.busqueda.buscarProducto);
       axios.get('/producto', {
         params: {
-          busqueda: this.busqueda.buscarProducto,
+          palabra_clave: this.busqueda.buscarProducto,
           categoria_id: this.categoriaId,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
+          page: this.paginaActual,
           cantidad: this.paginaCantidadItem
         }
       }).then(function (response) {
-        _this2.productos = response.data.productos;
-        _this2.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this2.paginaCantidadItem);
+        _this2.productos = response.data.data;
+        _this2.paginaTotal = response.data.last_page;
       });
     },
     leer: function leer(categoriaId) {
@@ -2852,12 +2852,12 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/producto', {
         params: {
           categoria_id: categoriaId,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
+          page: this.paginaActual,
           cantidad: this.paginaCantidadItem
         }
       }).then(function (response) {
-        _this3.productos = response.data.productos;
-        _this3.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this3.paginaCantidadItem);
+        _this3.productos = response.data.data;
+        _this3.paginaTotal = response.data.last_page;
       })["catch"](function (error) {
         console.log(error);
         alert(error.toString());
@@ -39703,10 +39703,6 @@ var render = function() {
                               },
                               domProps: { value: _vm.productoBuscado },
                               on: {
-                                change: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.buscarProducto($event)
-                                },
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
@@ -41870,7 +41866,7 @@ var render = function() {
                   "a",
                   {
                     staticClass: "page-link",
-                    attrs: { href: "#", "aria-label": "Previous" },
+                    attrs: { href: "#!", "aria-label": "Previous" },
                     on: {
                       click: function($event) {
                         !(_vm.actual === 1) &&
@@ -41900,7 +41896,7 @@ var render = function() {
                         "a",
                         {
                           staticClass: "page-link",
-                          attrs: { href: "#" },
+                          attrs: { href: "#!" },
                           on: {
                             click: function($event) {
                               return _vm.paginacionClick(n)
@@ -41938,7 +41934,7 @@ var render = function() {
                   "a",
                   {
                     staticClass: "page-link",
-                    attrs: { href: "#", "aria-label": "Next" },
+                    attrs: { href: "#!", "aria-label": "Next" },
                     on: {
                       click: function($event) {
                         !(_vm.actual === _vm.total) &&

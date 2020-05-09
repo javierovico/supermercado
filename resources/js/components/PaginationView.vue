@@ -4,7 +4,7 @@
             <li :class="'page-item'+((actual === 1)?' disabled':'')">
                 <a
                     @click="!(actual===1) && paginacionClick(actual-1)"
-                    class="page-link" href="#" aria-label="Previous">
+                    class="page-link" href="#!" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -13,7 +13,7 @@
                 :class="'page-item'+((n===actual)?' active':'')" :aria-current="n===actual?'page':''">
                 <a v-if="n!==actual"
                    @click="paginacionClick(n)"
-                   class="page-link" href="#">
+                   class="page-link" href="#!">
                     {{n}}
                 </a>
                 <span v-else class="page-link">
@@ -24,7 +24,7 @@
             <li :class="'page-item'+((actual === total)?' disabled':'')">
                 <a
                     @click="!(actual === total) && paginacionClick(actual + 1)"
-                    class="page-link" href="#" aria-label="Next">
+                    class="page-link" href="#!" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

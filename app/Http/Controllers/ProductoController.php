@@ -5,33 +5,66 @@ namespace App\Http\Controllers;
 use App\Categoria;
 use App\Producto;
 use App\TipoRespuesta;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller{
 
-    /**
-     * @param Request $request
-     * @return mixed
-     */
+
+//
+//    /**
+//     * @param Request $request
+//     * @return mixed
+//     */
+//    public function index(Request $request){
+//        $arrayRetorno = [];
+//        $categoria_id = $request->input('categoria_id');
+//        $palabraClave = $request->input('busqueda');
+//        $limiteInferior = intval($request->input('limite_inferior',0));
+//        $cantidad = intval($request->input('cantidad',10));
+//        if($palabraClave != null){
+//            $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
+//            $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
+//        }else if($categoria_id !== null){
+//            $arrayRetorno['productos'] = Producto::porCategoria($categoria_id);
+//        }else{
+//            $arrayRetorno['productos'] = Producto::porLimite($limiteInferior,$cantidad);
+//            $arrayRetorno['cantidad'] = Producto::getCantidad(null);
+//        }
+//        return $arrayRetorno;
+//    }
+
     public function index(Request $request){
-        $arrayRetorno = [];
-        $categoria_id = $request->input('categoria_id');
-        $palabraClave = $request->input('busqueda');
-        $limiteInferior = intval($request->input('limite_inferior',0));
-        $cantidad = intval($request->input('cantidad',10));
-        if($palabraClave != null){
-            $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
-            $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
-        }else if($categoria_id !== null){
-            $arrayRetorno['productos'] = Producto::porCategoria($categoria_id);
-        }else{
-            $arrayRetorno['productos'] = Producto::porLimite($limiteInferior,$cantidad);
-            $arrayRetorno['cantidad'] = Producto::getCantidad(null);
+        $request->validate([
+            'cantidad' => 'integer',
+            'page'=>'integer',
+            'categoria_id' => 'integer',
+            'palabra_clave' => 'string|max:40'
+        ]);
+        $perpage = $request->input('cantidad',10);
+        $page = $request->input('page',1);
+        $productosQuery = Producto::query();
+        if($categoriaId = $request->get('categoria_id')){
+            $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q) use ($categoriaId) {
+                $q->where('id','=',$categoriaId);
+            });
         }
-        return $arrayRetorno;
+        if($palabraClave = $request->get('palabra_clave')){
+            $productosQuery->where(function (Builder $query) use ($palabraClave) {
+                $query->where('codigo','=',$palabraClave);
+                $query->orWhere('nombre','like',"% {$palabraClave} %")
+                    ->orWhere('nombre','like',"{$palabraClave} %")
+                    ->orWhere('nombre','like',"% {$palabraClave}");
+            });
+        }
+
+        $productos = $productosQuery->paginate($perpage,['*'],'page',$page);
+        return $productos;
     }
 
     /**

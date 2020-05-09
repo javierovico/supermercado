@@ -12,6 +12,10 @@ class Producto extends Model{
 
     protected $casts = ['seleccionado' => 'integer'];
 
+    public function categorias(){
+        return $this->belongsToMany(Categoria::class);
+    }
+
     public function getNombreArchivo(){
         return $this->codigo . '.jpg';
     }

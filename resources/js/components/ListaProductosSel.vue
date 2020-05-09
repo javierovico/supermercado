@@ -181,23 +181,23 @@
             buscarProducto(){
                 console.log('buscar '+this.busqueda.buscarProducto);
                 axios.get('/producto',{params:{
-                        busqueda:this.busqueda.buscarProducto,
+                        palabra_clave:this.busqueda.buscarProducto,
                         categoria_id: this.categoriaId,
-                        limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+                        page: this.paginaActual,
                         cantidad: this.paginaCantidadItem
                     }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
-                });
+                        this.productos = response.data.data;
+                        this.paginaTotal = response.data.last_page;
+                    });
             },
             leer(categoriaId){
                 axios.get('/producto',{params:{
                     categoria_id:categoriaId,
-                    limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+                    page: this.paginaActual,
                     cantidad: this.paginaCantidadItem
                 }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+                    this.productos = response.data.data;
+                    this.paginaTotal = response.data.last_page;
                 }).catch((error)=>{
                     console.log(error);
                     alert(error.toString());

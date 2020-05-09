@@ -61,7 +61,7 @@
                                 </li>
                             </ul>
                             <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
-                                <input v-on:change.prevent="buscarProducto" v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                                <input v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                                 <a href="#!"><i class="material-icons prefix white-text">search</i></a>
                             </form>
                             <form v-if="resultadoBusquedaProducto.length>0" class="form-inline my-2 my-lg-0 ml-3">
@@ -152,13 +152,13 @@
             },
             buscarProducto(){
                 axios.get('/producto',{params:{
-                    busqueda:this.productoBuscado,
-                    categoria_id: this.getCategoriaIdActual(),
-                    limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+                    palabra_clave:this.productoBuscado,
+                    // categoria_id: this.getCategoriaIdActual(),
+                    page: this.paginaActual,
                     cantidad: this.paginaCantidadItem
                 }}).then((response) => {
-                    this.resultadoBusquedaProducto = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+                    this.resultadoBusquedaProducto = response.data.data;
+                    this.paginaTotal = response.data.last_page;
                 });
             },
             getCategoriaIdActual(){
