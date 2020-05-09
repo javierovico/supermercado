@@ -57,7 +57,8 @@ class ProductoController extends Controller{
         switch($opcionCategoria = $request->get('opcionCategoria',1)){
             case 2:
             case 3:
-                $productosQuery = $productosQuery->has('categorias',$opcionCategoria==2?'=':'>',0);
+                $productosQuery = $productosQuery->having('cant_categorias',$opcionCategoria==2?'=':'>',0);
+//                $productosQuery = $productosQuery->has('categorias',$opcionCategoria==2?'=':'>',0);
                 break;
         }
         //si pertenece a cierta categoria
