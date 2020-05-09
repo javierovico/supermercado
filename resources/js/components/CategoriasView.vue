@@ -60,7 +60,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscarProducto">
+                            <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="paginaActual = 1;buscarProducto()">
                                 <input v-model="productoBuscado" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                                 <a href="#!"><i class="material-icons prefix white-text">search</i></a>
                             </form>

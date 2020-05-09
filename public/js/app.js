@@ -39714,7 +39714,8 @@ var render = function() {
                             on: {
                               submit: function($event) {
                                 $event.preventDefault()
-                                return _vm.buscarProducto($event)
+                                _vm.paginaActual = 1
+                                _vm.buscarProducto()
                               }
                             }
                           },
