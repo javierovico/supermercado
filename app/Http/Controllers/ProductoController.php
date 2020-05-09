@@ -44,11 +44,17 @@ class ProductoController extends Controller{
             'cantidad' => 'integer',
             'page'=>'integer',
             'categoria_id' => 'integer',
-            'palabra_clave' => 'string|max:40'
+            'palabra_clave' => 'string|max:40',
+            'categoria_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
         ]);
         $perpage = $request->input('cantidad',10);
         $page = $request->input('page',1);
         $productosQuery = Producto::query();
+        if($categoriaId = $request->get('categoria_match')){
+            $productosQuery = $productosQuery->withCount(['categorias','categorias as seleccionado' => function(Builder $query2) use ($categoriaId) {
+                $query2->where('categoria_producto.categoria_id','=',$categoriaId);
+            }]);
+        }
         if($categoriaId = $request->get('categoria_id')){
             $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q) use ($categoriaId) {
                 $q->where('id','=',$categoriaId);

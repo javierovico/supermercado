@@ -153,7 +153,7 @@
             buscarProducto(){
                 axios.get('/producto',{params:{
                     palabra_clave:this.productoBuscado,
-                    // categoria_id: this.getCategoriaIdActual(),
+                    categoria_match: this.getCategoriaIdActual(),   //solo para que seleccione
                     page: this.paginaActual,
                     cantidad: this.paginaCantidadItem
                 }}).then((response) => {
