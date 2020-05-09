@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller{
@@ -51,9 +52,9 @@ class ProductoController extends Controller{
         $perpage = $request->input('cantidad',10);
         $page = $request->input('page',1);
         $productosQuery = Producto::query();
-        //cantidad de categorias
+        //IMPRIMIR LA CANTIDAD DE CATEGORIAS QUE SE TIENE
         $productosQuery = $productosQuery->withCount(['categorias as cant_categorias']);
-        //tipo de categorias
+        //FILTRO POR CANTIDAD DE CATEGORIAS
         switch($opcionCategoria = $request->get('opcionCategoria',1)){
             case 2:
             case 3:
@@ -82,8 +83,9 @@ class ProductoController extends Controller{
                     ->orWhere('nombre','like',"% {$palabraClave}");
             });
         }
-
+        DB::enableQueryLog(); // Enable query log
         $productos = $productosQuery->paginate($perpage,['*'],'page',$page);
+//        return DB::getQueryLog();
         return $productos;
     }
 
