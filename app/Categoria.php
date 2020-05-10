@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Categoria extends Model
 {
 //    protected $appends = ['count_comments'];
+    protected $casts = ['seleccionado' => 'integer'];
 
     public static function porPadreId($categoria_id){
         return self::addSelect(['cant_sub_cat' => function($query){
