@@ -6,6 +6,17 @@
 
 require('./bootstrap');
 
+import 'jquery-ui/ui/widgets/autocomplete.js';
+import 'jquery-ui/ui/widgets/datepicker.js';
+import 'jquery-ui/ui/i18n/datepicker-es.js';
+import 'jquery-ui/themes/base/all.css';
+
+$.datepicker.setDefaults({
+    changeYear: true,
+    changeMonth: true,
+    dateFormat: 'yy-mm-dd'
+});
+
 window.Vue = require('vue');
 
 /**

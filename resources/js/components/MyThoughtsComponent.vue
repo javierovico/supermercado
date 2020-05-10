@@ -102,7 +102,7 @@
                     name: '',
                     roles:[],
                 },
-                sel: 'productos',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
+                sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
             }
         },
 

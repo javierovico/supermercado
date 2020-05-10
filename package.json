@@ -24,6 +24,7 @@
     "dependencies": {
         "bootstrap": "^4.4.1",
         "jquery": "3.4.1",
+        "jquery-ui": "^1.12.1",
         "materialize-css": "^1.0.0",
         "tailwindcss": "^1.4.4",
         "vue-sliding-pagination": "^1.0.6"

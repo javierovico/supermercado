@@ -29,6 +29,7 @@
         @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>--}}
 {{--    <script src="{{asset('js/jquery-3.4.0.min.js')}}"></script>--}}
 {{--    <script src="{{ asset('js/bootstrap.min.js') }}" defer></script>--}}
     <script type="text/javascript">
