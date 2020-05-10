@@ -16,10 +16,10 @@ class CreateCategoriasTable extends Migration
         Schema::create('categorias', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('categoria_id')->nullable()->default(null);
-            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->foreign('categoria_id')->references('id')->on('categorias')->onDelete('cascade');
             $table->text('nombre');
             $table->unsignedBigInteger('tipo_categoria_id');
-            $table->foreign('tipo_categoria_id')->references('id')->on('tipo_categorias');
+            $table->foreign('tipo_categoria_id')->references('id')->on('tipo_categorias')->onDelete('cascade');
             $table->text('icono')->nullable();
             $table->boolean('activo')->default(1);
             $table->timestamps();

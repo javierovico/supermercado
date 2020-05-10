@@ -24,7 +24,7 @@ class CreateProductosTable extends Migration
             $table->text('thumbnail')->nullable();
             $table->text('contenido')->nullable();
             $table->unsignedBigInteger('tipo_medida_producto_id');
-            $table->foreign('tipo_medida_producto_id')->references('id')->on('tipo_medida_productos');
+            $table->foreign('tipo_medida_producto_id')->references('id')->on('tipo_medida_productos')->onDelete('cascade');
             $table->integer('precio');
             $table->integer('precio_mayorista')->default(0);
             $table->integer('precio_costo')->default(0);

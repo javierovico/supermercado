@@ -90,6 +90,10 @@
         <modal-editar-producto-categoria
             :producto="modalEditarCategoria.producto"
         ></modal-editar-producto-categoria>
+        <modal-borrar-producto
+            :producto="modalBorrar.producto"
+            @borrado="leer"
+        ></modal-borrar-producto>
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
@@ -125,7 +129,7 @@
                     },
                 },
                 modalBorrar:{
-                    indexBorrando: -1,
+                    producto: null,
                 },
                 modalThumbnail:{
                     producto:{
@@ -179,21 +183,10 @@
                 this.modalThumbnail.producto = this.productos[indice];
                 $('#modalEditarProductoThumbnail').modal();
             },
-            confirmarBorrar(){
-                axios.delete('/producto/'+this.productos[this.modalBorrar.indexBorrando].id)
-                    .then((response) => {
-                        console.log(response);
-                        this.productos.splice(this.modalBorrar.indexBorrando,1);
-                        $('.modal').modal('close')
-                    }).catch((error)=>{
-                        console.log(error);
-                        alert(error.response.data.message);
-                    });
-            },
             borrarProducto(indice){
                 console.log('borrando producto '+indice);
-                this.modalBorrar.indexBorrando = indice;
-                $('#modalBorrar').modal('open')
+                this.modalBorrar.producto = this.productos[indice];
+                $('#modalBorrarProducto').modal();
             },
             guardarCambios(){
                 this.productos.splice(this.modalEditar.indexEditando,1,this.modalEditar.productoEditando);
@@ -214,18 +207,6 @@
                 this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
                 $('#modalEditarProducto').modal()
             },
-            // buscarProducto(){
-            //     console.log('buscar '+this.busqueda.buscarProducto);
-            //     axios.get('/producto',{params:{
-            //             palabra_clave:this.busqueda.buscarProducto,
-            //             categoria_id: this.categoriaId,
-            //             page: this.paginaActual,
-            //             cantidad: this.paginaCantidadItem
-            //         }}).then((response) => {
-            //         this.productos = response.data.data;
-            //         this.paginaTotal = response.data.last_page;
-            //     });
-            // },
             leer(){   //toma el valor por defecto si no hubo nada
                 let parametroBusqueda = {
                     categoria_id:this.categoriaId,

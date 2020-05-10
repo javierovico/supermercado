@@ -16,9 +16,9 @@ class CreateCompraProductoTable extends Migration
         Schema::create('compra_producto', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('compra_id');
-            $table->foreign('compra_id')->references('id')->on('compras');
+            $table->foreign('compra_id')->references('id')->on('compras')->onDelete('cascade');
             $table->unsignedBigInteger('producto_id');
-            $table->foreign('producto_id')->references('id')->on('productos');
+            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
             $table->integer('precio_actual');
             $table->float('cantidad')->default(1);
             $table->timestamps();
