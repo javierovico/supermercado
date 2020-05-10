@@ -21,19 +21,19 @@
         </ul>
         <div class="form-check">
             <div class="form-check">
-                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad1" value="1" checked>
+                <input v-on:change="paginaActual=1;leer()"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad1" value="1" checked>
                 <label class="form-check-label" for="tipoCantidad1">
                     Todos
                 </label>
             </div>
             <div class="form-check">
-                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad2" value="2">
+                <input v-on:change="paginaActual=1;leer()"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad2" value="2">
                 <label class="form-check-label" for="tipoCantidad2">
                     Sin Categorias
                 </label>
             </div>
             <div class="form-check">
-                <input v-on:change="leer"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad3" value="3">
+                <input v-on:change="paginaActual=1;leer()"  v-model="busqueda.opcionCategoria" class="form-check-input" type="radio" name="tipoCantidad" id="tipoCantidad3" value="3">
                 <label class="form-check-label" for="tipoCantidad3">
                     Con Categorias
                 </label>
@@ -66,6 +66,7 @@
                     <a @click="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
                     <a @click="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
                     <a @click="borrarProducto(index)" href="#!"><i class="material-icons">delete</i></a>
+                    <a @click="editarCategorias(index)" href="#!"><i class="material-icons">category</i></a>
                 </td>
             </tr>
             </tbody>
@@ -86,6 +87,9 @@
             :producto="modalThumbnail.producto"
         >
         </modal-editar-producto-thumbnail>
+        <modal-editar-producto-categoria
+            :producto="modalEditarCategoria.producto"
+        ></modal-editar-producto-categoria>
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
@@ -135,6 +139,9 @@
                         impuesto: 10,
                         tipo_medida_producto_id: "",
                     }
+                },
+                modalEditarCategoria:{
+                    producto: null,
                 }
             }
         },
@@ -245,6 +252,11 @@
                 // }else{
                 //     this.leer(this.categoriaId);
                 // }
+            },
+            editarCategorias(n){
+                console.log('editando categoria de '+n);
+                this.modalEditarCategoria.producto = this.productos[n];
+                $('#modalEditarProductoCategoria').modal();
             },
         }
     }

@@ -45,6 +45,7 @@ Vue.component('seccion-inicio', require('./components/SeccionInicio.vue').defaul
 Vue.component('utils-modal', require('./components/UtilsModal.vue').default);
 Vue.component('modal-editar-producto', require('./components/ModalEditarProducto.vue').default);
 Vue.component('modal-editar-producto-thumbnail', require('./components/ModalEditarProductoThumbnail.vue').default);
+Vue.component('modal-editar-producto-categoria', require('./components/ModalEditarProductoCategoria.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

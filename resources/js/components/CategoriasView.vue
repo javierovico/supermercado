@@ -130,6 +130,8 @@
 
         methods: {
             cambiarCategoria(index){
+                this.productoBuscado = '';
+                this.buscarProducto();
                 const categoria = this.categorias[index];
                 console.log('cambiando categoria a id:');
                 this.leer(categoria.nombre,categoria.id);
@@ -137,7 +139,7 @@
             leer(nombre, id){
                 axios.get('/categoria',{params:{categoria_id:id}}).then((response) => {
                     this.categoriasAnteriores.push({nombre:nombre,id:id});
-                    this.categorias = response.data;
+                    this.categorias = response.data.data;
                     this.idPadre = id;
                 });
 
@@ -152,7 +154,7 @@
             },
             buscarProducto(){
                 axios.get('/producto',{params:{
-                    palabra_clave:this.productoBuscado,
+                    palabra_clave:this.productoBuscado.length>0?this.productoBuscado:null,
                     categoria_match: this.getCategoriaIdActual(),   //solo para que seleccione
                     page: this.paginaActual,
                     cantidad: this.paginaCantidadItem

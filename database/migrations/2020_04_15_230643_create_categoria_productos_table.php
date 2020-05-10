@@ -19,6 +19,7 @@ class CreateCategoriaProductosTable extends Migration
             $table->primary(['categoria_id','producto_id']);
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->foreign('producto_id')->references('id')->on('productos');
+            $table->index(['categoria_id','producto_id']);
         });
     }
 

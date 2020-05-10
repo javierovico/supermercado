@@ -68,12 +68,10 @@
             }
         },
         mounted() {
-            console.log('Paginacion creada con '+this.total,this.actual);
         },
         methods: {
             paginacionClick(n){
                 if(n === parseInt(n)){
-                    console.log('Paginacion pulsada '+n);
                     this.$emit('paginacionClick',n);
                 }
             },

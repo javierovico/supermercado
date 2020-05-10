@@ -37,6 +37,8 @@ Route::get('/prueba', function (){
     return view('prueba');
 });
 Route::post('/producto/thumbnail/{id}', 'ProductoController@thumbnail');
+//Route::get('/producto/categorias/{id}', 'ProductoController@getCategorias');      //se debe acceder por categorias/{filtro}
+Route::post('/producto/updateCategoriasList/{id}', 'ProductoController@updateCategorias');
 //Route::get('/producto/list', 'ProductoController@list');
 Route::apiResource('/producto', 'ProductoController');
 Route::get('/categoria/vista', 'CategoriaController@vista')->name('categoria.vista');

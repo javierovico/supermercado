@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="22cc64d1-8d0f-4fcc-bd82-8253b1b40bea" name="kamaleonSSH" url="http://supermercado.kamaleon360.com">
+        <fileTransfer rootFolder="/home/ed6phf3molu6/supermercado" accessType="SFTP" host="kamaleon360.com" port="22" sshConfigId="d94d770f-805c-4d96-a003-6c0355832541" sshConfig="ed6phf3molu6@kamaleon360.com:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

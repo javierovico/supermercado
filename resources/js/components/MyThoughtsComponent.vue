@@ -54,8 +54,8 @@
             <div class="container-fluid">
                 <seccion-producto v-if="sel === 'productos'"></seccion-producto>
                 <seccion-categoria :_idPadre="null" v-if="sel === 'categorias'"></seccion-categoria>
-                <seccion-iniciar @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
-                <seccion-registro @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'registro'"></seccion-registro>
+                <seccion-iniciar @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'iniciar'"></seccion-iniciar>
+                <seccion-registro @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>
                 <seccion-inicio v-if="sel === 'inicio'"></seccion-inicio>
             </div>
         </main>

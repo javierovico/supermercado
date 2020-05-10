@@ -58,8 +58,8 @@ class ProductoController extends Controller{
         switch($opcionCategoria = $request->get('opcionCategoria',1)){
             case 2:
             case 3:
-                $productosQuery = $productosQuery->having('cant_categorias',$opcionCategoria==2?'=':'>',0);
-//                $productosQuery = $productosQuery->has('categorias',$opcionCategoria==2?'=':'>',0);
+//                $productosQuery = $productosQuery->where('cant_categorias',$opcionCategoria==2?'=':'>',0);
+                $productosQuery = $productosQuery->has('categorias',$opcionCategoria==2?'=':'>',0);
                 break;
         }
         //si pertenece a cierta categoria
@@ -78,15 +78,47 @@ class ProductoController extends Controller{
         if($palabraClave = $request->get('palabra_clave')){
             $productosQuery->where(function (Builder $query) use ($palabraClave) {
                 $query->where('codigo','=',$palabraClave);
-                $query->orWhere('nombre','like',"% {$palabraClave} %")
-                    ->orWhere('nombre','like',"{$palabraClave} %")
-                    ->orWhere('nombre','like',"% {$palabraClave}");
+                $query->orWhere('nombre','like',"% {$palabraClave}%")
+                    ->orWhere('nombre','like',"{$palabraClave}%");
+//                    ->orWhere('nombre','like',"% {$palabraClave}");
             });
         }
         DB::enableQueryLog(); // Enable query log
         $productos = $productosQuery->paginate($perpage,['*'],'page',$page);
 //        return DB::getQueryLog();
         return $productos;
+    }
+
+    public function getCategorias($id, Request $resquest){
+        $producto =  Producto::find($id);
+        $categorias = $producto->categorias;
+        return $categorias;
+    }
+
+    public function updateCategorias($id, Request $resquest){
+        $validado = $resquest->validate([
+            'categorias' => 'array|min:1',
+            'categorias.*.categoriaId' => 'required|integer',
+            'categorias.*.valor' => 'required|boolean'
+        ]);
+        $this->autorizar('admin');
+        $producto = Producto::find($id);
+        $listaCategorias = $validado['categorias'];
+        $variacion = 0;
+        foreach ($listaCategorias as $categoria){
+            try {
+                if ($categoria['valor']) {
+                    $producto->categorias()->attach($categoria['categoriaId']);
+                    $variacion++;
+                } else {
+                    $producto->categorias()->detach($categoria['categoriaId']);
+                    $variacion--;
+                }
+            }catch (\Exception $e){
+
+            }
+        }
+        return response(['success'=>true,'data'=>['variacion'=>$variacion]],200);
     }
 
     /**

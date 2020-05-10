@@ -7,6 +7,10 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @property Categoria $categorias
+ * @method Producto find($id)
+ */
 class Producto extends Model{
     protected $fillable = ['nombre','codigo','impuesto','descuento','stock','linea','thumbnail','contenido','tipo_medida_producto_id','precio','precio_mayorista','precio_costo'];
 

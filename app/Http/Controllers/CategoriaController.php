@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use http\Client\Curl\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class CategoriaController extends Controller
@@ -13,11 +16,59 @@ class CategoriaController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return Categoria[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Request $request){
-        $categoria_id = $request->input('categoria_id');
-        return Categoria::porPadreId($categoria_id);
+        $request->validate([
+            'cantidad' => 'integer',
+            'page'=>'integer',
+            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte
+            'palabra_clave' => 'string|max:40',
+            'producto_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
+            'opcionProducto' => 'integer',     //1-> todos 2->sincate, 3->con cat
+            'producto_id' => 'integer',         //si pertenece solo a un tipo de producto
+        ]);
+        $categoriasQuery = Categoria::query();
+        //VER SI SOLO SE QUIERE DE CIERTO PADRE LA CATEGORIA (el nulo = solo los principales)
+        if($categoriaPadre = $request->get('categoria_id')){
+            $categoriasQuery = $categoriasQuery->where('categoria_id',$request->get('categoria_id',null));
+        }
+        //IMPRIMIR LA CANTIDAD DE PRODUCTOS QUE SE TIENE
+        $categoriasQuery = $categoriasQuery->withCount(['productos as cant_productos']);
+        //FILTRO POR CANTIDAD DE PRODUCTOS
+        switch($opcionProducto = $request->get('opcionProducto',1)){
+            case 2:
+            case 3:
+//                $categoriasQuery = $categoriasQuery->where('cant_categorias',$opcioncategoria==2?'=':'>',0);
+                $categoriasQuery = $categoriasQuery->has('productos',$opcionProducto==2?'=':'>',0);
+                break;
+        }
+        //si pertenece a cierto producto
+        if($productoId = $request->get('producto_match')){
+            $categoriasQuery = $categoriasQuery->withCount(['productos','productos as seleccionado' => function(Builder $query2) use ($productoId) {
+                $query2->where('categoria_producto.producto_id','=',$productoId);
+            }]);
+        }
+        //solo de cierta producto
+        if($productoId = $request->get('producto_id')){
+            $categoriasQuery = $categoriasQuery->whereHas('productos',function (Builder $q) use ($productoId) {
+                $q->where('id','=',$productoId);
+            });
+        }
+        //solo de cierta palabra clave
+        if($palabraClave = $request->get('palabra_clave')){
+            $categoriasQuery->where(function (Builder $query) use ($palabraClave) {
+                $query->where('nombre','like',"% {$palabraClave}%")
+                    ->orWhere('nombre','like',"{$palabraClave}%");
+//                    ->orWhere('nombre','like',"% {$palabraClave}");
+            });
+        }
+        $productos = $categoriasQuery->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
+//        return DB::getQueryLog();
+        return $productos;
+
+//        $categoria_id = $request->input('categoria_id');
+//        return Categoria::porPadreId($categoria_id);
     }
 
     public function updateProductosList(Request $request){
@@ -41,7 +92,7 @@ class CategoriaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -51,8 +102,8 @@ class CategoriaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -62,8 +113,8 @@ class CategoriaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
+     * @param Categoria $categoria
+     * @return Response
      */
     public function show(Categoria $categoria)
     {
@@ -73,8 +124,8 @@ class CategoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
+     * @param Categoria $categoria
+     * @return Response
      */
     public function edit(Categoria $categoria)
     {
@@ -84,9 +135,9 @@ class CategoriaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Categoria $categoria
+     * @return Response
      */
     public function update(Request $request, Categoria $categoria)
     {
@@ -96,8 +147,8 @@ class CategoriaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Categoria  $categoria
-     * @return \Illuminate\Http\Response
+     * @param Categoria $categoria
+     * @return Response
      */
     public function destroy(Categoria $categoria)
     {
