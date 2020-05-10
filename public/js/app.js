@@ -42815,7 +42815,7 @@ var render = function() {
           _vm.sel === "productos" ? _c("seccion-producto") : _vm._e(),
           _vm._v(" "),
           _vm.sel === "categorias"
-            ? _c("seccion-categoria", { attrs: { _idPadre: null } })
+            ? _c("seccion-categoria", { attrs: { _idPadre: 0 } })
             : _vm._e(),
           _vm._v(" "),
           _vm.sel === "iniciar"

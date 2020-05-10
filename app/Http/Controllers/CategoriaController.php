@@ -22,7 +22,7 @@ class CategoriaController extends Controller
         $request->validate([
             'cantidad' => 'integer',
             'page'=>'integer',
-            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte
+            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (0=> solo raiz, null: cualquiera)
             'palabra_clave' => 'string|max:40',
             'producto_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
             'opcionProducto' => 'integer',     //1-> todos 2->sincate, 3->con cat
@@ -30,8 +30,9 @@ class CategoriaController extends Controller
         ]);
         $categoriasQuery = Categoria::query();
         //VER SI SOLO SE QUIERE DE CIERTO PADRE LA CATEGORIA (el nulo = solo los principales)
-        if($categoriaPadre = $request->get('categoria_id')){
-            $categoriasQuery = $categoriasQuery->where('categoria_id',$request->get('categoria_id',null));
+
+        if(null !== ($categoriaPadre = $request->get('categoria_id'))){
+            $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre==0?null:$categoriaPadre);
         }
         //IMPRIMIR LA CANTIDAD DE PRODUCTOS QUE SE TIENE
         $categoriasQuery = $categoriasQuery->withCount(['productos as cant_productos']);
