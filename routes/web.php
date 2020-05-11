@@ -44,6 +44,7 @@ Route::apiResource('/producto', 'ProductoController');
 Route::get('/categoria/vista', 'CategoriaController@vista')->name('categoria.vista');
 
 Route::post('/categoria/updateProductosList', 'CategoriaController@updateProductosList');
+Route::get('/categoria/listaOrdenada', 'CategoriaController@listaOrdenada');
 Route::apiResource('/categoria', 'CategoriaController');
 
 

@@ -10,6 +10,12 @@ import 'jquery-ui/ui/widgets/autocomplete.js';
 import 'jquery-ui/ui/widgets/datepicker.js';
 import 'jquery-ui/ui/i18n/datepicker-es.js';
 import 'jquery-ui/themes/base/all.css';
+//menu
+// import './hoverIntent'
+// import './jquery.dropdown'
+// import './jquery.dropdownPlain'
+
+import 'metismenu/src/index'
 
 $.datepicker.setDefaults({
     changeYear: true,

@@ -72,6 +72,19 @@ class CategoriaController extends Controller
 //        return Categoria::porPadreId($categoria_id);
     }
 
+    /**
+     * Retorna un array con todas las categorias que existen
+     * @param null $id
+     * @return Builder[]|Collection
+     */
+    public function listaOrdenada($id = null){
+        $catRoot = Categoria::query()->where('categoria_id',$id)->get();
+        foreach($catRoot as $cat){
+            $cat->subCategorias = $this->listaOrdenada($cat->id);
+        }
+        return $catRoot;
+    }
+
     public function updateProductosList(Request $request){
         $user = Auth::user();
         if($user && $user->hasAnyRole('admin')){

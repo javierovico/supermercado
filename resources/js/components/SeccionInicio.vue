@@ -1,6 +1,5 @@
 <template>
-    <div v-show="productos.length>0" class="col-md-12">
-
+    <div class="col-md-12">
     </div>
 </template>
 <!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
@@ -51,18 +50,18 @@
 
         methods: {
             leer(){
-                axios.get('/producto',{params:{
-                        categoria_id:catego,
-                        limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-                        cantidad: this.paginaCantidadItem
-                    }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
-                }).catch((error)=>{
-                    console.log(error);
-                    alert(error.toString());
-                });
-                this.categoriaId = categoriaId;
+                // axios.get('/producto',{params:{
+                //         categoria_id:catego,
+                //         limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+                //         cantidad: this.paginaCantidadItem
+                //     }}).then((response) => {
+                //     this.productos = response.data.productos;
+                //     this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+                // }).catch((error)=>{
+                //     console.log(error);
+                //     alert(error.toString());
+                // });
+                // this.categoriaId = categoriaId;
             },
             confirmarThumbnail(){
                 console.log(this.modalThumbnail.file);

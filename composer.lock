@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b8c815371be0ef97d5e365d88ac4bc5",
+    "content-hash": "0d0165a317443d7c1d1afd240ecc31bb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1552,6 +1552,48 @@
                 "php"
             ],
             "time": "2020-04-10T16:34:50+00:00"
+        },
+        {
+            "name": "onokumus/metismenu",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/onokumus/metismenu.git",
+                "reference": "04c36f38beee7d0c5db291a986a304db6f7ba525"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/onokumus/metismenu/zipball/04c36f38beee7d0c5db291a986a304db6f7ba525",
+                "reference": "04c36f38beee7d0c5db291a986a304db6f7ba525",
+                "shasum": ""
+            },
+            "suggest": {
+                "components/jquery": ">=1.9"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Osman Nuri Okumus",
+                    "email": "onokumus@gmail.com",
+                    "homepage": "https://onokumus.com"
+                }
+            ],
+            "description": "A jQuery menu plugin",
+            "homepage": "https://github.com/onokumus/metisMenu",
+            "keywords": [
+                "JS",
+                "bootstrap",
+                "css",
+                "jquery",
+                "menu",
+                "plugin",
+                "web"
+            ],
+            "time": "2020-04-24T21:38:08+00:00"
         },
         {
             "name": "opis/closure",
@@ -5949,6 +5991,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "onokumus/metismenu": 20,
         "phpoffice/phpexcel": 20
     },
     "prefer-stable": true,

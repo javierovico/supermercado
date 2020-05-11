@@ -2,9 +2,13 @@
     <div id="principal">
         <header>
             <nav class="navbar navbar-expand-lg navbar-light navbar-dark bg-primary">
-                <a class="navbar-brand" href="#" v-on:click="cambiarSeccion('inicio')">Del Super</a>
+                <a href="#!" class="text-white" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></a>
+<!--                <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                    <i class="material-icons">storefront</i>-->
+<!--                </button>-->
+                <a class="navbar-brand" href="#" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">Del Super</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <i class="material-icons prefix white-text">face</i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
@@ -49,6 +53,54 @@
                     </form>
                 </div>
             </nav>
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-5">
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedCategoria">
+                            <nav class="sidebar-nav">
+                                <ul class="metismenu" id="menu1">
+                                    <li v-for="(categoria,index) in categoriasAnidadas">
+                                        <a :class="(categoria.subCategorias.length > 0)?'has-arrow':''" href="#" :aria-expanded="(categoria.subCategorias.length > 0)?'false':null">
+                                            <i class="material-icons">storefront</i>
+                                            {{categoria.nombre}}
+                                        </a>
+                                        <ul v-if="categoria.subCategorias.length > 0" class="mm-collapse">
+                                            <li v-for="(categoria2,index2) in categoria.subCategorias">
+                                                <a :class="(categoria2.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria2.subCategorias.length > 0)?'false':null" href="#">
+                                                    <span class="fa fa-fw fa-code-fork"></span> {{categoria2.nombre}}
+                                                </a>
+                                                <ul v-if="categoria2.subCategorias.length > 0" class="mm-collapse">
+                                                    <li v-for="(categoria3,index3) in categoria2.subCategorias">
+                                                        <a :class="(categoria3.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria3.subCategorias.length > 0)?'false':null" href="#">
+                                                            <span class="fa fa-fw fa-code-fork"></span> {{categoria3.nombre}}
+                                                        </a>
+                                                        <ul v-if="categoria3.subCategorias.length > 0" class="mm-collapse">
+                                                            <li v-for="(categoria4,index4) in categoria3.subCategorias">
+                                                                <a :class="(categoria4.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria4.subCategorias.length > 0)?'false':null" href="#">
+                                                                    <span class="fa fa-fw fa-code-fork"></span> {{categoria4.nombre}}
+                                                                </a>
+                                                                <ul v-if="categoria4.subCategorias.length > 0" class="mm-collapse">
+                                                                    <li v-for="(categoria5,index5) in categoria4.subCategorias">
+                                                                        <a href="#">
+                                                                            <span class="fa fa-fw fa-code-fork"></span> {{categoria5.nombre}}
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
         <main class="py-4">
             <div class="container-fluid">
@@ -94,6 +146,7 @@
 </template>
 
 <script>
+    const meti = require('metismenu/src/index');
     export default {
         data() {
             return {
@@ -103,20 +156,28 @@
                     roles:[],
                 },
                 sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
+                categoriasAnidadas: [],
+                categoriaSeleccionadaIndex: 0,
             }
         },
 
         mounted() {
             this.checkUser();
-            // $(document).ready(function(){
-            //     $('.sidenav')
-            //         .sidenav()
-            //         .on('click tap', 'li a', () => {
-            //             $('.sidenav').sidenav('close');
-            //         });
-            // });
-        },
+            axios.get('/categoria/listaOrdenada').then((response)=>{
+               this.categoriasAnidadas = response.data;
+            }).catch((error)=>{
+            }).finally(()=>{
 
+            });
+        },
+        updated() {
+            if(this.categoriasAnidadas.length >0){
+                $('#menu1').metisMenu({
+                    toggle:true,
+                    preventDefault: false, //para que funcione el click
+                });
+            }
+        },
         methods: {
             cambiarSeccion: function (secc) {
                 this.sel = secc;

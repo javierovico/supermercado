@@ -3728,6 +3728,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metismenu/src/index.js");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3736,43 +3790,53 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         roles: []
       },
-      sel: 'inicio' //'inicio', 'carrito','categorias','productos','iniciar','registro'
-
+      sel: 'inicio',
+      //'inicio', 'carrito','categorias','productos','iniciar','registro'
+      categoriasAnidadas: [],
+      categoriaSeleccionadaIndex: 0
     };
   },
   mounted: function mounted() {
-    this.checkUser(); // $(document).ready(function(){
-    //     $('.sidenav')
-    //         .sidenav()
-    //         .on('click tap', 'li a', () => {
-    //             $('.sidenav').sidenav('close');
-    //         });
-    // });
+    var _this = this;
+
+    this.checkUser();
+    axios.get('/categoria/listaOrdenada').then(function (response) {
+      _this.categoriasAnidadas = response.data;
+    })["catch"](function (error) {})["finally"](function () {});
+  },
+  updated: function updated() {
+    if (this.categoriasAnidadas.length > 0) {
+      $('#menu1').metisMenu({
+        toggle: true,
+        preventDefault: false //para que funcione el click
+
+      });
+    }
   },
   methods: {
     cambiarSeccion: function cambiarSeccion(secc) {
       this.sel = secc;
     },
     cerrarSesion: function cerrarSesion() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post('/logout').then(function (response) {
-        _this.auth.iniciado = false;
-        _this.auth.name = '';
-        _this.auth.roles = [];
+        _this2.auth.iniciado = false;
+        _this2.auth.name = '';
+        _this2.auth.roles = [];
       })["catch"](function (error) {
         console.error(error.response);
       });
     },
     checkUser: function checkUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/checkUser').then(function (response) {
-        _this2.auth = response.data;
+        _this3.auth = response.data;
       })["catch"](function (error) {
-        _this2.auth.iniciado = false;
-        _this2.auth.name = '';
-        _this2.auth.roles = [];
+        _this3.auth.iniciado = false;
+        _this3.auth.name = '';
+        _this3.auth.roles = [];
         console.error(error.response);
       });
     }
@@ -4113,7 +4177,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['categoria'],
   //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
@@ -4160,23 +4223,18 @@ __webpack_require__.r(__webpack_exports__);
     this.leer();
   },
   methods: {
-    leer: function leer() {
-      var _this = this;
-
-      axios.get('/producto', {
-        params: {
-          categoria_id: catego,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
-          cantidad: this.paginaCantidadItem
-        }
-      }).then(function (response) {
-        _this.productos = response.data.productos;
-        _this.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this.paginaCantidadItem);
-      })["catch"](function (error) {
-        console.log(error);
-        alert(error.toString());
-      });
-      this.categoriaId = categoriaId;
+    leer: function leer() {// axios.get('/producto',{params:{
+      //         categoria_id:catego,
+      //         limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
+      //         cantidad: this.paginaCantidadItem
+      //     }}).then((response) => {
+      //     this.productos = response.data.productos;
+      //     this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+      // }).catch((error)=>{
+      //     console.log(error);
+      //     alert(error.toString());
+      // });
+      // this.categoriaId = categoriaId;
     },
     confirmarThumbnail: function confirmarThumbnail() {
       console.log(this.modalThumbnail.file);
@@ -4200,12 +4258,12 @@ __webpack_require__.r(__webpack_exports__);
       $('#modalThumbnail').modal('open');
     },
     confirmarBorrar: function confirmarBorrar() {
-      var _this2 = this;
+      var _this = this;
 
       axios["delete"]('/producto/' + this.productos[this.modalBorrar.indexBorrando].id).then(function (response) {
         console.log(response);
 
-        _this2.productos.splice(_this2.modalBorrar.indexBorrando, 1);
+        _this.productos.splice(_this.modalBorrar.indexBorrando, 1);
 
         $('.modal').modal('close');
       })["catch"](function (error) {
@@ -4219,12 +4277,12 @@ __webpack_require__.r(__webpack_exports__);
       $('#modalBorrar').modal('open');
     },
     guardarCambios: function guardarCambios() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.put('/producto/' + this.modalEditar.productoEditando.id, this.modalEditar.productoEditando).then(function (response) {
         console.log(response);
 
-        _this3.productos.splice(_this3.modalEditar.indexEditando, 1, _this3.modalEditar.productoEditando);
+        _this2.productos.splice(_this2.modalEditar.indexEditando, 1, _this2.modalEditar.productoEditando);
 
         $('.modal').modal('close');
       })["catch"](function (error) {
@@ -4251,7 +4309,7 @@ __webpack_require__.r(__webpack_exports__);
       $('#modalEditar').modal('open');
     },
     buscarProducto: function buscarProducto() {
-      var _this4 = this;
+      var _this3 = this;
 
       console.log('buscar ' + this.busqueda.buscarProducto);
       axios.get('/producto', {
@@ -4262,8 +4320,8 @@ __webpack_require__.r(__webpack_exports__);
           cantidad: this.paginaCantidadItem
         }
       }).then(function (response) {
-        _this4.productos = response.data.productos;
-        _this4.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this4.paginaCantidadItem);
+        _this3.productos = response.data.productos;
+        _this3.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this3.paginaCantidadItem);
       });
     },
     paginacionClick: function paginacionClick(n) {
@@ -42297,6 +42355,391 @@ return jQuery;
 
 /***/ }),
 
+/***/ "./node_modules/metismenu/src/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/metismenu/src/index.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./util */ "./node_modules/metismenu/src/util.js");
+
+
+
+const NAME = 'metisMenu';
+const DATA_KEY = 'metisMenu';
+const EVENT_KEY = `.${DATA_KEY}`;
+const DATA_API_KEY = '.data-api';
+const JQUERY_NO_CONFLICT = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME];
+const TRANSITION_DURATION = 350;
+
+const Default = {
+  toggle: true,
+  preventDefault: true,
+  triggerElement: 'a',
+  parentTrigger: 'li',
+  subMenu: 'ul',
+};
+
+const Event = {
+  SHOW: `show${EVENT_KEY}`,
+  SHOWN: `shown${EVENT_KEY}`,
+  HIDE: `hide${EVENT_KEY}`,
+  HIDDEN: `hidden${EVENT_KEY}`,
+  CLICK_DATA_API: `click${EVENT_KEY}${DATA_API_KEY}`,
+};
+
+const ClassName = {
+  METIS: 'metismenu',
+  ACTIVE: 'mm-active',
+  SHOW: 'mm-show',
+  COLLAPSE: 'mm-collapse',
+  COLLAPSING: 'mm-collapsing',
+  COLLAPSED: 'mm-collapsed',
+};
+
+class MetisMenu {
+  // eslint-disable-line no-shadow
+  constructor(element, config) {
+    this.element = element;
+    this.config = {
+      ...Default,
+      ...config,
+    };
+    this.transitioning = null;
+
+    this.init();
+  }
+
+  init() {
+    const self = this;
+    const conf = this.config;
+    const el = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.element);
+
+    el.addClass(ClassName.METIS); // add metismenu class to element
+
+    el.find(`${conf.parentTrigger}.${ClassName.ACTIVE}`)
+      .children(conf.triggerElement)
+      .attr('aria-expanded', 'true'); // add attribute aria-expanded=true the trigger element
+
+    el.find(`${conf.parentTrigger}.${ClassName.ACTIVE}`)
+      .parents(conf.parentTrigger)
+      .addClass(ClassName.ACTIVE);
+
+    el.find(`${conf.parentTrigger}.${ClassName.ACTIVE}`)
+      .parents(conf.parentTrigger)
+      .children(conf.triggerElement)
+      .attr('aria-expanded', 'true'); // add attribute aria-expanded=true the triggers of all parents
+
+    el.find(`${conf.parentTrigger}.${ClassName.ACTIVE}`)
+      .has(conf.subMenu)
+      .children(conf.subMenu)
+      .addClass(`${ClassName.COLLAPSE} ${ClassName.SHOW}`);
+
+    el
+      .find(conf.parentTrigger)
+      .not(`.${ClassName.ACTIVE}`)
+      .has(conf.subMenu)
+      .children(conf.subMenu)
+      .addClass(ClassName.COLLAPSE);
+
+    el
+      .find(conf.parentTrigger)
+      // .has(conf.subMenu)
+      .children(conf.triggerElement)
+      .on(Event.CLICK_DATA_API, function (e) { // eslint-disable-line func-names
+        const eTar = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
+
+        if (eTar.attr('aria-disabled') === 'true') {
+          return;
+        }
+
+        if (conf.preventDefault && eTar.attr('href') === '#') {
+          e.preventDefault();
+        }
+
+        const paRent = eTar.parent(conf.parentTrigger);
+        const sibLi = paRent.siblings(conf.parentTrigger);
+        const sibTrigger = sibLi.children(conf.triggerElement);
+
+        if (paRent.hasClass(ClassName.ACTIVE)) {
+          eTar.attr('aria-expanded', 'false');
+          self.removeActive(paRent);
+        } else {
+          eTar.attr('aria-expanded', 'true');
+          self.setActive(paRent);
+          if (conf.toggle) {
+            self.removeActive(sibLi);
+            sibTrigger.attr('aria-expanded', 'false');
+          }
+        }
+
+        if (conf.onTransitionStart) {
+          conf.onTransitionStart(e);
+        }
+      });
+  }
+
+  setActive(li) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(li).addClass(ClassName.ACTIVE);
+    const ul = jquery__WEBPACK_IMPORTED_MODULE_0___default()(li).children(this.config.subMenu);
+    if (ul.length > 0 && !ul.hasClass(ClassName.SHOW)) {
+      this.show(ul);
+    }
+  }
+
+  removeActive(li) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(li).removeClass(ClassName.ACTIVE);
+    const ul = jquery__WEBPACK_IMPORTED_MODULE_0___default()(li).children(`${this.config.subMenu}.${ClassName.SHOW}`);
+    if (ul.length > 0) {
+      this.hide(ul);
+    }
+  }
+
+  show(element) {
+    if (this.transitioning || jquery__WEBPACK_IMPORTED_MODULE_0___default()(element).hasClass(ClassName.COLLAPSING)) {
+      return;
+    }
+    const elem = jquery__WEBPACK_IMPORTED_MODULE_0___default()(element);
+
+    const startEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.SHOW);
+    elem.trigger(startEvent);
+
+    if (startEvent.isDefaultPrevented()) {
+      return;
+    }
+
+    elem.parent(this.config.parentTrigger).addClass(ClassName.ACTIVE);
+
+    if (this.config.toggle) {
+      const toggleElem = elem.parent(this.config.parentTrigger).siblings().children(`${this.config.subMenu}.${ClassName.SHOW}`);
+      this.hide(toggleElem);
+    }
+
+    elem
+      .removeClass(ClassName.COLLAPSE)
+      .addClass(ClassName.COLLAPSING)
+      .height(0);
+
+    this.setTransitioning(true);
+
+    const complete = () => {
+      // check if disposed
+      if (!this.config || !this.element) {
+        return;
+      }
+      elem
+        .removeClass(ClassName.COLLAPSING)
+        .addClass(`${ClassName.COLLAPSE} ${ClassName.SHOW}`)
+        .height('');
+
+      this.setTransitioning(false);
+
+      elem.trigger(Event.SHOWN);
+    };
+
+    elem
+      .height(element[0].scrollHeight)
+      .one(_util__WEBPACK_IMPORTED_MODULE_1__["default"].TRANSITION_END, complete)
+      .mmEmulateTransitionEnd(TRANSITION_DURATION);
+  }
+
+  hide(element) {
+    if (
+      this.transitioning || !jquery__WEBPACK_IMPORTED_MODULE_0___default()(element).hasClass(ClassName.SHOW)
+    ) {
+      return;
+    }
+
+    const elem = jquery__WEBPACK_IMPORTED_MODULE_0___default()(element);
+
+    const startEvent = jquery__WEBPACK_IMPORTED_MODULE_0___default.a.Event(Event.HIDE);
+    elem.trigger(startEvent);
+
+    if (startEvent.isDefaultPrevented()) {
+      return;
+    }
+
+    elem.parent(this.config.parentTrigger).removeClass(ClassName.ACTIVE);
+    // eslint-disable-next-line no-unused-expressions
+    elem.height(elem.height())[0].offsetHeight;
+
+    elem
+      .addClass(ClassName.COLLAPSING)
+      .removeClass(ClassName.COLLAPSE)
+      .removeClass(ClassName.SHOW);
+
+    this.setTransitioning(true);
+
+    const complete = () => {
+      // check if disposed
+      if (!this.config || !this.element) {
+        return;
+      }
+      if (this.transitioning && this.config.onTransitionEnd) {
+        this.config.onTransitionEnd();
+      }
+
+      this.setTransitioning(false);
+      elem.trigger(Event.HIDDEN);
+
+      elem
+        .removeClass(ClassName.COLLAPSING)
+        .addClass(ClassName.COLLAPSE);
+    };
+
+    if (elem.height() === 0 || elem.css('display') === 'none') {
+      complete();
+    } else {
+      elem
+        .height(0)
+        .one(_util__WEBPACK_IMPORTED_MODULE_1__["default"].TRANSITION_END, complete)
+        .mmEmulateTransitionEnd(TRANSITION_DURATION);
+    }
+  }
+
+  setTransitioning(isTransitioning) {
+    this.transitioning = isTransitioning;
+  }
+
+  dispose() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.removeData(this.element, DATA_KEY);
+
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(this.element)
+      .find(this.config.parentTrigger)
+      // .has(this.config.subMenu)
+      .children(this.config.triggerElement)
+      .off(Event.CLICK_DATA_API);
+
+    this.transitioning = null;
+    this.config = null;
+    this.element = null;
+  }
+
+  static jQueryInterface(config) {
+    // eslint-disable-next-line func-names
+    return this.each(function () {
+      const $this = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this);
+      let data = $this.data(DATA_KEY);
+      const conf = {
+        ...Default,
+        ...$this.data(),
+        ...(typeof config === 'object' && config ? config : {}),
+      };
+
+      if (!data) {
+        data = new MetisMenu(this, conf);
+        $this.data(DATA_KEY, data);
+      }
+
+      if (typeof config === 'string') {
+        if (data[config] === undefined) {
+          throw new Error(`No method named "${config}"`);
+        }
+        data[config]();
+      }
+    });
+  }
+}
+/**
+ * ------------------------------------------------------------------------
+ * jQuery
+ * ------------------------------------------------------------------------
+ */
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME] = MetisMenu.jQueryInterface; // eslint-disable-line no-param-reassign
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME].Constructor = MetisMenu; // eslint-disable-line no-param-reassign
+jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME].noConflict = () => {
+  // eslint-disable-line no-param-reassign
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.fn[NAME] = JQUERY_NO_CONFLICT; // eslint-disable-line no-param-reassign
+  return MetisMenu.jQueryInterface;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MetisMenu);
+
+
+/***/ }),
+
+/***/ "./node_modules/metismenu/src/util.js":
+/*!********************************************!*\
+  !*** ./node_modules/metismenu/src/util.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const Util = (($) => { // eslint-disable-line no-shadow
+  const TRANSITION_END = 'transitionend';
+
+  const Util = { // eslint-disable-line no-shadow
+    TRANSITION_END: 'mmTransitionEnd',
+
+    triggerTransitionEnd(element) {
+      $(element).trigger(TRANSITION_END);
+    },
+
+    supportsTransitionEnd() {
+      return Boolean(TRANSITION_END);
+    },
+  };
+
+  function getSpecialTransitionEndEvent() {
+    return {
+      bindType: TRANSITION_END,
+      delegateType: TRANSITION_END,
+      handle(event) {
+        if ($(event.target).is(this)) {
+          return event
+            .handleObj
+            .handler
+            .apply(this, arguments); // eslint-disable-line prefer-rest-params
+        }
+        return undefined;
+      },
+    };
+  }
+
+  function transitionEndEmulator(duration) {
+    let called = false;
+
+    $(this).one(Util.TRANSITION_END, () => {
+      called = true;
+    });
+
+    setTimeout(() => {
+      if (!called) {
+        Util.triggerTransitionEnd(this);
+      }
+    }, duration);
+
+    return this;
+  }
+
+  function setTransitionEndSupport() {
+    $.fn.mmEmulateTransitionEnd = transitionEndEmulator; // eslint-disable-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign
+    $.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+  }
+
+  setTransitionEndSupport();
+
+  return Util;
+})(jquery__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+/* harmony default export */ __webpack_exports__["default"] = (Util);
+
+
+/***/ }),
+
 /***/ "./node_modules/popper.js/dist/esm/popper.js":
 /*!***************************************************!*\
   !*** ./node_modules/popper.js/dist/esm/popper.js ***!
@@ -48817,21 +49260,25 @@ var render = function() {
             "navbar navbar-expand-lg navbar-light navbar-dark bg-primary"
         },
         [
+          _vm._m(0),
+          _vm._v(" "),
           _c(
             "a",
             {
               staticClass: "navbar-brand",
-              attrs: { href: "#" },
-              on: {
-                click: function($event) {
-                  return _vm.cambiarSeccion("inicio")
-                }
+              attrs: {
+                href: "#",
+                "data-toggle": "collapse",
+                "data-target": "#navbarSupportedCategoria",
+                "aria-controls": "navbarSupportedCategoria",
+                "aria-expanded": "false",
+                "aria-label": "Toggle navigation"
               }
             },
             [_vm._v("Del Super")]
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "div",
@@ -49025,14 +49472,259 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(2)
               ]),
               _vm._v(" "),
-              _vm._m(2)
+              _vm._m(3)
             ]
           )
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "container-fluid" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-11 col-sm-8 col-md-6 col-lg-5" }, [
+            _c(
+              "div",
+              {
+                staticClass: "collapse navbar-collapse",
+                attrs: { id: "navbarSupportedCategoria" }
+              },
+              [
+                _c("nav", { staticClass: "sidebar-nav" }, [
+                  _c(
+                    "ul",
+                    { staticClass: "metismenu", attrs: { id: "menu1" } },
+                    _vm._l(_vm.categoriasAnidadas, function(categoria, index) {
+                      return _c("li", [
+                        _c(
+                          "a",
+                          {
+                            class:
+                              categoria.subCategorias.length > 0
+                                ? "has-arrow"
+                                : "",
+                            attrs: {
+                              href: "#",
+                              "aria-expanded":
+                                categoria.subCategorias.length > 0
+                                  ? "false"
+                                  : null
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "material-icons" }, [
+                              _vm._v("storefront")
+                            ]),
+                            _vm._v(
+                              "\n                                            " +
+                                _vm._s(categoria.nombre) +
+                                "\n                                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        categoria.subCategorias.length > 0
+                          ? _c(
+                              "ul",
+                              { staticClass: "mm-collapse" },
+                              _vm._l(categoria.subCategorias, function(
+                                categoria2,
+                                index2
+                              ) {
+                                return _c("li", [
+                                  _c(
+                                    "a",
+                                    {
+                                      class:
+                                        categoria2.subCategorias.length > 0
+                                          ? "has-arrow"
+                                          : "",
+                                      attrs: {
+                                        "aria-expanded":
+                                          categoria2.subCategorias.length > 0
+                                            ? "false"
+                                            : null,
+                                        href: "#"
+                                      }
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "fa fa-fw fa-code-fork"
+                                      }),
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(categoria2.nombre) +
+                                          "\n                                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  categoria2.subCategorias.length > 0
+                                    ? _c(
+                                        "ul",
+                                        { staticClass: "mm-collapse" },
+                                        _vm._l(
+                                          categoria2.subCategorias,
+                                          function(categoria3, index3) {
+                                            return _c("li", [
+                                              _c(
+                                                "a",
+                                                {
+                                                  class:
+                                                    categoria3.subCategorias
+                                                      .length > 0
+                                                      ? "has-arrow"
+                                                      : "",
+                                                  attrs: {
+                                                    "aria-expanded":
+                                                      categoria3.subCategorias
+                                                        .length > 0
+                                                        ? "false"
+                                                        : null,
+                                                    href: "#"
+                                                  }
+                                                },
+                                                [
+                                                  _c("span", {
+                                                    staticClass:
+                                                      "fa fa-fw fa-code-fork"
+                                                  }),
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        categoria3.nombre
+                                                      ) +
+                                                      "\n                                                        "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              categoria3.subCategorias.length >
+                                              0
+                                                ? _c(
+                                                    "ul",
+                                                    {
+                                                      staticClass: "mm-collapse"
+                                                    },
+                                                    _vm._l(
+                                                      categoria3.subCategorias,
+                                                      function(
+                                                        categoria4,
+                                                        index4
+                                                      ) {
+                                                        return _c("li", [
+                                                          _c(
+                                                            "a",
+                                                            {
+                                                              class:
+                                                                categoria4
+                                                                  .subCategorias
+                                                                  .length > 0
+                                                                  ? "has-arrow"
+                                                                  : "",
+                                                              attrs: {
+                                                                "aria-expanded":
+                                                                  categoria4
+                                                                    .subCategorias
+                                                                    .length > 0
+                                                                    ? "false"
+                                                                    : null,
+                                                                href: "#"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("span", {
+                                                                staticClass:
+                                                                  "fa fa-fw fa-code-fork"
+                                                              }),
+                                                              _vm._v(
+                                                                " " +
+                                                                  _vm._s(
+                                                                    categoria4.nombre
+                                                                  ) +
+                                                                  "\n                                                                "
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          categoria4
+                                                            .subCategorias
+                                                            .length > 0
+                                                            ? _c(
+                                                                "ul",
+                                                                {
+                                                                  staticClass:
+                                                                    "mm-collapse"
+                                                                },
+                                                                _vm._l(
+                                                                  categoria4.subCategorias,
+                                                                  function(
+                                                                    categoria5,
+                                                                    index5
+                                                                  ) {
+                                                                    return _c(
+                                                                      "li",
+                                                                      [
+                                                                        _c(
+                                                                          "a",
+                                                                          {
+                                                                            attrs: {
+                                                                              href:
+                                                                                "#"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "span",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "fa fa-fw fa-code-fork"
+                                                                              }
+                                                                            ),
+                                                                            _vm._v(
+                                                                              " " +
+                                                                                _vm._s(
+                                                                                  categoria5.nombre
+                                                                                ) +
+                                                                                "\n                                                                        "
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  }
+                                                                ),
+                                                                0
+                                                              )
+                                                            : _vm._e()
+                                                        ])
+                                                      }
+                                                    ),
+                                                    0
+                                                  )
+                                                : _vm._e()
+                                            ])
+                                          }
+                                        ),
+                                        0
+                                      )
+                                    : _vm._e()
+                                ])
+                              }),
+                              0
+                            )
+                          : _vm._e()
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]
+            )
+          ])
+        ])
+      ])
     ]),
     _vm._v(" "),
     _c("main", { staticClass: "py-4" }, [
@@ -49074,10 +49766,30 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(3)
+    _vm._m(4)
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "text-white",
+        attrs: {
+          href: "#!",
+          "data-toggle": "collapse",
+          "data-target": "#navbarSupportedCategoria",
+          "aria-controls": "navbarSupportedCategoria",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -49095,7 +49807,11 @@ var staticRenderFns = [
           "aria-label": "Toggle navigation"
         }
       },
-      [_c("span", { staticClass: "navbar-toggler-icon" })]
+      [
+        _c("i", { staticClass: "material-icons prefix white-text" }, [
+          _vm._v("face")
+        ])
+      ]
     )
   },
   function() {
@@ -49837,17 +50553,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {
-    directives: [
-      {
-        name: "show",
-        rawName: "v-show",
-        value: _vm.productos.length > 0,
-        expression: "productos.length>0"
-      }
-    ],
-    staticClass: "col-md-12"
-  })
+  return _c("div", { staticClass: "col-md-12" })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -62246,8 +62952,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery_ui_ui_i18n_datepicker_es_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery_ui_ui_i18n_datepicker_es_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var jquery_ui_themes_base_all_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! jquery-ui/themes/base/all.css */ "./node_modules/jquery-ui/themes/base/all.css");
 /* harmony import */ var jquery_ui_themes_base_all_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jquery_ui_themes_base_all_css__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-sliding-pagination */ "./node_modules/vue-sliding-pagination/dist/vue-sliding-pagination.umd.js");
-/* harmony import */ var vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var metismenu_src_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metismenu/src/index.js");
+/* harmony import */ var vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-sliding-pagination */ "./node_modules/vue-sliding-pagination/dist/vue-sliding-pagination.umd.js");
+/* harmony import */ var vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -62257,6 +62964,11 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
+ //menu
+// import './hoverIntent'
+// import './jquery.dropdown'
+// import './jquery.dropdownPlain'
 
 
 $.datepicker.setDefaults({
@@ -62289,7 +63001,7 @@ Vue.component('item-categoria', __webpack_require__(/*! ./components/ItemCategor
 Vue.component('lista-productos', __webpack_require__(/*! ./components/ListaProductos.vue */ "./resources/js/components/ListaProductos.vue")["default"]);
 Vue.component('lista-productos-sel', __webpack_require__(/*! ./components/ListaProductosSel.vue */ "./resources/js/components/ListaProductosSel.vue")["default"]);
 Vue.component('vista-paginacion', __webpack_require__(/*! ./components/PaginationView.vue */ "./resources/js/components/PaginationView.vue")["default"]);
-Vue.component('sliding-pagination', vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_4___default.a);
+Vue.component('sliding-pagination', vue_sliding_pagination__WEBPACK_IMPORTED_MODULE_5___default.a);
 Vue.component('seccion-inicio', __webpack_require__(/*! ./components/SeccionInicio.vue */ "./resources/js/components/SeccionInicio.vue")["default"]);
 Vue.component('utils-modal', __webpack_require__(/*! ./components/UtilsModal.vue */ "./resources/js/components/UtilsModal.vue")["default"]);
 Vue.component('modal-editar-producto', __webpack_require__(/*! ./components/ModalEditarProducto.vue */ "./resources/js/components/ModalEditarProducto.vue")["default"]);
