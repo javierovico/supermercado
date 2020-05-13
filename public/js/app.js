@@ -3778,8 +3778,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metismenu/src/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3793,7 +3791,8 @@ var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metism
       sel: 'inicio',
       //'inicio', 'carrito','categorias','productos','iniciar','registro'
       categoriasAnidadas: [],
-      categoriaSeleccionadaIndex: 0
+      categoriaSeleccionada: null,
+      busquedaTexto: ''
     };
   },
   mounted: function mounted() {
@@ -3814,6 +3813,13 @@ var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metism
     }
   },
   methods: {
+    buscar: function buscar() {
+      this.$refs.seccionInicio.busquedaExterna(this.busquedaTexto);
+    },
+    menuPulsado: function menuPulsado(categoria) {
+      console.log(categoria.nombre);
+      this.categoriaSeleccionada = categoria; // $('#navbarSupportedCategoria').collapse('hide');
+    },
     cambiarSeccion: function cambiarSeccion(secc) {
       this.sel = secc;
     },
@@ -4177,8 +4183,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['categoria'],
+  props: ['categoriaSeleccionada'],
   //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
   data: function data() {
     return {
@@ -4186,36 +4223,14 @@ __webpack_require__.r(__webpack_exports__);
       productos: [],
       paginaActual: 1,
       paginaTotal: 1,
-      paginaCantidadItem: 10,
+      paginaCantidadItem: 20,
       busqueda: {
-        buscarProducto: '',
-        mostrar: false //para saber si se muestra o no el boton de busqeuda con el texto
-
-      },
-      modalEditar: {
-        indexEditando: -1,
-        productoEditando: {
-          precio_costo: 0,
-          precio_mayorista: 0,
-          stock: 0,
-          descuento: 0,
-          precio: 0,
-          codigo: 0,
-          nombre: '',
-          impuesto: 10
-        }
-      },
-      modalBorrar: {
-        indexBorrando: -1
-      },
-      modalThumbnail: {
-        index: -1,
-        file: ''
+        buscarProducto: ''
       }
     };
   },
   watch: {
-    categoria: function categoria() {
+    categoriaSeleccionada: function categoriaSeleccionada() {
       this.leer();
     }
   },
@@ -4223,115 +4238,37 @@ __webpack_require__.r(__webpack_exports__);
     this.leer();
   },
   methods: {
-    leer: function leer() {// axios.get('/producto',{params:{
-      //         categoria_id:catego,
-      //         limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-      //         cantidad: this.paginaCantidadItem
-      //     }}).then((response) => {
-      //     this.productos = response.data.productos;
-      //     this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
-      // }).catch((error)=>{
-      //     console.log(error);
-      //     alert(error.toString());
-      // });
-      // this.categoriaId = categoriaId;
-    },
-    confirmarThumbnail: function confirmarThumbnail() {
-      console.log(this.modalThumbnail.file);
-      var formData = new FormData();
-      formData.append("thumbnail", this.modalThumbnail.file);
-      axios.post('producto/thumbnail/' + this.productos[this.modalThumbnail.index].id, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        $('.modal').modal('close');
-      })["catch"](function (error) {
-        alert(error.response.data.errors.thumbnail[0]);
-      });
-    },
-    processFile: function processFile(event) {
-      this.modalThumbnail.file = event.target.files[0];
-    },
-    editarThumbnail: function editarThumbnail(indice) {
-      this.modalThumbnail.index = indice;
-      $('#modalThumbnail').modal('open');
-    },
-    confirmarBorrar: function confirmarBorrar() {
+    leer: function leer() {
       var _this = this;
 
-      axios["delete"]('/producto/' + this.productos[this.modalBorrar.indexBorrando].id).then(function (response) {
-        console.log(response);
+      var parametroBusqueda = {
+        categoria_id: this.categoriaSeleccionada ? this.categoriaSeleccionada.id : null,
+        page: this.paginaActual,
+        cantidad: this.paginaCantidadItem,
+        opcionCategoria: this.busqueda.opcionCategoria
+      };
 
-        _this.productos.splice(_this.modalBorrar.indexBorrando, 1);
-
-        $('.modal').modal('close');
-      })["catch"](function (error) {
-        console.log(error);
-        alert(error.response.data.message);
-      });
-    },
-    borrarProducto: function borrarProducto(indice) {
-      console.log('borrando producto ' + indice);
-      this.modalBorrar.indexBorrando = indice;
-      $('#modalBorrar').modal('open');
-    },
-    guardarCambios: function guardarCambios() {
-      var _this2 = this;
-
-      axios.put('/producto/' + this.modalEditar.productoEditando.id, this.modalEditar.productoEditando).then(function (response) {
-        console.log(response);
-
-        _this2.productos.splice(_this2.modalEditar.indexEditando, 1, _this2.modalEditar.productoEditando);
-
-        $('.modal').modal('close');
-      })["catch"](function (error) {
-        console.log(error);
-        alert(error.response.data.message);
-      });
-    },
-    ponerNumeros: function ponerNumeros() {
-      var num = this.modalEditar.productoEditando.precio.replace(/\./g, '');
-
-      if (!isNaN(num)) {
-        num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g, '$1.');
-        num = num.split('').reverse().join('').replace(/^[\.]/, '');
-        this.modalEditar.productoEditando.precio = num;
-      } else {
-        alert('Solo se permiten numeros');
-        this.modalEditar.productoEditando.precio = this.modalEditar.productoEditando.precio.replace(/[^\d\.]*/g, '');
+      if (this.busqueda.buscarProducto.length > 0) {
+        parametroBusqueda.palabra_clave = this.busqueda.buscarProducto;
       }
-    },
-    editarProducto: function editarProducto(indice) {
-      console.log('editando producto ' + indice);
-      this.modalEditar.indexEditando = indice;
-      this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
-      $('#modalEditar').modal('open');
-    },
-    buscarProducto: function buscarProducto() {
-      var _this3 = this;
 
-      console.log('buscar ' + this.busqueda.buscarProducto);
       axios.get('/producto', {
-        params: {
-          busqueda: this.busqueda.buscarProducto,
-          categoria_id: this.categoria_id,
-          limite_inferior: (this.paginaActual - 1) * this.paginaCantidadItem,
-          cantidad: this.paginaCantidadItem
-        }
+        params: parametroBusqueda
       }).then(function (response) {
-        _this3.productos = response.data.productos;
-        _this3.paginaTotal = Math.ceil(parseInt(response.data.cantidad) / _this3.paginaCantidadItem);
+        _this.productos = response.data.data;
+        _this.paginaTotal = response.data.last_page;
+      })["catch"](function (error) {
+        console.log(error);
+        alert(error.toString());
       });
     },
     paginacionClick: function paginacionClick(n) {
       this.paginaActual = n;
-
-      if (this.busqueda.buscarProducto.length > 0) {
-        this.buscarProducto();
-      } else {
-        this.leer(this.categoriaId);
-      }
+      this.leer();
+    },
+    busquedaExterna: function busquedaExterna(texto) {
+      this.busqueda.buscarProducto = texto;
+      this.leer();
     }
   }
 });
@@ -49296,7 +49233,8 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          return _vm.cambiarSeccion("inicio")
+                          _vm.cambiarSeccion("inicio")
+                          _vm.categoriaSeleccionada = null
                         }
                       }
                     },
@@ -49475,7 +49413,47 @@ var render = function() {
                 _vm._m(2)
               ]),
               _vm._v(" "),
-              _vm._m(3)
+              _c(
+                "form",
+                {
+                  staticClass: "form-inline my-2 my-lg-0",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.buscar($event)
+                    }
+                  }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.busquedaTexto,
+                        expression: "busquedaTexto"
+                      }
+                    ],
+                    staticClass: "form-control mr-sm-2",
+                    attrs: {
+                      type: "search",
+                      placeholder: "Busqueda...",
+                      "aria-label": "Buscar"
+                    },
+                    domProps: { value: _vm.busquedaTexto },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.busquedaTexto = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm._m(3)
+                ]
+              )
             ]
           )
         ]
@@ -49510,6 +49488,11 @@ var render = function() {
                                 categoria.subCategorias.length > 0
                                   ? "false"
                                   : null
+                            },
+                            on: {
+                              "&click": function($event) {
+                                return _vm.menuPulsado(categoria)
+                              }
                             }
                           },
                           [
@@ -49546,14 +49529,16 @@ var render = function() {
                                             ? "false"
                                             : null,
                                         href: "#"
+                                      },
+                                      on: {
+                                        "&click": function($event) {
+                                          return _vm.menuPulsado(categoria2)
+                                        }
                                       }
                                     },
                                     [
-                                      _c("span", {
-                                        staticClass: "fa fa-fw fa-code-fork"
-                                      }),
                                       _vm._v(
-                                        " " +
+                                        "\n                                                     " +
                                           _vm._s(categoria2.nombre) +
                                           "\n                                                "
                                       )
@@ -49583,15 +49568,18 @@ var render = function() {
                                                         ? "false"
                                                         : null,
                                                     href: "#"
+                                                  },
+                                                  on: {
+                                                    "&click": function($event) {
+                                                      return _vm.menuPulsado(
+                                                        categoria3
+                                                      )
+                                                    }
                                                   }
                                                 },
                                                 [
-                                                  _c("span", {
-                                                    staticClass:
-                                                      "fa fa-fw fa-code-fork"
-                                                  }),
                                                   _vm._v(
-                                                    " " +
+                                                    "\n                                                             " +
                                                       _vm._s(
                                                         categoria3.nombre
                                                       ) +
@@ -49631,15 +49619,20 @@ var render = function() {
                                                                     ? "false"
                                                                     : null,
                                                                 href: "#"
+                                                              },
+                                                              on: {
+                                                                "&click": function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.menuPulsado(
+                                                                    categoria4
+                                                                  )
+                                                                }
                                                               }
                                                             },
                                                             [
-                                                              _c("span", {
-                                                                staticClass:
-                                                                  "fa fa-fw fa-code-fork"
-                                                              }),
                                                               _vm._v(
-                                                                " " +
+                                                                "\n                                                                     " +
                                                                   _vm._s(
                                                                     categoria4.nombre
                                                                   ) +
@@ -49672,18 +49665,20 @@ var render = function() {
                                                                             attrs: {
                                                                               href:
                                                                                 "#"
+                                                                            },
+                                                                            on: {
+                                                                              "&click": function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.menuPulsado(
+                                                                                  categoria5
+                                                                                )
+                                                                              }
                                                                             }
                                                                           },
                                                                           [
-                                                                            _c(
-                                                                              "span",
-                                                                              {
-                                                                                staticClass:
-                                                                                  "fa fa-fw fa-code-fork"
-                                                                              }
-                                                                            ),
                                                                             _vm._v(
-                                                                              " " +
+                                                                              "\n                                                                             " +
                                                                                 _vm._s(
                                                                                   categoria5.nombre
                                                                                 ) +
@@ -49760,7 +49755,12 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.sel === "inicio" ? _c("seccion-inicio") : _vm._e()
+          _vm.sel === "inicio"
+            ? _c("seccion-inicio", {
+                ref: "seccionInicio",
+                attrs: { categoriaSeleccionada: _vm.categoriaSeleccionada }
+              })
+            : _vm._e()
         ],
         1
       )
@@ -49833,20 +49833,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("form", { staticClass: "form-inline my-2 my-lg-0" }, [
-      _c("input", {
-        staticClass: "form-control mr-sm-2",
-        attrs: {
-          type: "search",
-          placeholder: "Busqueda...",
-          "aria-label": "Buscar"
-        }
-      }),
-      _vm._v(" "),
-      _c("a", { staticClass: "text-white", attrs: { href: "#!" } }, [
-        _c("i", { staticClass: "material-icons prefix white-text" }, [
-          _vm._v("search")
-        ])
+    return _c("a", { staticClass: "text-white", attrs: { href: "#!" } }, [
+      _c("i", { staticClass: "material-icons prefix white-text" }, [
+        _vm._v("search")
       ])
     ])
   },
@@ -50553,9 +50542,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-12" })
+  return _c(
+    "div",
+    { staticClass: "col-md-12" },
+    [
+      _c("div", { staticClass: "container" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          _vm._l(_vm.productos, function(producto) {
+            return _c(
+              "div",
+              {
+                staticClass: "col-12 col-sm-6 col-md-4 col-lg-3",
+                staticStyle: { "padding-top": "15px" }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "card", staticStyle: { height: "100%" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "embed-responsive embed-responsive-4by3 hero-image"
+                      },
+                      [
+                        _c("a", { attrs: { href: "#!" } }, [
+                          _c("img", {
+                            staticClass:
+                              "img-thumbnail card-img-top embed-responsive-item",
+                            staticStyle: { "object-fit": "cover" },
+                            attrs: {
+                              alt: "Imagen Producto" + producto.nombre,
+                              src: _vm.$url + producto.codigo + ".jpg"
+                            }
+                          })
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _vm._m(0, true),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "card-title" }, [
+                        _c("strong", [_vm._v(_vm._s(producto.nombre))])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "card-text" })
+                    ])
+                  ]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c("vista-paginacion", {
+        attrs: {
+          actual: _vm.paginaActual,
+          total: _vm.paginaTotal,
+          slidingEndingSize: 10
+        },
+        on: { paginacionClick: _vm.paginacionClick }
+      })
+    ],
+    1
+  )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-title text-right mt-0" }, [
+      _c("i", { staticClass: "fas fa-star fa-lg text-warning" }),
+      _vm._v(" "),
+      _c("i", { staticClass: "fas fa-star fa-lg text-warning" }),
+      _vm._v(" "),
+      _c("i", { staticClass: "fas fa-star fa-lg text-warning" }),
+      _vm._v(" "),
+      _c("i", { staticClass: "fas fa-star fa-lg text-warning" }),
+      _vm._v(" "),
+      _c("i", { staticClass: "fas fa-star fa-lg text-warning" })
+    ])
+  }
+]
 render._withStripped = true
 
 

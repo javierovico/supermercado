@@ -1,46 +1,56 @@
 <template>
     <div class="col-md-12">
+        <div class="container">
+            <div class="row">
+                <div
+                    v-for="producto in productos"
+                    class="col-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 15px">
+                    <div class="card" style="height: 100%">
+                        <div class="embed-responsive embed-responsive-4by3 hero-image">
+                            <a href="#!">
+                                <img :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item" :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title text-right mt-0">
+                                <i class="fas fa-star fa-lg text-warning"></i>
+                                <i class="fas fa-star fa-lg text-warning"></i>
+                                <i class="fas fa-star fa-lg text-warning"></i>
+                                <i class="fas fa-star fa-lg text-warning"></i>
+                                <i class="fas fa-star fa-lg text-warning"></i>
+                            </div>
+                            <h5 class="card-title"><strong>{{producto.nombre}}</strong></h5>
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <vista-paginacion
+            :actual="paginaActual"
+            :total="paginaTotal"
+            :slidingEndingSize="10"
+            @paginacionClick="paginacionClick"
+        ></vista-paginacion>
     </div>
 </template>
-<!--@click="llamar(categoria.id)" waves-effect  70 76  7 7   70 80  7 8    70 81 7 8-->
 <script>
     export default {
-        props:['categoria'],     //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
+        props:['categoriaSeleccionada'],     //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
         data() {
             return {
                 categoriaId:null,
                 productos: [],
                 paginaActual: 1,
                 paginaTotal: 1,
-                paginaCantidadItem: 10,
+                paginaCantidadItem:20,
                 busqueda:{
-                    buscarProducto: '',
-                    mostrar: false,//para saber si se muestra o no el boton de busqeuda con el texto
-                } ,
-                modalEditar:{
-                    indexEditando: -1,
-                    productoEditando: {
-                        precio_costo:0,
-                        precio_mayorista: 0,
-                        stock: 0,
-                        descuento:0,
-                        precio: 0,
-                        codigo: 0,
-                        nombre: '',
-                        impuesto: 10,
-                    },
+                    buscarProducto: ''
                 },
-                modalBorrar:{
-                    indexBorrando: -1,
-                },
-                modalThumbnail:{
-                    index: -1,
-                    file: '',
-                }
             }
         },
         watch:{
-            categoria: function () {
+            categoriaSeleccionada: function () {
                 this.leer();
             },
         },
@@ -50,103 +60,31 @@
 
         methods: {
             leer(){
-                // axios.get('/producto',{params:{
-                //         categoria_id:catego,
-                //         limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-                //         cantidad: this.paginaCantidadItem
-                //     }}).then((response) => {
-                //     this.productos = response.data.productos;
-                //     this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
-                // }).catch((error)=>{
-                //     console.log(error);
-                //     alert(error.toString());
-                // });
-                // this.categoriaId = categoriaId;
-            },
-            confirmarThumbnail(){
-                console.log(this.modalThumbnail.file);
-                const formData = new FormData();
-                formData.append("thumbnail", this.modalThumbnail.file);
-                axios.post('producto/thumbnail/'+this.productos[this.modalThumbnail.index].id, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then((response)=>{
-                    $('.modal').modal('close')
-                }).catch((error)=>{
-                    alert(error.response.data.errors.thumbnail[0]);
-                });
-            },
-            processFile(event){
-                this.modalThumbnail.file = event.target.files[0]
-            },
-            editarThumbnail(indice){
-                this.modalThumbnail.index = indice;
-                $('#modalThumbnail').modal('open')
-            },
-            confirmarBorrar(){
-                axios.delete('/producto/'+this.productos[this.modalBorrar.indexBorrando].id)
-                    .then((response) => {
-                        console.log(response);
-                        this.productos.splice(this.modalBorrar.indexBorrando,1);
-                        $('.modal').modal('close')
-                    }).catch((error)=>{
-                        console.log(error);
-                        alert(error.response.data.message);
-                    });
-            },
-            borrarProducto(indice){
-                console.log('borrando producto '+indice);
-                this.modalBorrar.indexBorrando = indice;
-                $('#modalBorrar').modal('open')
-            },
-            guardarCambios(){
-                axios.put('/producto/'+this.modalEditar.productoEditando.id, this.modalEditar.productoEditando)
-                    .then((response) => {
-                        console.log(response);
-                        this.productos.splice(this.modalEditar.indexEditando,1,this.modalEditar.productoEditando);
-                        $('.modal').modal('close')
-                    }).catch((error)=>{
-                        console.log(error);
-                        alert(error.response.data.message);
-                });
-            },
-            ponerNumeros(){
-                let num = this.modalEditar.productoEditando.precio.replace(/\./g,'');
-                if(!isNaN(num)){
-                    num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-                    num = num.split('').reverse().join('').replace(/^[\.]/,'');
-                    this.modalEditar.productoEditando.precio = num;
-                } else{ alert('Solo se permiten numeros');
-                    this.modalEditar.productoEditando.precio = this.modalEditar.productoEditando.precio.replace(/[^\d\.]*/g,'');
+                let parametroBusqueda = {
+                    categoria_id:this.categoriaSeleccionada?this.categoriaSeleccionada.id:null,
+                    page: this.paginaActual,
+                    cantidad: this.paginaCantidadItem,
+                    opcionCategoria: this.busqueda.opcionCategoria,
+                };
+                if(this.busqueda.buscarProducto.length > 0){
+                    parametroBusqueda.palabra_clave = this.busqueda.buscarProducto;
                 }
-            },
-            editarProducto(indice){
-                console.log('editando producto '+indice);
-                this.modalEditar.indexEditando = indice;
-                this.modalEditar.productoEditando = JSON.parse(JSON.stringify(this.productos[indice]));
-                $('#modalEditar').modal('open')
-            },
-            buscarProducto(){
-                console.log('buscar '+this.busqueda.buscarProducto);
-                axios.get('/producto',{params:{
-                        busqueda:this.busqueda.buscarProducto,
-                        categoria_id: this.categoria_id,
-                        limite_inferior: (this.paginaActual-1)*this.paginaCantidadItem,
-                        cantidad: this.paginaCantidadItem
-                    }}).then((response) => {
-                    this.productos = response.data.productos;
-                    this.paginaTotal = Math.ceil(parseInt(response.data.cantidad)/this.paginaCantidadItem);
+                axios.get('/producto',{params:parametroBusqueda}).then((response) => {
+                    this.productos = response.data.data;
+                    this.paginaTotal = response.data.last_page;
+                }).catch((error)=>{
+                    console.log(error);
+                    alert(error.toString());
                 });
             },
             paginacionClick(n){
                 this.paginaActual = n;
-                if(this.busqueda.buscarProducto.length > 0){
-                    this.buscarProducto();
-                }else{
-                    this.leer(this.categoriaId);
-                }
+                this.leer();
             },
+            busquedaExterna(texto){
+                this.busqueda.buscarProducto = texto;
+                this.leer();
+            }
         }
     }
 </script>

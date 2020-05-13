@@ -13,7 +13,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a @click="cambiarSeccion('inicio')" class="nav-link" href="#">Inicio <span v-if="sel==='inicio'" class="sr-only">(current)</span></a>
+                            <a @click="cambiarSeccion('inicio');categoriaSeleccionada = null;" class="nav-link" href="#">Inicio <span v-if="sel==='inicio'" class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Carrito<span v-if="sel==='carrito'" class="sr-only">(current)</span></a>
@@ -47,44 +47,42 @@
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
+                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscar">
+                        <input v-model="busquedaTexto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                         <a href="#!" class="text-white"><i class="material-icons prefix white-text">search</i></a>
                     </form>
                 </div>
             </nav>
             <div class="container-fluid">
                 <div class="row">
-
                     <div class="col-11 col-sm-8 col-md-6 col-lg-5">
-
                         <div class="collapse navbar-collapse" id="navbarSupportedCategoria">
                             <nav class="sidebar-nav">
                                 <ul class="metismenu" id="menu1">
                                     <li v-for="(categoria,index) in categoriasAnidadas">
-                                        <a :class="(categoria.subCategorias.length > 0)?'has-arrow':''" href="#" :aria-expanded="(categoria.subCategorias.length > 0)?'false':null">
+                                        <a v-on:click.passive="menuPulsado(categoria)" :class="(categoria.subCategorias.length > 0)?'has-arrow':''" href="#" :aria-expanded="(categoria.subCategorias.length > 0)?'false':null">
                                             <i class="material-icons">storefront</i>
                                             {{categoria.nombre}}
                                         </a>
                                         <ul v-if="categoria.subCategorias.length > 0" class="mm-collapse">
                                             <li v-for="(categoria2,index2) in categoria.subCategorias">
-                                                <a :class="(categoria2.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria2.subCategorias.length > 0)?'false':null" href="#">
-                                                    <span class="fa fa-fw fa-code-fork"></span> {{categoria2.nombre}}
+                                                <a v-on:click.passive="menuPulsado(categoria2)" :class="(categoria2.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria2.subCategorias.length > 0)?'false':null" href="#">
+                                                     {{categoria2.nombre}}
                                                 </a>
                                                 <ul v-if="categoria2.subCategorias.length > 0" class="mm-collapse">
                                                     <li v-for="(categoria3,index3) in categoria2.subCategorias">
-                                                        <a :class="(categoria3.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria3.subCategorias.length > 0)?'false':null" href="#">
-                                                            <span class="fa fa-fw fa-code-fork"></span> {{categoria3.nombre}}
+                                                        <a v-on:click.passive="menuPulsado(categoria3)" :class="(categoria3.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria3.subCategorias.length > 0)?'false':null" href="#">
+                                                             {{categoria3.nombre}}
                                                         </a>
                                                         <ul v-if="categoria3.subCategorias.length > 0" class="mm-collapse">
                                                             <li v-for="(categoria4,index4) in categoria3.subCategorias">
-                                                                <a :class="(categoria4.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria4.subCategorias.length > 0)?'false':null" href="#">
-                                                                    <span class="fa fa-fw fa-code-fork"></span> {{categoria4.nombre}}
+                                                                <a v-on:click.passive="menuPulsado(categoria4)" :class="(categoria4.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria4.subCategorias.length > 0)?'false':null" href="#">
+                                                                     {{categoria4.nombre}}
                                                                 </a>
                                                                 <ul v-if="categoria4.subCategorias.length > 0" class="mm-collapse">
                                                                     <li v-for="(categoria5,index5) in categoria4.subCategorias">
-                                                                        <a href="#">
-                                                                            <span class="fa fa-fw fa-code-fork"></span> {{categoria5.nombre}}
+                                                                        <a v-on:click.passive="menuPulsado(categoria5)" href="#">
+                                                                             {{categoria5.nombre}}
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -108,7 +106,7 @@
                 <seccion-categoria :_idPadre="0" v-if="sel === 'categorias'"></seccion-categoria>
                 <seccion-iniciar @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'iniciar'"></seccion-iniciar>
                 <seccion-registro @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>
-                <seccion-inicio v-if="sel === 'inicio'"></seccion-inicio>
+                <seccion-inicio ref="seccionInicio" :categoriaSeleccionada="categoriaSeleccionada" v-if="sel === 'inicio'"></seccion-inicio>
             </div>
         </main>
         <footer class="page-footer">
@@ -157,7 +155,8 @@
                 },
                 sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro'
                 categoriasAnidadas: [],
-                categoriaSeleccionadaIndex: 0,
+                categoriaSeleccionada:null,
+                busquedaTexto : '',
             }
         },
 
@@ -179,6 +178,14 @@
             }
         },
         methods: {
+            buscar: function(){
+                this.$refs.seccionInicio.busquedaExterna(this.busquedaTexto);
+            },
+            menuPulsado: function(categoria){
+                console.log(categoria.nombre);
+                this.categoriaSeleccionada = categoria;
+                // $('#navbarSupportedCategoria').collapse('hide');
+            },
             cambiarSeccion: function (secc) {
                 this.sel = secc;
             },
