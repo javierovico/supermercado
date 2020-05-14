@@ -19,7 +19,10 @@ class Producto extends Model{
 
     protected $fillable = ['nombre','codigo','impuesto','descuento','stock','linea','thumbnail','contenido','tipo_medida_producto_id','precio','precio_mayorista','precio_costo'];
 
-    protected $casts = ['seleccionado' => 'integer'];
+    protected $casts = [
+        'seleccionado' => 'integer',
+        'tipo_medida_producto' => 'integer',
+    ];
 
     public function categorias(){
         return $this->belongsToMany(Categoria::class);

@@ -69,7 +69,7 @@
         methods: {
             agregarCarrito(prod){
                 console.log(prod.nombre);
-                if(this.auth.iniciado || true){
+                if(this.auth.iniciado){
                     this.modalCarrito.producto = prod;
                     $('#modalAgregarProductoCarrito').modal();
                 }else{
