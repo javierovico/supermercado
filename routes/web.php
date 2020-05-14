@@ -33,9 +33,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', 'MainController@index')->name('index');
-Route::get('/prueba', function (){
-    return view('prueba');
-});
+Route::get('/producto/lista', 'ProductoController@listaRecursiva');
 Route::post('/producto/thumbnail/{id}', 'ProductoController@thumbnail');
 //Route::get('/producto/categorias/{id}', 'ProductoController@getCategorias');      //se debe acceder por categorias/{filtro}
 Route::post('/producto/updateCategoriasList/{id}', 'ProductoController@updateCategorias');

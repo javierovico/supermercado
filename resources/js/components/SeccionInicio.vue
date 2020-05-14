@@ -62,6 +62,7 @@
             leer(){
                 let parametroBusqueda = {
                     categoria_id:this.categoriaSeleccionada?this.categoriaSeleccionada.id:null,
+                    recursivo: 1,
                     page: this.paginaActual,
                     cantidad: this.paginaCantidadItem,
                     opcionCategoria: this.busqueda.opcionCategoria,

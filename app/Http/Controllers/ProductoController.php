@@ -17,29 +17,6 @@ use Illuminate\Support\Facades\Storage;
 class ProductoController extends Controller{
 
 
-//
-//    /**
-//     * @param Request $request
-//     * @return mixed
-//     */
-//    public function index(Request $request){
-//        $arrayRetorno = [];
-//        $categoria_id = $request->input('categoria_id');
-//        $palabraClave = $request->input('busqueda');
-//        $limiteInferior = intval($request->input('limite_inferior',0));
-//        $cantidad = intval($request->input('cantidad',10));
-//        if($palabraClave != null){
-//            $arrayRetorno['productos'] = Producto::porPalabraClave($palabraClave,$categoria_id,$limiteInferior,$cantidad);
-//            $arrayRetorno['cantidad'] = Producto::getCantidad($palabraClave);
-//        }else if($categoria_id !== null){
-//            $arrayRetorno['productos'] = Producto::porCategoria($categoria_id);
-//        }else{
-//            $arrayRetorno['productos'] = Producto::porLimite($limiteInferior,$cantidad);
-//            $arrayRetorno['cantidad'] = Producto::getCantidad(null);
-//        }
-//        return $arrayRetorno;
-//    }
-
     public function index(Request $request){
         $request->validate([
             'cantidad' => 'integer',
@@ -47,10 +24,12 @@ class ProductoController extends Controller{
             'categoria_id' => 'integer',
             'palabra_clave' => 'string|max:40',
             'categoria_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
-            'opcionCategoria' => 'integer'     //1-> todos 2->sincate, 3->con cat
+            'opcionCategoria' => 'integer',     //1-> todos 2->sincate, 3->con cat
+            'recursivo' => 'boolean'
         ]);
         $perpage = $request->input('cantidad',10);
         $page = $request->input('page',1);
+        $palabraClave = $request->get('palabra_clave');
         $productosQuery = Producto::query();
         //IMPRIMIR LA CANTIDAD DE CATEGORIAS QUE SE TIENE
         $productosQuery = $productosQuery->withCount(['categorias as cant_categorias']);
@@ -70,12 +49,23 @@ class ProductoController extends Controller{
         }
         //solo de cierta categoria
         if($categoriaId = $request->get('categoria_id')){
-            $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q) use ($categoriaId) {
-                $q->where('id','=',$categoriaId);
+            $productosQuery = $productosQuery->where(function(Builder $we) use ($request, $categoriaId) {
+                $we->whereHas('categorias',function (Builder $q) use (/*$palabraClave,*/ $categoriaId){$this->recur($q,$categoriaId/*,$palabraClave*/);});
+                if($request->get('recursivo',false)) {
+                    $we->orwhereHas('categorias.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                        $this->recur($q, $categoriaId/*,$palabraClave*/);
+                    });
+                    $we->orwhereHas('categorias.categoriaPadre.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                        $this->recur($q, $categoriaId/*,$palabraClave*/);
+                    });
+                    $we->orwhereHas('categorias.categoriaPadre.categoriaPadre.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                        $this->recur($q, $categoriaId/*,$palabraClave*/);
+                    });
+                }
             });
         }
         //solo de cierta palabra clave
-        if($palabraClave = $request->get('palabra_clave')){
+        if($palabraClave){
             $productosQuery->where(function (Builder $query) use ($palabraClave) {
                 $query->where('codigo','=',$palabraClave);
                 $query->orWhere('nombre','like',"% {$palabraClave}%")
@@ -88,6 +78,47 @@ class ProductoController extends Controller{
 //        return DB::getQueryLog();
         return $productos;
     }
+
+    public function listaRecursiva(Request $request){
+        $productosQuery = Producto::query();
+        $palabraClave = $request->get('palabra_clave');
+        if($categoriaId = $request->get('categoria_id')){
+            $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q) use ($palabraClave, $categoriaId){$this->recur($q,$categoriaId,$palabraClave);});
+            $productosQuery = $productosQuery->orwhereHas('categorias.categoriaPadre',function (Builder $q) use ($palabraClave, $categoriaId){$this->recur($q,$categoriaId,$palabraClave);});
+            $productosQuery = $productosQuery->orwhereHas('categorias.categoriaPadre.categoriaPadre',function (Builder $q) use ($palabraClave, $categoriaId){$this->recur($q,$categoriaId,$palabraClave);});
+//            //otra sub
+//            $otro = Producto::query()->whereHas('categorias.categoriaPadre',function (Builder $q) use ($categoriaId){
+//                $q->where('id','=',1);
+//            });
+//            $productosQuery = $productosQuery->union($otro);
+//            //otra sub
+//            $otro = Producto::query()->whereHas('categorias.categoriaPadre.categoriaPadre',function (Builder $q) use ($categoriaId){
+//                $q->where('id','=',1);
+//            });
+//            $productosQuery = $productosQuery->union($otro);
+//            //otra sub
+//            $otro = Producto::query()->whereHas('categorias.categoriaPadre.categoriaPadre.categoriaPadre',function (Builder $q) use ($categoriaId){
+//                $q->where('id','=',1);
+//            });
+//            $productosQuery = $productosQuery->union($otro);
+        }
+        $productos = $productosQuery->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
+//        return DB::getQueryLog();
+        return $productos;
+    }
+
+    private function recur(Builder &$q,$categoriaId/*,$palabraClave*/){
+        $q->where('id','=',$categoriaId);
+//        if($palabraClave){
+//            $q->where(function (Builder $query) use ($palabraClave) {
+//                $query->where('codigo','=',$palabraClave);
+//                $query->orWhere('nombre','like',"% {$palabraClave}%")
+//                    ->orWhere('nombre','like',"{$palabraClave}%");
+//            });
+//        }
+        return $q;
+    }
+
 
     public function getCategorias($id, Request $resquest){
         $producto =  Producto::find($id);
