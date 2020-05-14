@@ -104,9 +104,9 @@
             <div class="container-fluid">
                 <seccion-producto v-if="sel === 'productos'"></seccion-producto>
                 <seccion-categoria :_idPadre="0" v-if="sel === 'categorias'"></seccion-categoria>
-                <seccion-iniciar @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'iniciar'"></seccion-iniciar>
-                <seccion-registro @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>
-                <seccion-inicio ref="seccionInicio" :categoriaSeleccionada="categoriaSeleccionada" v-if="sel === 'inicio'"></seccion-inicio>
+                <seccion-iniciar @registrarse="cambiarSeccion('registro')" @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
+                <seccion-registro @registrarse="cambiarSeccion('registro')" @iniciar="cambiarSeccion('iniciar')" @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>
+                <seccion-inicio @iniciar="cambiarSeccion('iniciar')" @registrarse="cambiarSeccion('registro')" :auth="auth" ref="seccionInicio" :categoriaSeleccionada="categoriaSeleccionada" v-if="sel === 'inicio'"></seccion-inicio>
             </div>
         </main>
         <footer class="page-footer">
@@ -183,6 +183,7 @@
             },
             menuPulsado: function(categoria){
                 console.log(categoria.nombre);
+                this.cambiarSeccion('inicio');
                 this.categoriaSeleccionada = categoria;
                 // $('#navbarSupportedCategoria').collapse('hide');
             },

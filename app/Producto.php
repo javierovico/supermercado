@@ -40,6 +40,10 @@ class Producto extends Model{
         );
     }
 
+    public function tipoMedida(){
+        return $this->belongsTo(TipoMedidaProducto::class,'tipo_medida_producto_id','id');
+    }
+
     /**
      * @param $palabraClave
      * @param $categoriaId int si es distinto de nulo, trae si esta seleccionado

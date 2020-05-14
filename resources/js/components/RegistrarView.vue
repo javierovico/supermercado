@@ -69,6 +69,10 @@
                 <span v-if="cargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 {{!cargando?'Registrarse':'Registrando'}}
             </button>
+            <button @click="$emit('iniciar')" class="btn btn-primary" :disabled="cargando">
+                <span v-if="cargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                {{!cargando?'Iniciar Sesion':'Registrando'}}
+            </button>
         </form>
     </div>
 

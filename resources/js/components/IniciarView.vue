@@ -16,6 +16,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Iniciar</button>
+            <button @click.prevent="$emit('registrarse')" class="btn btn-primary">Registrarse</button>
         </form>
     </div>
 

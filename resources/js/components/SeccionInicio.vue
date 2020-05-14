@@ -3,24 +3,23 @@
         <div class="container">
             <div class="row">
                 <div
-                    v-for="producto in productos"
+
+                    v-for="(producto,index) in productos"
+                    :key="index"
                     class="col-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 15px">
                     <div class="card" style="height: 100%">
                         <div class="embed-responsive embed-responsive-4by3 hero-image">
                             <a href="#!">
-                                <img :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item" :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
+                                <img @error="imageDefault" :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item" :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
                             </a>
                         </div>
                         <div class="card-body">
-                            <div class="card-title text-right mt-0">
-                                <i class="fas fa-star fa-lg text-warning"></i>
-                                <i class="fas fa-star fa-lg text-warning"></i>
-                                <i class="fas fa-star fa-lg text-warning"></i>
-                                <i class="fas fa-star fa-lg text-warning"></i>
-                                <i class="fas fa-star fa-lg text-warning"></i>
-                            </div>
-                            <h5 class="card-title"><strong>{{producto.nombre}}</strong></h5>
+                            <h5 class="card-title">{{producto.nombre}}</h5>
                             <p class="card-text"></p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">{{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}} Gs. {{producto.tipo_medida_producto_id===1?'c/u':'x Kg.'}}</small>
+                            <a class="float-right" @click="agregarCarrito(producto)" href="#!"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
                     </div>
                 </div>
@@ -32,11 +31,17 @@
             :slidingEndingSize="10"
             @paginacionClick="paginacionClick"
         ></vista-paginacion>
+        <modal-agregar-producto-carrito
+            :producto="modalCarrito.producto"
+        ></modal-agregar-producto-carrito>
     </div>
 </template>
 <script>
     export default {
-        props:['categoriaSeleccionada'],     //si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
+        props:[
+            'categoriaSeleccionada',//si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
+            'auth',             //para saber si esta o no iniciado
+        ],
         data() {
             return {
                 categoriaId:null,
@@ -47,6 +52,9 @@
                 busqueda:{
                     buscarProducto: ''
                 },
+                modalCarrito:{
+                    producto:null
+                }
             }
         },
         watch:{
@@ -59,6 +67,18 @@
         },
 
         methods: {
+            agregarCarrito(prod){
+                console.log(prod.nombre);
+                if(this.auth.iniciado || true){
+                    this.modalCarrito.producto = prod;
+                    $('#modalAgregarProductoCarrito').modal();
+                }else{
+                    this.$emit('iniciar');
+                }
+            },
+            imageDefault(e){
+                e.target.src = '/img/producto.png';
+            },
             leer(){
                 let parametroBusqueda = {
                     categoria_id:this.categoriaSeleccionada?this.categoriaSeleccionada.id:null,
