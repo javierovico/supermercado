@@ -43,6 +43,8 @@ Route::post('/categoria/updateProductosList', 'CategoriaController@updateProduct
 Route::get('/categoria/listaOrdenada', 'CategoriaController@listaOrdenada');
 Route::apiResource('/categoria', 'CategoriaController');
 
+Route::apiResource('/compraProducto','CompraProductoController');
+
 Route::apiResource('/compra','ComprasController');
 
 Auth::routes(/*['register'=>false]*/);

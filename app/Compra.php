@@ -11,7 +11,7 @@ class Compra extends Model{
     }
 
     public function productos(){
-        return $this->belongsToMany(Producto::class)->withPivot(['precio_actual','cantidad'])->withTimestamps();
+        return $this->belongsToMany(Producto::class)->withPivot(['precio_actual','cantidad','id'])->withTimestamps();
     }
 
 }

@@ -15,11 +15,14 @@ class ComprasController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index()
-    {
-        //
+    public function index(Request $request){
+        $this->autorizar('user');
+        $user = Auth::user();
+        $productos = $user->compras()->where('pagado',false)->first()->productos();
+        return $productos->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
 
     /**
@@ -120,8 +123,8 @@ class ComprasController extends Controller
      * @param  \App\Compra  $compras
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Compra $compras)
-    {
-        //
+    public function destroy(Compra $compras){
+
+        return response(['message'=>'no, perra'],400);
     }
 }

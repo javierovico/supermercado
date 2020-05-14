@@ -99,6 +99,7 @@ Vue.component('vista-paginacion', require('./components/PaginationView.vue').def
 Vue.component('sliding-pagination',SlidingPagination);
 
 Vue.component('seccion-inicio', require('./components/SeccionInicio.vue').default);
+Vue.component('seccion-carrito', require('./components/SeccionCarrito.vue').default);
 
 Vue.component('utils-modal', require('./components/UtilsModal.vue').default);
 Vue.component('modal-editar-producto', require('./components/ModalEditarProducto.vue').default);
