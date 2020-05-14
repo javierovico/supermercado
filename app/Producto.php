@@ -21,7 +21,7 @@ class Producto extends Model{
 
     protected $casts = [
         'seleccionado' => 'integer',
-        'tipo_medida_producto' => 'integer',
+        'tipo_medida_producto_id' => 'integer',
     ];
 
     public function categorias(){
