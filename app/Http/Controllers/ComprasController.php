@@ -24,7 +24,8 @@ class ComprasController extends Controller
     public function index(Request $request){
         $this->autorizar('user');
         $user = Auth::user();
-        $productos = $user->compras()->where('pagado',false)->first()->productos();
+        $productos = $user->compras()->where('pagado',false)->first();//->productos();
+        $productos = $productos?$productos->productos():Producto::query()->where('id','=',-1);
         return $productos->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
 
