@@ -239,7 +239,7 @@ class ComprasController extends Controller
             $pago->dsc = $respuesta['messages'][0]['dsc'];
             $pago->key =$respuesta['messages'][0]['key'];
             $pago->save();
-            return response(['message'=> $respuesta['messages'][0]['key']],400);
+            return response(['message'=> $respuesta['messages'][0]['key'], 'respuesta' => $respuesta],400);
         }
         $pago->process_id = $respuesta['process_id'];
         $pago->save();
