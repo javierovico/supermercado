@@ -215,17 +215,17 @@ class ComprasController extends Controller
         $precioTotalString = number_format($compra->precioTotal(),2,'.','');
         $token = md5(env('BANCARD_PRIVATE_KEY') .$pago->id . $precioTotalString  . 'PYG' );
         $pago->token = $token;
-        $response = Http::post('https://vpos.infonet.com.py/vpos/api/0.3/single_buy',[
+        $response = Http::post('https://vpos.infonet.com.py:8888/vpos/api/0.3/single_buy',[
             'public_key' => env('BANCARD_PUBLIC_KEY'),
-            "operation.operation"=> [
-                "operation.token"=> $token,
-                "operation.shop_process_id"=> $pago->id,
-                "operation.amount"=> $precioTotalString,
-                "operation.currency"=> "PYG",
-                "operation.additional_data"=> "",
-                "operation.description"=> "Compra de " . $user->name,
-                "operation.return_url"=> env('APP_URL'),
-                "operation.cancel_url"=> env('APP_URL')
+            "operation"=> [
+                "token"=> $token,
+                "shop_process_id"=> $pago->id,
+                "amount"=> $precioTotalString,
+                "currency"=> "PYG",
+                "additional_data"=> "",
+                "description"=> "Compra de " . $user->name,
+                "return_url"=> env('APP_URL'),
+                "cancel_url"=> env('APP_URL')
             ],
 //            "operation.test_client"=> true,
         ]);
