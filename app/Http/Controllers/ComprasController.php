@@ -8,6 +8,7 @@ use App\Pago;
 use App\Producto;
 use http\Client\Curl\User;
 use http\Env\Response;
+use http\Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -209,7 +210,7 @@ class ComprasController extends Controller
         if($user->carritoCompra()->id != $compra->id){
             return response(['success'=>false,'message'=>'no tenes autorizacion']);
         }
-        $pago = new Pago(['precio' => $compra->precioTotal()]);
+        $pago = new Pago();
         $pago->compra()->associate($compra);
         $pago->save();
         $precioTotalString = number_format($compra->precioTotal(),2,'.','');
@@ -248,28 +249,25 @@ class ComprasController extends Controller
     }
 
     public function respuestaVPOST(Request $request){
-        $pago = Pago::find($request->get('operation.shop_process_id'));
-        $pago->dsc = $request->all();
-        $pago->save();
-        $request->validate([
-            'operation' => 'required|json',
-            'operation.token' => 'required|string',
-            "operation.shop_process_id"=> 'required|integer',
-            "operation.response"=> "required|string",
-            "operation.response_details"=> "required|string",
-            "operation.amount"=> "required|numeric",
-            "operation.currency"=> "required|string",
-            "operation.authorization_number"=> "string",
-            "operation.ticket_number"=> "required|string",
-            "operation.response_code"=> "required|integer",
-            "operation.response_description"=> "required|string",
-            "operation.extended_response_description"=> "required|string",
-            "operation.security_information"=> "required|json",
-            "operation.security_information.customer_ip"=> "181.122.164.5",
-            "operation.security_information.card_source"=> "L",
-            "operation.security_information.card_country"=> "PARAGUAY",
-            "operation.security_information.version"=> "0.3",
-            "operation.security_information.risk_index"=> 0
-        ]);
+        $operacion = $request->all();
+        $pagoId = $operacion['operation']['shop_process_id'];
+        $pago = Pago::findOrFail($pagoId);
+        $pago->dsc = json_encode($operacion);
+        try{
+            $authorization = $operacion['operation']['authorization_number'];
+            $ticket = $operacion['operation']['ticket_number'];
+            $responseCode = $operacion['operation']['response_code'];
+            $responseDesc = $operacion['operation']['response_description'];
+            $precio = $operacion['operation']['amount'];
+            $pago->precio = $precio;
+            $pago->ticket = $ticket;
+            $pago->response_code = $responseCode;
+            $pago->response_desc = $responseDesc;
+            $pago->authorization = $authorization;
+            $pago->save();
+        }catch (\Exception $e){
+            $pago->save();
+            throw $e;
+        }
     }
 }
