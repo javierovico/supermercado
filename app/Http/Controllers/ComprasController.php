@@ -215,7 +215,7 @@ class ComprasController extends Controller
         $precioTotalString = number_format($compra->precioTotal(),2,'.','');
         $token = md5(env('BANCARD_PRIVATE_KEY') .$pago->id . $precioTotalString  . 'PYG' );
         $pago->token = $token;
-        $response = Http::post('https://vpos.infonet.com.py:8888/vpos/api/0.3/single_buy',[
+        $response = Http::post(env('BANCARD_URL').'single_buy',[
             'public_key' => env('BANCARD_PUBLIC_KEY'),
             "operation"=> [
                 "token"=> $token,
