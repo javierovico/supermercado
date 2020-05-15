@@ -45,11 +45,15 @@ Route::apiResource('/categoria', 'CategoriaController');
 
 Route::apiResource('/compraProducto','CompraProductoController');
 
+Route::post('/compra/respuestaVPOST','ComprasController@respuestaVPOST');
+Route::post('/compra/confirmar','ComprasController@confirmar');
 Route::apiResource('/compra','ComprasController');
 
 Auth::routes(/*['register'=>false]*/);
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/checkUser', 'HomeController@checkUser')->name('checkUser');
+
+Route::get('/prueba','ComprasController@prueba');
 
 //Route::apiResource('thoughts', 'ProductoApiController');

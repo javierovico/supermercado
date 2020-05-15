@@ -10,6 +10,7 @@ import 'jquery-ui/ui/widgets/autocomplete.js';
 import 'jquery-ui/ui/widgets/datepicker.js';
 import 'jquery-ui/ui/i18n/datepicker-es.js';
 import 'jquery-ui/themes/base/all.css';
+import './bancard-checkout-3.0.0.js';
 
 import 'bootstrap-notify';
 $.notifyDefaults({
@@ -107,6 +108,8 @@ Vue.component('modal-editar-producto-thumbnail', require('./components/ModalEdit
 Vue.component('modal-borrar-producto', require('./components/ModalBorrarProducto.vue').default);
 Vue.component('modal-editar-producto-categoria', require('./components/ModalEditarProductoCategoria.vue').default);
 Vue.component('modal-agregar-producto-carrito',require('./components/ModalAgregarProductoCarrito.vue').default);
+Vue.component('modal-confirmar-compra',require('./components/ModalConfirmarCompra.vue').default);
+Vue.component('pruebas-pago',require('./components/PruebasPagos.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -114,6 +117,30 @@ Vue.component('modal-agregar-producto-carrito',require('./components/ModalAgrega
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.prototype.$url = 'https://s3.us-east-2.amazonaws.com/supermercado.kamaleon360.com/elsuper/';
+Vue.prototype.$precio = function (precio) {
+    return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+' Gs. ';
+}
+Vue.prototype.$printJson = function (json) {
+    if (typeof json != 'string') {
+        json = JSON.stringify(json, undefined, 2);
+    }
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+};
 const appV = new Vue({
     el: '#app',
 });

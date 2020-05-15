@@ -2,8 +2,10 @@
     <div class="col-md-12">
         <div class="container">
             <div class="row">
+                <div v-if="carritoProductos.length == 0" class="col-md-12">
+                    <p>Vaya, todavia no tenes ningun producto en tu carrito</p>
+                </div>
                 <div
-
                     v-for="(producto,index) in carritoProductos"
                     :key="index"
                     class="col-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 15px">
@@ -31,10 +33,23 @@
             :slidingEndingSize="10"
             @paginacionClick="paginacionClick"
         ></vista-paginacion>
+        <div v-if="carritoProductos.length>0" class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-inline" @submit.prevent="confirmacionPago">
+                        <button type="submit" class="btn btn-primary mb-2">Confirmar Pago</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <modal-borrar-carrito
             :modal="modalBorrarCarrito"
             @borrado="productoBorrado"
         ></modal-borrar-carrito>
+        <modal-confirmar-compra
+            :modal="modalConfirmacionPago"
+            @pagoConfirmado="pagoConfirmado"
+        ></modal-confirmar-compra>
     </div>
 </template>
 <script>
@@ -56,6 +71,10 @@
                 modalBorrarCarrito:{
                     productoBorrando: null,
                     index: null,
+                },
+                modalConfirmacionPago:{
+                    precio: 0,
+                    compraId: 0,
                 }
             }
         },
@@ -71,6 +90,18 @@
         // },
 
         methods: {
+            pagoConfirmado(){
+                this.carritoProductos.splice(0,this.carritoProductos.length);
+            },
+            confirmacionPago(){
+                let total = 0;
+                this.carritoProductos.forEach((e)=>{
+                    total += e.precio * e.pivot.cantidad;
+                })
+                this.modalConfirmacionPago.precio = total;
+                this.modalConfirmacionPago.compraId = this.carritoProductos[0].pivot.compra_id;
+                $('#modalConfirmarCompra').modal();
+            },
             borrarCarrito(prod,index){
                 $('#modalBorrarCarrito').modal();
                 this.modalBorrarCarrito.productoBorrando = prod;

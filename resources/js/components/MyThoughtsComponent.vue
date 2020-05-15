@@ -154,7 +154,7 @@
                     name: '',
                     roles:[],
                 },
-                sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
+                sel: 'carrito',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
                 categoriasAnidadas: [],
                 categoriaSeleccionada:null,
                 busquedaTexto : '',

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * @property Categoria $categorias
+ * @property int precio
  * @method Producto find($id)
  */
 class Producto extends Model{

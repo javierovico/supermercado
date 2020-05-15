@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->hasMany(Compra::class);
     }
 
+    public function carritoCompra(){
+        return $this->compras->where('pagado',false)->first();
+    }
+
     public function authorizeRoles($roles){
         abort_unless($this->hasAnyRole($roles), 401);
         return true;
