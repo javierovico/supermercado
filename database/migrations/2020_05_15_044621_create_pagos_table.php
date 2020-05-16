@@ -18,7 +18,7 @@ class CreatePagosTable extends Migration
             $table->string('process_id',50)->nullable();
             $table->unsignedBigInteger('compra_id');
             $table->string('token',100)->nullable();
-            $table->float('precio');
+            $table->float('precio')->nullable();
             $table->string('currency')->default('PYG');
             $table->foreign('compra_id')->references('id')->on('compras');  //on delete error
             $table->string('key',30)->nullable();

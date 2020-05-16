@@ -32,6 +32,12 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', 'MainController@index')->name('index');
+Route::get('/carrito/historial', 'MainController@index');
+Route::get('/carrito', 'MainController@index');
+Route::get('/iniciar-sesion', 'MainController@index');
+Route::get('/registrarse', 'MainController@index');
+Route::get('/admin/productos', 'MainController@index');
+Route::get('/admin/caregorias', 'MainController@index');
 
 Route::get('/producto/lista', 'ProductoController@listaRecursiva');
 Route::post('/producto/thumbnail/{id}', 'ProductoController@thumbnail');

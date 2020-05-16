@@ -37,6 +37,7 @@
         props:['total','actual','slidingEndingSize'],
         computed:{
             arrayIndice: function () {
+                // console.log(this.total,this.actual);
                 let array = [1];
 
                 let contador = ((this.total < this.slidingEndingSize)?this.total:this.slidingEndingSize)-1;

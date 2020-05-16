@@ -55,6 +55,7 @@
                         this.password.valor = '';
                         this.email.valor = '';
                         this.$emit('checkUser');
+                        this.$router.push('/');
                     })
                     .catch((error) =>{
                         const errorMensaje = error.response.data.errors;

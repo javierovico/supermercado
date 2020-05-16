@@ -200,6 +200,7 @@ class ComprasController extends Controller
 //        }
 //    }
 
+
     public function confirmar(Request $request){
         $this->autorizar('user');
         $user = Auth::user();
@@ -225,8 +226,8 @@ class ComprasController extends Controller
                 "currency"=> "PYG",
                 "additional_data"=> "",
                 "description"=> "Compra de " . $user->name,
-                "return_url"=> env('APP_URL'),
-                "cancel_url"=> env('APP_URL')
+                "return_url"=> env('APP_URL').'/carrito',      //retorna ?status=payment_success si funciono
+                "cancel_url"=> env('APP_URL').'/carrito',
             ],
 //            "operation.test_client"=> true,
         ]);

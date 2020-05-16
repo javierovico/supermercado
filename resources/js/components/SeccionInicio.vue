@@ -19,7 +19,7 @@
                         </div>
                         <div class="card-footer">
                             <small class="text-muted">{{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}} Gs. {{producto.tipo_medida_producto_id===1?'c/u':'x Kg.'}}</small>
-                            <a class="float-right" @click="agregarCarrito(producto)" href="#!"><i class="material-icons">add_shopping_cart</i></a>
+                            <a class="float-right" @click.prevent="agregarCarrito(producto)" href="#!"><i class="material-icons">add_shopping_cart</i></a>
                         </div>
                     </div>
                 </div>
@@ -41,10 +41,12 @@
         props:[
             'categoriaSeleccionada',//si recibimos una categoria, solo los productos de esa categoria, sino todos los productos
             'auth',             //para saber si esta o no iniciado
+            'query',
         ],
         data() {
             return {
                 categoriaId:null,
+                busquedaTexto:'',
                 productos: [],
                 paginaActual: 1,
                 paginaTotal: 1,
@@ -58,22 +60,54 @@
             }
         },
         watch:{
+            query:function(){
+                console.log(this.query)
+            },
+            $route(to,from){
+                if(this.analizarQuery(to.query)) {
+                    this.leer();
+                }
+            },
             categoriaSeleccionada: function () {
                 this.leer();
             },
         },
         mounted() {
+            this.analizarQuery(this.$route.query);
             this.leer();
         },
 
         methods: {
+            analizarQuery(query){
+                let cambio = false;
+                if(query.categoriaId != undefined){
+                    cambio = true;
+                    this.categoriaId = parseInt(query.categoriaId);
+                }else{
+                    this.categoriaId = null;
+                }
+                if(query.busqueda != undefined){
+                    cambio = true;
+                    this.busquedaTexto = query.busqueda;
+                }else{
+                    this.busquedaTexto = '';
+                }
+                if(query.paginaActual != undefined){
+                    cambio = true;
+                    this.paginaActual = parseInt(query.paginaActual);
+                }else{
+                    this.paginaActual = 1;
+                }
+                return true;
+            },
             agregarCarrito(prod){
                 console.log(prod.nombre);
-                if(this.auth.iniciado){
+                if(this.auth && this.auth.iniciado){
                     this.modalCarrito.producto = prod;
                     $('#modalAgregarProductoCarrito').modal();
                 }else{
-                    this.$emit('iniciar');
+                    this.$router.push('/iniciar-sesion')
+                    // this.$emit('iniciar');
                 }
             },
             imageDefault(e){
@@ -81,14 +115,14 @@
             },
             leer(){
                 let parametroBusqueda = {
-                    categoria_id:this.categoriaSeleccionada?this.categoriaSeleccionada.id:null,
+                    categoria_id:this.categoriaId,
                     recursivo: 1,
                     page: this.paginaActual,
                     cantidad: this.paginaCantidadItem,
                     opcionCategoria: this.busqueda.opcionCategoria,
                 };
-                if(this.busqueda.buscarProducto.length > 0){
-                    parametroBusqueda.palabra_clave = this.busqueda.buscarProducto;
+                if(this.busquedaTexto.length > 0){
+                    parametroBusqueda.palabra_clave = this.busquedaTexto;
                 }
                 axios.get('/producto',{params:parametroBusqueda}).then((response) => {
                     this.productos = response.data.data;
@@ -99,8 +133,7 @@
                 });
             },
             paginacionClick(n){
-                this.paginaActual = n;
-                this.leer();
+                this.$router.push({path:'/',query:{categoriaId: this.categoriaId,paginaActual:n, busqueda:this.$route.query.busqueda}})
             },
             busquedaExterna(texto){
                 this.busqueda.buscarProducto = texto;

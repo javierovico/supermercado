@@ -13,6 +13,8 @@ import 'jquery-ui/themes/base/all.css';
 import './bancard-checkout-3.0.0.js';
 
 import 'bootstrap-notify';
+import VueRouter from 'vue-router';
+
 $.notifyDefaults({
     // settings
     element: 'body',
@@ -41,16 +43,44 @@ $.notifyDefaults({
     onClose: null,
     onClosed: null,
     icon_type: 'class',
-    template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-        '<span data-notify="icon"></span> ' +
-        '<span data-notify="title">{1}</span> ' +
-        '<span data-notify="message">{2}</span>' +
-        '<div class="progress" data-notify="progressbar">' +
-        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-        '</div>' +
-        '<a href="{3}" target="{4}" data-notify="url"></a>' +
-        '</div>'
+    // template: `
+    // <div class="alert alert-info">
+    //     <div class="container">
+    //         <div class="alert-icon">
+    //             <i class="material-icons">info_outline</i>
+    //         </div>
+    //         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    //             <span aria-hidden="true"><i class="material-icons">clear</i></span>
+    //         </button>
+    //
+    //         <b>Info alert:</b> You've got some friends nearby, stop looking at your phone and find them...
+    //     </div>
+    // </div>`,
+    template: `
+<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">
+    <button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>
+    <span data-notify="icon"></span>
+    <span data-notify="title"><b>{1}</b> {2}</span>
+    <div class="progress" data-notify="progressbar">
+        <div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+    </div>
+    <a href="{3}" target="{4}" data-notify="url"></a>
+</div>`
+    // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+    //     '<img data-notify="icon" class="img-circle pull-left">' +
+    //     '<span data-notify="title">{1}</span>' +
+    //     '<span data-notify="message">{2}</span>' +
+    //     '</div>'
+    // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+    //     '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+    //     '<span data-notify="icon"></span> ' +
+    //     '<span data-notify="title">{1}</span> ' +
+    //     '<span data-notify="message">{2}</span>' +
+    //     '<div class="progress" data-notify="progressbar">' +
+    //     '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+    //     '</div>' +
+    //     '<a href="{3}" target="{4}" data-notify="url"></a>' +
+    //     '</div>'
 });
 //menu
 // import './hoverIntent'
@@ -111,6 +141,27 @@ Vue.component('modal-agregar-producto-carrito',require('./components/ModalAgrega
 Vue.component('modal-confirmar-compra',require('./components/ModalConfirmarCompra.vue').default);
 Vue.component('pruebas-pago',require('./components/PruebasPagos.vue').default);
 
+Vue.use(VueRouter);
+import SeccionCarrito from "./components/SeccionCarrito";
+import SeccionInicio from "./components/SeccionInicio";
+import IniciarView from "./components/IniciarView";
+import RegistrarView from "./components/RegistrarView";
+import ProductosView from "./components/ProductosView";
+import CategoriasView from "./components/CategoriasView";
+
+const router = new VueRouter({
+    mode: 'history',
+    base: __dirname,
+    routes:[
+        {path: '/', component: SeccionInicio, props:(route)=>({query:route.query})},
+        {path: '/carrito', component: SeccionCarrito},
+        {path: '/iniciar-sesion', component: IniciarView},
+        {path: '/registrarse', component: RegistrarView},
+        {path: '/admin/productos', component: ProductosView},
+        {path: '/admin/caregorias', component: CategoriasView},
+    ],
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -143,4 +194,5 @@ Vue.prototype.$printJson = function (json) {
 };
 const appV = new Vue({
     el: '#app',
+    router
 });

@@ -12,21 +12,28 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li :class="'nav-item'+(sel==='inicio'?' active':'')">
-                            <a @click="cambiarSeccion('inicio');categoriaSeleccionada = null;" class="nav-link" href="#">Inicio <span v-if="sel==='inicio'" class="sr-only">(current)</span></a>
+                        <li :class="'nav-item'+($route.fullPath==='/'?' active':'')">
+                            <router-link to="/" @click.passive="categoriaSeleccionada = null" class="nav-link" href="#">Inicio <span v-if="$route.fullPath==='/'" class="sr-only">(current)</span></router-link>
                         </li>
-                        <li :class="'nav-item'+(sel==='carrito'?' active':'')">
-                            <a @click="cambiarSeccion('carrito');categoriaSeleccionada = null;"  class="nav-link" href="#">Carrito<span v-if="sel==='carrito'" class="sr-only">(current)</span></a>
+                        <li v-if="auth.roles.includes('user')" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownCarrito" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Carrito
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropDownCarrito">
+                                <router-link to="/carrito" class="dropdown-item" href="#">Carrito de compras</router-link>
+                                <div class="dropdown-divider"></div>
+                                <router-link to="/carrito/historial" class="dropdown-item" href="#">Carrito pagado</router-link>
+                            </div>
                         </li>
                         <li v-if="auth.roles.includes('admin')" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administracion
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" v-on:click="cambiarSeccion('categorias')" href="#">Categorias</a>
-                                <a class="dropdown-item" v-on:click="cambiarSeccion('productos')" href="#">Productos</a>
+                                <router-link to="/admin/categorias" class="dropdown-item" href="#">Categorias</router-link>
+                                <router-link to="/admin/productos" class="dropdown-item" href="#">Productos</router-link>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Otros</a>
+                                <a class="dropdown-item" href="#!">Otros</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -38,8 +45,8 @@
                                     <a href="#" class="dropdown-item" v-on:click="cerrarSesion">Salir</a>
                                 </template>
                                 <template v-else>
-                                    <a href="#" class="dropdown-item" v-on:click="cambiarSeccion('iniciar')">Iniciar</a>
-                                    <a href="#" class="dropdown-item" v-on:click="cambiarSeccion('registro')">Registrarse</a>
+                                    <router-link href="#" class="dropdown-item" to="/iniciar-sesion">Iniciar</router-link>
+                                    <router-link href="#" class="dropdown-item" to="/registrarse">Registrarse</router-link>
                                 </template>
                             </div>
                         </li>
@@ -47,9 +54,9 @@
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="buscar">
+                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="$router.push({path:'/',query:{busqueda:busquedaTexto,categoriaId:$route.query.categoriaId}})">
                         <input v-model="busquedaTexto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
-                        <a href="#!" class="text-white"><i class="material-icons prefix white-text">search</i></a>
+                        <button type="submit" href="#!" class="text-white btn btn-link"><i class="material-icons prefix white-text">search</i></button>
                     </form>
                 </div>
             </nav>
@@ -102,12 +109,13 @@
         </header>
         <main class="py-4">
             <div class="container-fluid">
-                <seccion-producto v-if="sel === 'productos'"></seccion-producto>
-                <seccion-categoria :_idPadre="0" v-if="sel === 'categorias'"></seccion-categoria>
-                <seccion-iniciar @registrarse="cambiarSeccion('registro')" @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>
-                <seccion-registro @registrarse="cambiarSeccion('registro')" @iniciar="cambiarSeccion('iniciar')" @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>
-                <seccion-inicio @iniciar="cambiarSeccion('iniciar')" @registrarse="cambiarSeccion('registro')" :auth="auth" ref="seccionInicio" :categoriaSeleccionada="categoriaSeleccionada" v-if="sel === 'inicio'"></seccion-inicio>
-                <seccion-carrito :auth="auth" v-if="sel === 'carrito'"></seccion-carrito>
+                <router-view @checkUser="checkUser()" class="view"></router-view>
+<!--                <seccion-producto v-if="sel === 'productos'"></seccion-producto>-->
+<!--                <seccion-categoria :_idPadre="0" v-if="sel === 'categorias'"></seccion-categoria>-->
+<!--                <seccion-iniciar @registrarse="cambiarSeccion('registro')" @checkUser="checkUser();cambiarSeccion('inicio')" v-if="sel === 'iniciar'"></seccion-iniciar>-->
+<!--                <seccion-registro @registrarse="cambiarSeccion('registro')" @iniciar="cambiarSeccion('iniciar')" @checkUser="checkUser();cambiarSeccion('productos')" v-if="sel === 'registro'"></seccion-registro>-->
+<!--                <seccion-inicio @iniciar="cambiarSeccion('iniciar')" @registrarse="cambiarSeccion('registro')" :auth="auth" ref="seccionInicio" :categoriaSeleccionada="categoriaSeleccionada" v-if="sel === 'inicio'"></seccion-inicio>-->
+<!--                <seccion-carrito :auth="auth" v-if="sel === 'carrito'"></seccion-carrito>-->
             </div>
         </main>
         <footer class="page-footer">
@@ -154,20 +162,19 @@
                     name: '',
                     roles:[],
                 },
-                sel: 'carrito',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
+                sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
                 categoriasAnidadas: [],
                 categoriaSeleccionada:null,
                 busquedaTexto : '',
             }
         },
 
-        mounted() {
+        mounted:function() {
             this.checkUser();
             axios.get('/categoria/listaOrdenada').then((response)=>{
                this.categoriasAnidadas = response.data;
             }).catch((error)=>{
             }).finally(()=>{
-
             });
         },
         updated() {
@@ -183,9 +190,10 @@
                 this.$refs.seccionInicio.busquedaExterna(this.busquedaTexto);
             },
             menuPulsado: function(categoria){
-                console.log(categoria.nombre);
-                this.cambiarSeccion('inicio');
-                this.categoriaSeleccionada = categoria;
+                // console.log(categoria.nombre);
+                this.$router.push({path:'/',query:{categoriaId: categoria.id}})
+                // this.cambiarSeccion('inicio');
+                // this.categoriaSeleccionada = categoria;
                 // $('#navbarSupportedCategoria').collapse('hide');
             },
             cambiarSeccion: function (secc) {
@@ -196,6 +204,8 @@
                     this.auth.iniciado = false;
                     this.auth.name = '';
                     this.auth.roles = [];
+                }).then((response)=>{
+                    this.$router.push('/');
                 }).catch((error)=>{
                     console.error(error.response);
                 });

@@ -20,7 +20,7 @@
                     <template v-else>
                         <p>Precio Total: {{$precio(modal.precio)}}</p>
                     </template>
-                    <div style="height: 500px; width: 100%; margin: auto" id="iframe-container"/>
+                    <div  id="iframe-container"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
