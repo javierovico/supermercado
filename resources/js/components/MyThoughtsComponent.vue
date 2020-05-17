@@ -15,7 +15,7 @@
                         <li :class="'nav-item'+($route.fullPath==='/'?' active':'')">
                             <router-link to="/" @click.passive="categoriaSeleccionada = null" class="nav-link" href="#">Inicio <span v-if="$route.fullPath==='/'" class="sr-only">(current)</span></router-link>
                         </li>
-                        <li v-if="auth.roles.includes('user')" class="nav-item dropdown">
+                        <li v-if="$store.getters.isRol('user')" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownCarrito" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Carrito
                             </a>
@@ -25,7 +25,7 @@
                                 <router-link to="/carrito/historial" class="dropdown-item" href="#">Carrito pagado</router-link>
                             </div>
                         </li>
-                        <li v-if="auth.roles.includes('admin')" class="nav-item dropdown">
+                        <li v-if="$store.getters.isRol('admin')" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administracion
                             </a>
@@ -36,12 +36,20 @@
                                 <a class="dropdown-item" href="#!">Otros</a>
                             </div>
                         </li>
+                        <li v-if="$store.getters.isRol('financiero')" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPagos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Gestion Pago
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownPagos">
+                                <router-link href="#" class="dropdown-item" to="/financiero/pagos">Ver Pagos</router-link>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSessi" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{auth.iniciado?auth.name:'Invitado'}}
+                                {{$store.getters.getAuth.iniciado?$store.getters.getAuth.name:'Invitado'}}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownSessi">
-                                <template v-if="auth.iniciado">
+                                <template v-if="$store.getters.getAuth.iniciado">
                                     <a href="#" class="dropdown-item" v-on:click="cerrarSesion">Salir</a>
                                 </template>
                                 <template v-else>
@@ -157,11 +165,11 @@
     export default {
         data() {
             return {
-                auth:{
-                    iniciado: false,
-                    name: '',
-                    roles:[],
-                },
+                // auth:{
+                //     iniciado: false,
+                //     name: '',
+                //     roles:[],
+                // },
                 sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
                 categoriasAnidadas: [],
                 categoriaSeleccionada:null,
@@ -201,9 +209,10 @@
             },
             cerrarSesion: function () {
                 axios.post('/logout').then((response) => {
-                    this.auth.iniciado = false;
-                    this.auth.name = '';
-                    this.auth.roles = [];
+                    this.$store.commit('setAuth',response.data);
+                    // this.$auth.iniciado = false;
+                    // this.$auth.name = '';
+                    // this.$auth.roles = [];
                 }).then((response)=>{
                     this.$router.push('/');
                 }).catch((error)=>{
@@ -212,11 +221,13 @@
             },
             checkUser: function () {
                 axios.get('/checkUser').then((response) => {
-                    this.auth = response.data;
+                    this.$store.commit('setAuth',response.data);// = response.data;
+                    console.log(this.$store.getters.getAuth);
                 }).catch((error)=>{
-                    this.auth.iniciado = false;
-                    this.auth.name = '';
-                    this.auth.roles = [];
+                    this.
+                    this.$auth.iniciado = false;
+                    this.$auth.name = '';
+                    this.$auth.roles = [];
                     console.error(error.response);
                 });
             }

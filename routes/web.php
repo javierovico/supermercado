@@ -32,8 +32,10 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/', 'MainController@index')->name('index');
+Route::get('/carrito/historial/detalle/{id}', 'MainController@index');
 Route::get('/carrito/historial', 'MainController@index');
 Route::get('/carrito', 'MainController@index');
+Route::get('/financiero/pagos', 'MainController@index');
 Route::get('/iniciar-sesion', 'MainController@index');
 Route::get('/registrarse', 'MainController@index');
 Route::get('/admin/productos', 'MainController@index');
@@ -51,6 +53,9 @@ Route::apiResource('/categoria', 'CategoriaController');
 
 Route::apiResource('/compraProducto','CompraProductoController');
 
+Route::get('/compra/historial/detalle/{id}','ComprasController@historialDetalle');
+Route::delete('/compra/rollback/{id}','ComprasController@rollback');
+Route::get('/compra/historial','ComprasController@historial');
 Route::post('/compra/respuestaVPOST','ComprasController@respuestaVPOST');
 Route::post('/compra/confirmar','ComprasController@confirmar');
 Route::apiResource('/compra','ComprasController');

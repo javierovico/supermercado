@@ -19,7 +19,7 @@ class ProductoController extends Controller{
 
     public function index(Request $request){
         $request->validate([
-            'cantidad' => 'integer',
+            'cantidad' => 'integer|max:40',
             'page'=>'integer',
             'categoria_id' => 'integer',
             'palabra_clave' => 'string|max:40',

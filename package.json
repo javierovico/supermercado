@@ -31,6 +31,7 @@
         "metismenu": "^3.0.6",
         "tailwindcss": "^1.4.4",
         "vue-router": "^3.1.6",
-        "vue-sliding-pagination": "^1.0.6"
+        "vue-sliding-pagination": "^1.0.6",
+        "vuex": "^3.4.0"
     }
 }

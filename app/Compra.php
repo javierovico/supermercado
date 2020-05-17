@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,8 +10,22 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Compra extends Model{
 
+    protected $appends = ['pago_total'];
+    protected $casts = ['updated_at' => 'timestamp'];
+
+    //2020-05-15T18:33:50.000000Z
+//    public function getUpdatedAtAttribute($date)
+//    {
+//        return $date->format('Y-m-d');
+//    }
+
+    public function getPagoTotalAttribute(){
+        $suma = $this->pagos()->where('response_code','00')->sum('precio');
+        return $suma;
+    }
+
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id','id');
     }
 
     public function productos(){
@@ -28,6 +43,14 @@ class Compra extends Model{
             $total += $producto->precio * $producto->pivot->cantidad;
         }
         return $total;
+    }
+
+    public function actualizarPreciosIntermedios(){
+        foreach ($this->productos as $producto){
+            $this->productos()->updateExistingPivot($producto,[
+                'precio_actual' => $producto->precio
+            ]);
+        }
     }
 
 }

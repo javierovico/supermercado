@@ -101,8 +101,7 @@
                 return true;
             },
             agregarCarrito(prod){
-                console.log(prod.nombre);
-                if(this.auth && this.auth.iniciado){
+                if(this.$store.getters.iniciado){
                     this.modalCarrito.producto = prod;
                     $('#modalAgregarProductoCarrito').modal();
                 }else{

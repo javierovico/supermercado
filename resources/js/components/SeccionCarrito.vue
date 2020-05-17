@@ -84,26 +84,6 @@
             },
         },
         mounted() {
-            const statusPayment = this.$route.query.status;
-            switch(statusPayment){
-                case 'payment_success':
-                    $.notify({
-                        title:'Pago',
-                        message: 'el pago se conpleto satisfactoriamente',
-                    }, {
-                        type:'success',
-                    })
-
-                    break;
-                case 'payment_failed':
-                    $.notify({
-                        title:'Pago',
-                        message: 'Hubo un error procesando el pago',
-                    }, {
-                        type:'danger',
-                    })
-                    break;
-            }
             this.leer();
         },
         // computed:{

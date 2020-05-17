@@ -201,6 +201,32 @@ class ComprasController extends Controller
 //    }
 
 
+    public function rollback(Request $request, $id){
+        $this->autorizar('financiero');
+        $compra = Compra::find($id);
+        $pago = $compra->pagos()->where('response_code','00')->orderBy('updated_at','desc')->firstOrFail();
+        //inicio de proceso
+        $token = md5(env('BANCARD_PRIVATE_KEY') .$pago->id . "rollback"  . '0.00' );
+        $response = Http::post(env('BANCARD_URL').'single_buy/rollback',[
+            'public_key' => env('BANCARD_PUBLIC_KEY'),
+            "operation"=> [
+                "token"=> $token,
+                "shop_process_id"=> $pago->id,
+            ],
+        ]);
+        if($response->json()['status'] == 'success'){
+            $pago->estado = 'roll';
+            $compra->estado = 'roll';
+            $pago->save();
+            $compra->save();
+            return $response->json()['messages'][0]['dsc'];
+        }else{
+            abort(401,$response->json()['messages'][0]['dsc']);
+        }
+        return $pago;
+    }
+
+
     public function confirmar(Request $request){
         $this->autorizar('user');
         $user = Auth::user();
@@ -209,8 +235,9 @@ class ComprasController extends Controller
         ])['compraId'];
         $compra =  Compra::find($compraId);
         if($user->carritoCompra()->id != $compra->id){
-            return response(['success'=>false,'message'=>'no tenes autorizacion']);
+            abort(401,'no tenes autorizacion');
         }
+        $compra->actualizarPreciosIntermedios();
         $pago = new Pago();
         $pago->compra()->associate($compra);
         $pago->save();
@@ -226,10 +253,10 @@ class ComprasController extends Controller
                 "currency"=> "PYG",
                 "additional_data"=> "",
                 "description"=> "Compra de " . $user->name,
-                "return_url"=> env('APP_URL').'/carrito',      //retorna ?status=payment_success si funciono
-                "cancel_url"=> env('APP_URL').'/carrito',
+                "return_url"=> env('APP_URL').'/carrito/historial',      //retorna ?status=payment_success si funciono
+                "cancel_url"=> env('APP_URL').'/carrito/historial',
             ],
-//            "operation.test_client"=> true,
+            "test_client"=> true,
         ]);
         $respuesta = $response->json();
         if($respuesta == null){
@@ -255,9 +282,14 @@ class ComprasController extends Controller
         $pago = Pago::findOrFail($pagoId);
         $pago->dsc = json_encode($operacion);
         try{
+            $responseCode = $operacion['operation']['response_code'];
+            if($responseCode == '00'){
+                $compra = $pago->compra;
+                $compra->pagado = 1;
+                $compra->save();
+            }
             $authorization = $operacion['operation']['authorization_number'];
             $ticket = $operacion['operation']['ticket_number'];
-            $responseCode = $operacion['operation']['response_code'];
             $responseDesc = $operacion['operation']['response_description'];
             $precio = $operacion['operation']['amount'];
             $pago->precio = $precio;
@@ -271,4 +303,35 @@ class ComprasController extends Controller
             throw $e;
         }
     }
+
+    public function historial(Request $request){
+        $request->validate([
+            'cantidad' => 'integer|max:40',    //por pagina
+            'page'=>'integer',          //pagina actual
+        ]);
+        if(($user = Auth::user()) && $user->hasRole('financiero')){
+            $pagos = Compra::query()->where('pagado',1)->with('user')->orderBy('updated_at','desc');
+        }else{
+            $this->autorizar('user');
+            $user = Auth::user();
+            $pagos = $user->compras()->where('pagado',1)->orderBy('updated_at','desc');
+        }
+        return $pagos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
+    }
+
+    public function historialDetalle(Request $request, $id){
+        $request->validate([
+            'cantidad' => 'integer|max:40',    //por pagina
+            'page'=>'integer',          //pagina actual
+        ]);
+        $this->autorizar(['user','financiero']);
+        $user = Auth::user();
+        $compra = Compra::find($id);
+        if ($compra->user->id != $user->id && !$user->hasRole('financiero')) {
+            abort(401, 'Se cruzaron datos');
+        }
+        $productos = $compra->productos();
+        return $productos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
+    }
 }
+

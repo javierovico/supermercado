@@ -14,6 +14,7 @@ import './bancard-checkout-3.0.0.js';
 
 import 'bootstrap-notify';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 
 $.notifyDefaults({
     // settings
@@ -142,24 +143,65 @@ Vue.component('modal-confirmar-compra',require('./components/ModalConfirmarCompr
 Vue.component('pruebas-pago',require('./components/PruebasPagos.vue').default);
 
 Vue.use(VueRouter);
+Vue.use(Vuex);
 import SeccionCarrito from "./components/SeccionCarrito";
 import SeccionInicio from "./components/SeccionInicio";
 import IniciarView from "./components/IniciarView";
 import RegistrarView from "./components/RegistrarView";
 import ProductosView from "./components/ProductosView";
 import CategoriasView from "./components/CategoriasView";
+import SeccionCarritoHistorial from "./components/SeccionCarritoHistorial";
+import SeccionCarritoHistorialDetalle from "./components/SeccionCarritoHistorialDetalle";
 
 const router = new VueRouter({
     mode: 'history',
     base: __dirname,
     routes:[
         {path: '/', component: SeccionInicio, props:(route)=>({query:route.query})},
+        {path: '/carrito/historial/detalle/:id', component: SeccionCarritoHistorialDetalle},
+        {path: '/carrito/historial', component: SeccionCarritoHistorial},
         {path: '/carrito', component: SeccionCarrito},
+        {path: '/financiero/pagos', component: SeccionCarritoHistorial},
         {path: '/iniciar-sesion', component: IniciarView},
         {path: '/registrarse', component: RegistrarView},
         {path: '/admin/productos', component: ProductosView},
         {path: '/admin/caregorias', component: CategoriasView},
     ],
+});
+
+const store = new Vuex.Store({
+    state:{
+        auth: {
+            iniciado: false,
+            name: '',
+            roles:[],
+        },
+    },
+    mutations:{
+        setAuth(state,valor){
+            if(valor){
+                state.auth = valor;
+            }else{
+                state.auth= {
+                    iniciado: false,
+                    name: '',
+                    roles:[],
+                };
+            }
+        },
+    },
+    getters:{
+        getAuth: state =>{
+            return state.auth;
+        },
+        iniciado: state=>{
+            return state.auth && state.auth.iniciado;
+        },
+        isRol: (state) => (rol) =>{
+            // console.log(state.auth.roles);
+            return state.auth && state.auth.roles.includes(rol);
+        }
+    },
 });
 
 /**
@@ -192,7 +234,32 @@ Vue.prototype.$printJson = function (json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 };
+Vue.prototype.$intToFecha = function (unix_timestamp) {
+// Create a new JavaScript Date object based on the timestamp
+// multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    const date = new Date(unix_timestamp * 1000);
+// Hours part from the timestamp
+    const hours = date.getHours();
+// Minutes part from the timestamp
+    const minutes = "0" + date.getMinutes();
+// Seconds part from the timestamp
+    const seconds = "0" + date.getSeconds();
+    const anho = date.getFullYear();
+    const mes = '0'+date.getMonth();
+    const dia = '0'+date.getDay();
+
+// Will display time in 10:30:23 format
+    const formattedTime = anho + '-' + mes.substr(-2) + '-' + dia.substr(-2) + ' ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+    return formattedTime;
+
+}
+// Vue.prototype.$auth = {
+//     iniciado: false,
+//     name: '',
+//     roles:[],
+// };
 const appV = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });
