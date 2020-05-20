@@ -142,7 +142,7 @@
                     direccion: this.direccion.valor,
                     apellido: this.apellido.valor,
                     telefono: this.telefono.valor,
-                    nacimiento: this.nacimiento.valor,
+                    nacimiento: $('#nacimiento').datepicker('getDate'),
                 };
                 this.cargando = true;
                 axios.post('/register',params)

@@ -4623,7 +4623,7 @@ __webpack_require__.r(__webpack_exports__);
         direccion: this.direccion.valor,
         apellido: this.apellido.valor,
         telefono: this.telefono.valor,
-        nacimiento: this.nacimiento.valor
+        nacimiento: $('#nacimiento').datepicker('getDate')
       };
       this.cargando = true;
       axios.post('/register', params).then(function (response) {

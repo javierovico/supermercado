@@ -33,6 +33,9 @@ class CategoriaController extends Controller
 
         if(null !== ($categoriaPadre = $request->get('categoria_id'))){
             $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre==0?null:$categoriaPadre);
+        }else{
+            //sino toma los de la categoria principal
+            $categoriasQuery = $categoriasQuery->where('codigo','principales');
         }
         //IMPRIMIR LA CANTIDAD DE PRODUCTOS QUE SE TIENE
         $categoriasQuery = $categoriasQuery->withCount(['productos as cant_productos']);
@@ -78,7 +81,13 @@ class CategoriaController extends Controller
      * @return Builder[]|Collection
      */
     public function listaOrdenada($id = null){
-        $catRoot = Categoria::query()->where('categoria_id',$id)->get();
+        if($id == null){
+            $catRoot = Categoria::query()->whereHas('categoriaPadre',function (Builder $q) {
+                $q->where('codigo','=','general');
+            })->get();
+        }else{
+            $catRoot = Categoria::query()->where('categoria_id',$id)->get();
+        }
         foreach($catRoot as $cat){
             $cat->subCategorias = $this->listaOrdenada($cat->id);
         }

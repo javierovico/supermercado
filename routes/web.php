@@ -39,7 +39,7 @@ Route::get('/financiero/pagos', 'MainController@index');
 Route::get('/iniciar-sesion', 'MainController@index');
 Route::get('/registrarse', 'MainController@index');
 Route::get('/admin/productos', 'MainController@index');
-Route::get('/admin/caregorias', 'MainController@index');
+Route::get('/admin/categorias', 'MainController@index');
 
 Route::get('/producto/lista', 'ProductoController@listaRecursiva');
 Route::post('/producto/thumbnail/{id}', 'ProductoController@thumbnail');
