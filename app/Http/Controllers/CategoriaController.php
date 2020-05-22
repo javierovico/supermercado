@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categoria;
+use App\Producto;
 use http\Client\Curl\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,7 +23,7 @@ class CategoriaController extends Controller
         $request->validate([
             'cantidad' => 'integer',
             'page'=>'integer',
-            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (0=> solo raiz, null: cualquiera)
+            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (0=> solo raiz, null: cualquiera)// si es vacio, trae las categorias principales
             'palabra_clave' => 'string|max:40',
             'producto_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
             'opcionProducto' => 'integer',     //1-> todos 2->sincate, 3->con cat
@@ -31,12 +32,8 @@ class CategoriaController extends Controller
         $categoriasQuery = Categoria::query();
         //VER SI SOLO SE QUIERE DE CIERTO PADRE LA CATEGORIA (el nulo = solo los principales)
 
-        if(null !== ($categoriaPadre = $request->get('categoria_id'))){
-            $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre==0?null:$categoriaPadre);
-        }else{
-            //sino toma los de la categoria principal
-            $categoriasQuery = $categoriasQuery->where('codigo','principales');
-        }
+        $categoriaPadre = $request->get('categoria_id',null);
+        $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre);
         //IMPRIMIR LA CANTIDAD DE PRODUCTOS QUE SE TIENE
         $categoriasQuery = $categoriasQuery->withCount(['productos as cant_productos']);
         //FILTRO POR CANTIDAD DE PRODUCTOS
@@ -75,6 +72,47 @@ class CategoriaController extends Controller
 //        return Categoria::porPadreId($categoria_id);
     }
 
+    /**
+     * Retorna los productos de esa categoria
+     * @param Request $request
+     * @param null $nombre
+     * @return |null
+     */
+    public function catName(Request $request, $nombre = 'general'){
+        $request->validate([
+            'cantidad' => 'integer',
+            'page'=>'integer',
+            'palabra_clave' => 'string|max:40',
+            'producto_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
+            'opcionProducto' => 'integer',     //1-> todos 2->sincate, 3->con cat
+            'producto_id' => 'integer',         //si pertenece solo a un tipo de producto
+        ]);
+        $categoria = Categoria::query()->where('codigo',$nombre)->firstOrFail();
+        $categoriaId = $categoria->id;
+        $productosQuery = Producto::query();
+        $productosQuery = $productosQuery->where(function(Builder $we) use ($request, $categoriaId) {
+            $we->whereHas('categorias',function (Builder $q) use ($categoriaId){
+                $this->recur($q,$categoriaId);
+            });
+            if($request->get('recursivo',false)) {
+                $we->orwhereHas('categorias.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                    $this->recur($q, $categoriaId/*,$palabraClave*/);
+                });
+                $we->orwhereHas('categorias.categoriaPadre.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                    $this->recur($q, $categoriaId/*,$palabraClave*/);
+                });
+                $we->orwhereHas('categorias.categoriaPadre.categoriaPadre.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
+                    $this->recur($q, $categoriaId/*,$palabraClave*/);
+                });
+            }
+        });
+        return $productosQuery->paginate();
+    }
+
+    private function recur(Builder &$q,$categoriaId){
+        $q->where('id','=',$categoriaId);
+        return $q;
+    }
     /**
      * Retorna un array con todas las categorias que existen
      * @param null $id

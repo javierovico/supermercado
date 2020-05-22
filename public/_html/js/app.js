@@ -3805,7 +3805,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.cargando = true;
       this.categorias = [];
-      axios.get('categoria', {
+      axios.get('/categoria', {
         params: {
           producto_id: this.producto.id
         }
@@ -70491,7 +70491,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
     path: '/admin/productos',
     component: _components_ProductosView__WEBPACK_IMPORTED_MODULE_14__["default"]
   }, {
-    path: '/admin/caregorias',
+    path: '/admin/categorias',
     component: _components_CategoriasView__WEBPACK_IMPORTED_MODULE_15__["default"]
   }]
 });
@@ -70528,7 +70528,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
         // console.log(state.auth.roles);
         return state.auth && state.auth.roles.includes(rol);
       };
-    }
+    },
+    url: url
   }
 });
 /**

@@ -9,7 +9,7 @@
                             v-if="(index+1)<categoriasAnteriores.length"
                             :key="index"
                             class="breadcrumb-item">
-                            <a @click="desapilar(index)" href="#">
+                            <a @click.prevent="desapilar(index)" href="#">
                                 {{catAnt.nombre}}
                             </a>
                         </li>
@@ -20,7 +20,7 @@
                 </nav>
                 <ul class="list-group">
                     <a href="#!"
-                       @click="cambiarCategoria(index)"
+                       @click.prevent="cambiarCategoria(index)"
                        :data-index="index"
                        v-for="(categoria, index) in categorias"
                        :key="categoria.id"

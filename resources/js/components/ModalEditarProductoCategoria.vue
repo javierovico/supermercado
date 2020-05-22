@@ -248,7 +248,7 @@
             cargarCategorias(){
                 this.cargando = true;
                 this.categorias = [];
-                axios.get('categoria',{
+                axios.get('/categoria',{
                     params:{
                         producto_id: this.producto.id
                     }

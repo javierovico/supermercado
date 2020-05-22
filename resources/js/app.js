@@ -165,7 +165,7 @@ const router = new VueRouter({
         {path: '/iniciar-sesion', component: IniciarView},
         {path: '/registrarse', component: RegistrarView},
         {path: '/admin/productos', component: ProductosView},
-        {path: '/admin/caregorias', component: CategoriasView},
+        {path: '/admin/categorias', component: CategoriasView},
     ],
 });
 
@@ -200,7 +200,7 @@ const store = new Vuex.Store({
         isRol: (state) => (rol) =>{
             // console.log(state.auth.roles);
             return state.auth && state.auth.roles.includes(rol);
-        }
+        },
     },
 });
 

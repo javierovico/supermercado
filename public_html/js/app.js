@@ -3805,7 +3805,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       this.cargando = true;
       this.categorias = [];
-      axios.get('categoria', {
+      axios.get('/categoria', {
         params: {
           producto_id: this.producto.id
         }
@@ -4623,7 +4623,7 @@ __webpack_require__.r(__webpack_exports__);
         direccion: this.direccion.valor,
         apellido: this.apellido.valor,
         telefono: this.telefono.valor,
-        nacimiento: this.nacimiento.valor
+        nacimiento: $('#nacimiento').datepicker('getDate')
       };
       this.cargando = true;
       axios.post('/register', params).then(function (response) {
@@ -48393,6 +48393,7 @@ var render = function() {
                             attrs: { href: "#" },
                             on: {
                               click: function($event) {
+                                $event.preventDefault()
                                 return _vm.desapilar(index)
                               }
                             }
@@ -48447,6 +48448,7 @@ var render = function() {
                   attrs: { href: "#!", "data-index": index },
                   on: {
                     click: function($event) {
+                      $event.preventDefault()
                       return _vm.cambiarCategoria(index)
                     }
                   }
@@ -70491,7 +70493,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]({
     path: '/admin/productos',
     component: _components_ProductosView__WEBPACK_IMPORTED_MODULE_14__["default"]
   }, {
-    path: '/admin/caregorias',
+    path: '/admin/categorias',
     component: _components_CategoriasView__WEBPACK_IMPORTED_MODULE_15__["default"]
   }]
 });
