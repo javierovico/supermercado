@@ -89,7 +89,7 @@
                 console.log(this.file);
                 const formData = new FormData();
                 formData.append("thumbnail", this.file);
-                axios.post('producto/thumbnail/'+this.producto.id, formData, {
+                axios.post('/producto/thumbnail/'+this.producto.id, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

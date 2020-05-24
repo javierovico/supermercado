@@ -63,10 +63,10 @@
                 <td>{{producto.precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}}</td>
                 <td>{{producto.cant_categorias}}</td>
                 <td>
-                    <a @click="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
-                    <a @click="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
-                    <a @click="borrarProducto(index)" href="#!"><i class="material-icons">delete</i></a>
-                    <a @click="editarCategorias(index)" href="#!"><i class="material-icons">category</i></a>
+                    <a @click.prevent="editarProducto(index)" href="#!"><i class="material-icons">edit</i></a>
+                    <a @click.prevent="editarThumbnail(index)" href="#!"><i class="material-icons">add_a_photo</i></a>
+                    <a @click.prevent="borrarProducto(index)" href="#!"><i class="material-icons">delete</i></a>
+                    <a @click.prevent="editarCategorias(index)" href="#!"><i class="material-icons">category</i></a>
                 </td>
             </tr>
             </tbody>
@@ -166,7 +166,7 @@
                 console.log(this.modalThumbnail.file);
                 const formData = new FormData();
                 formData.append("thumbnail", this.modalThumbnail.file);
-                axios.post('producto/thumbnail/'+this.productos[this.modalThumbnail.index].id, formData, {
+                axios.post('/producto/thumbnail/'+this.productos[this.modalThumbnail.index].id, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

@@ -19,11 +19,12 @@ class CategoriaController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $request->validate([
             'cantidad' => 'integer',
             'page'=>'integer',
-            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (0=> solo raiz, null: cualquiera)// si es vacio, trae las categorias principales
+            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (si es vacio, trae las categorias principales (0->null)
             'palabra_clave' => 'string|max:40',
             'producto_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
             'opcionProducto' => 'integer',     //1-> todos 2->sincate, 3->con cat
@@ -31,9 +32,12 @@ class CategoriaController extends Controller
         ]);
         $categoriasQuery = Categoria::query();
         //VER SI SOLO SE QUIERE DE CIERTO PADRE LA CATEGORIA (el nulo = solo los principales)
-
-        $categoriaPadre = $request->get('categoria_id',null);
-        $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre);
+        if (null !==($categoriaPadre = $request->get('categoria_id', null))) {
+            $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre?$categoriaPadre:null);
+        }
+//        else{
+//            $categoriasQuery = $categoriasQuery->where('codigo',$categoriaPadre);
+//        }
         //IMPRIMIR LA CANTIDAD DE PRODUCTOS QUE SE TIENE
         $categoriasQuery = $categoriasQuery->withCount(['productos as cant_productos']);
         //FILTRO POR CANTIDAD DE PRODUCTOS
@@ -70,6 +74,23 @@ class CategoriaController extends Controller
 
 //        $categoria_id = $request->input('categoria_id');
 //        return Categoria::porPadreId($categoria_id);
+    }
+
+    /**
+     * Muestra las categorias de un producto
+     * @param Request $request
+     * @param $productoId int
+     */
+    public function byProducto(Request $request, $productoId){
+        $request->validate([
+            'cantidad' => 'integer',
+            'page'=>'integer',
+        ]);
+        $categoriasQuery = Categoria::query();
+        $categoriasQuery = $categoriasQuery->whereHas('productos',function (Builder $q) use ($productoId) {
+            $q->where('id','=',$productoId);
+        });
+        return $categoriasQuery->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
 
     /**

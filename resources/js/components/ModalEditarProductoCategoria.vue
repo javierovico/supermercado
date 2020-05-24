@@ -222,10 +222,12 @@
                 console.log('Buscando ',this.busqueda.buscarCategoria);
                 this.cargando= true;
                 this.paginaActual = 1;
+                const modoBusqueda = this.busqueda.buscarCategoria.length>0;
+                const modoRaiz = this.busqueda.categoriaPadreId == null;
                 axios.get('/categoria',{params:{
-                    palabra_clave: this.busqueda.buscarCategoria.length>0?this.busqueda.buscarCategoria:null,
+                    palabra_clave: modoBusqueda?this.busqueda.buscarCategoria:null,
                     producto_match: this.producto.id,
-                    categoria_id: this.busqueda.categoriaPadreId,
+                    categoria_id: (!modoRaiz || modoBusqueda)?this.busqueda.categoriaPadreId:'0',
                 }}).then((response)=>{
                     this.busqueda.resultadoBusqueda = response.data.data;
                 }).catch((error)=>{
@@ -245,14 +247,10 @@
                     this.cargando = false;
                 },4000);
             },
-            cargarCategorias(){
+            cargarCategorias(){ //carga las categorias a las cuales pertenece ese producto actual
                 this.cargando = true;
                 this.categorias = [];
-                axios.get('/categoria',{
-                    params:{
-                        producto_id: this.producto.id
-                    }
-                }).then((response)=>{
+                axios.get('/categoria/byProducto/'+this.producto.id).then((response)=>{
                     this.categorias.push(...response.data.data);
                 }).catch((error)=>{
                     this.categorias = [];
@@ -267,7 +265,7 @@
             },
             borrarCategoria(n){
                 this.cargando = true;
-                axios.post('producto/updateCategoriasList/'+this.producto.id,{
+                axios.post('/producto/updateCategoriasList/'+this.producto.id,{
                     categorias:[
                         {
                             categoriaId:this.categorias[n].id,

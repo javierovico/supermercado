@@ -230,7 +230,7 @@
                 console.log(this.modalThumbnail.file);
                 const formData = new FormData();
                 formData.append("thumbnail", this.modalThumbnail.file);
-                axios.post('producto/thumbnail/'+this.productos[this.modalThumbnail.index].id, formData, {
+                axios.post('/producto/thumbnail/'+this.productos[this.modalThumbnail.index].id, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
