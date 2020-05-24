@@ -18,7 +18,20 @@
                         </div>
                     </div>
                     <template v-else>
-                        <p>Precio Total: {{$precio(modal.precio)}}</p>
+                        <p>Precio Productos: {{$precio(modal.precio)}}</p>
+                        <p>Precio Delivery: {{$precio($store.getters.pagoDelivery)}}</p>
+                        <p>Precio Total: {{$precio(modal.precio + $store.getters.pagoDelivery)}}</p>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Metodo pago</label>
+                            </div>
+                            <select v-model="metodoPago" class="custom-select" id="inputGroupSelect01">
+                                <option disabled value="">Selecciona...</option>
+                                <option value="1">POST Online</option>
+                                <option value="2">Tarjeta Credito/Debito contraentrega</option>
+                                <option value="3">Efectivo contraentrega</option>
+                            </select>
+                        </div>
                     </template>
                     <div  id="iframe-container"/>
                 </div>
@@ -40,6 +53,7 @@
         data() {
             return {
                 cargando: false,
+                metodoPago: ''
             }
         },
         watch:{
@@ -52,49 +66,26 @@
                 this.cargando = true;
                 axios.post('/compra/confirmar',{
                     compraId: this.modal.compraId,
+                    metodo: this.metodoPago,
                 }).then((response)=>{
-                    const processId = response.data.process_id;
-                    const styles = {
-                        'input-background-color': '#453454',
-                        'input-text-color': '#B22222',
-                        'input-border-color': '#CCCCCC',
-                        'input-placeholder-color': '#999999',
-                        'button-background-color': '#5CB85C',
-                        'button-text-color': '#FFFFFF',
-                        'button-border-color': '#4CAE4C',
-                        'form-background-color': '#999999',
-                        'form-border-color': '#DDDDDD',
-                        'header-background-color': '#F5F5F5',
-                        'header-text-color': '#333333',
-                        'hr-border-color': '#B22222'
-                    };
-                    const options = {
-                        styles: styles
+                    switch(this.metodoPago){
+                        case 1:
+                            this.mostrarBancard(response.data.process_id);
+                            break;
+                        case 2:
+                        case 3:
+                            this.$router.push('/carrito/historial');
+                            break;
                     }
-                    Bancard.Checkout.createForm('iframe-container', processId, {});
-                    console.log(processId);
                 }).catch((error)=>{
                     console.log(error);
                     $.notify({title:this.$printJson(error.response.data.message)});
                 }).finally(()=>{
                     this.cargando = false;
                 });
-
-                // setTimeout(()=>{
-                //     this.cargando = false;
-                //     $('#modalConfirmarCompra').modal('hide');
-                //     this.$emit('pagoConfirmado');
-                // },3000);
-
-                // axios.post('/compra/'+this.modal.productoBorrando.pivot.id)
-                //     .then((response) => {
-                //         $('#modalConfirmarCompra').modal('hide');
-                //         this.$emit('borrado',this.modal.index);
-                //     }).catch((error)=>{
-                //         $.notify({message:error.response.data.message});
-                //     }).finally(()=>{
-                //         this.cargando=false;
-                //     });
+            },
+            mostrarBancard(processId){
+                Bancard.Checkout.createForm('iframe-container', processId, {});
             }
         }
     }

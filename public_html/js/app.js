@@ -3224,11 +3224,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['modal'],
   data: function data() {
     return {
-      cargando: false
+      cargando: false,
+      metodoPago: ''
     };
   },
   watch: {
@@ -3242,28 +3256,21 @@ __webpack_require__.r(__webpack_exports__);
 
       this.cargando = true;
       axios.post('/compra/confirmar', {
-        compraId: this.modal.compraId
+        compraId: this.modal.compraId,
+        metodo: this.metodoPago
       }).then(function (response) {
-        var processId = response.data.process_id;
-        var styles = {
-          'input-background-color': '#453454',
-          'input-text-color': '#B22222',
-          'input-border-color': '#CCCCCC',
-          'input-placeholder-color': '#999999',
-          'button-background-color': '#5CB85C',
-          'button-text-color': '#FFFFFF',
-          'button-border-color': '#4CAE4C',
-          'form-background-color': '#999999',
-          'form-border-color': '#DDDDDD',
-          'header-background-color': '#F5F5F5',
-          'header-text-color': '#333333',
-          'hr-border-color': '#B22222'
-        };
-        var options = {
-          styles: styles
-        };
-        Bancard.Checkout.createForm('iframe-container', processId, {});
-        console.log(processId);
+        switch (_this.metodoPago) {
+          case 1:
+            _this.mostrarBancard(response.data.process_id);
+
+            break;
+
+          case 2:
+          case 3:
+            _this.$router.push('/carrito/historial');
+
+            break;
+        }
       })["catch"](function (error) {
         console.log(error);
         $.notify({
@@ -3271,20 +3278,10 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["finally"](function () {
         _this.cargando = false;
-      }); // setTimeout(()=>{
-      //     this.cargando = false;
-      //     $('#modalConfirmarCompra').modal('hide');
-      //     this.$emit('pagoConfirmado');
-      // },3000);
-      // axios.post('/compra/'+this.modal.productoBorrando.pivot.id)
-      //     .then((response) => {
-      //         $('#modalConfirmarCompra').modal('hide');
-      //         this.$emit('borrado',this.modal.index);
-      //     }).catch((error)=>{
-      //         $.notify({message:error.response.data.message});
-      //     }).finally(()=>{
-      //         this.cargando=false;
-      //     });
+      });
+    },
+    mostrarBancard: function mostrarBancard(processId) {
+      Bancard.Checkout.createForm('iframe-container', processId, {});
     }
   }
 });
@@ -4751,7 +4748,17 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.modalConfirmacionPago.precio = total;
       this.modalConfirmacionPago.compraId = this.carritoProductos[0].pivot.compra_id;
-      $('#modalConfirmarCompra').modal();
+      var pagoMinimo = this.$store.getters.pagoMinimo;
+      console.log(pagoMinimo);
+
+      if (pagoMinimo > total) {
+        $.notify({
+          title: 'El pago minimo es de ' + this.$precio(pagoMinimo),
+          message: ''
+        });
+      } else {
+        $('#modalConfirmarCompra').modal();
+      }
     },
     borrarCarrito: function borrarCarrito(prod, index) {
       $('#modalBorrarCarrito').modal();
@@ -4861,6 +4868,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -4924,6 +4933,15 @@ __webpack_require__.r(__webpack_exports__);
   // computed:{
   // },
   methods: {
+    estado: function estado(compra) {
+      if (compra.pagado == 1) {
+        return 'pagado';
+      } else if (compra.estado == 'xx') {
+        return 'contraentrega pendiente';
+      }
+
+      return 'desconocido';
+    },
     leer: function leer() {
       var _this = this;
 
@@ -50183,7 +50201,78 @@ var render = function() {
                 : [
                     _c("p", [
                       _vm._v(
-                        "Precio Total: " + _vm._s(_vm.$precio(_vm.modal.precio))
+                        "Precio Productos: " +
+                          _vm._s(_vm.$precio(_vm.modal.precio))
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "Precio Delivery: " +
+                          _vm._s(_vm.$precio(_vm.$store.getters.pagoDelivery))
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _vm._v(
+                        "Precio Total: " +
+                          _vm._s(
+                            _vm.$precio(
+                              _vm.modal.precio + _vm.$store.getters.pagoDelivery
+                            )
+                          )
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group mb-3" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.metodoPago,
+                              expression: "metodoPago"
+                            }
+                          ],
+                          staticClass: "custom-select",
+                          attrs: { id: "inputGroupSelect01" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.metodoPago = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { disabled: "", value: "" } }, [
+                            _vm._v("Selecciona...")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("POST Online")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Tarjeta Credito/Debito contraentrega")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("Efectivo contraentrega")
+                          ])
+                        ]
                       )
                     ])
                   ],
@@ -50274,6 +50363,21 @@ var staticRenderFns = [
       { staticClass: "spinner-border", attrs: { role: "status" } },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "label",
+        {
+          staticClass: "input-group-text",
+          attrs: { for: "inputGroupSelect01" }
+        },
+        [_vm._v("Metodo pago")]
+      )
+    ])
   }
 ]
 render._withStripped = true
@@ -53514,6 +53618,8 @@ var render = function() {
             _vm._v(" "),
             _c("th", { attrs: { scope: "col" } }, [_vm._v("Total")]),
             _vm._v(" "),
+            _c("th", { attrs: { scope: "col" } }, [_vm._v("Estado")]),
+            _vm._v(" "),
             _c("th", { attrs: { scope: "col" } }, [_vm._v("Acciones")])
           ])
         ]),
@@ -53541,6 +53647,8 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(_vm.$precio(compra.pago_total)))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(_vm.estado(compra)))]),
               _vm._v(" "),
               _c(
                 "td",
@@ -70463,7 +70571,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
       iniciado: false,
       name: '',
       roles: []
-    }
+    },
+    pagoMinimo: 100000,
+    //ACTUALIZAR TAMBIEN EN ENVIORMENT
+    pagoDelivery: 20000 //actualizar en enviorment
+
   },
   mutations: {
     setAuth: function setAuth(state, valor) {
@@ -70484,6 +70596,12 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
     },
     iniciado: function iniciado(state) {
       return state.auth && state.auth.iniciado;
+    },
+    pagoMinimo: function pagoMinimo(state) {
+      return state.pagoMinimo;
+    },
+    pagoDelivery: function pagoDelivery(state) {
+      return state.pagoDelivery;
     },
     isRol: function isRol(state) {
       return function (rol) {

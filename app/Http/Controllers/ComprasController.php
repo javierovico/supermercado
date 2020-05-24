@@ -25,8 +25,9 @@ class ComprasController extends Controller
     public function index(Request $request){
         $this->autorizar('user');
         $user = Auth::user();
-        $productos = $user->compras()->where('pagado',false)->first();//->productos();
-        $productos = $productos?$productos->productos():Producto::query()->where('id','=',-1);
+        /** @var Compra $carrito */
+        $carrito = $user->compras()->where('pagado',false)->where('estado','!=','xx')->first();//->productos();
+        $productos = $carrito?$carrito->productos()->where('codigo','!=','delivery'):Producto::query()->where('id','=',-1);
         return $productos->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
 
@@ -133,73 +134,6 @@ class ComprasController extends Controller
         return response(['message'=>'no, perra'],400);
     }
 
-//    public function prueba(Request $request){
-//        $privateKey = 'CFpJf+qjxCF0$yKeSerPHgd+mPS1$AgIOR3qRt3U';
-//        $shopProccessId = '9';
-//        $amount = '10000.00';
-//        $currency = 'PYG';
-//        $tokenPagoSimple = md5($privateKey . $shopProccessId . $amount . $currency );
-//        $cardId = '304';
-//        $userId = '478';
-//        $requestNuevo = 'request_new_card';
-//        $tokenNuevoCard = md5($privateKey .$cardId . $userId . $requestNuevo );
-//        $response = Http::post('https://vpos.infonet.com.py:8888/vpos/api/0.3/cards/new',[
-//            "operation.public_key"=> "d3uY6f5jkDBa0AtPGcTeaVyzoQlFlHCH",
-//            'operation' => [
-//                "operation.token" => $tokenNuevoCard,
-//                'card_id' => $cardId,
-//                'user_id' => $userId,
-//                'user_cell_phone' => '0971639734',
-//                'user_mail' => 'javierovico@gmail.com',
-//                'shop_process_id' => $shopProccessId,
-//                'amount' => $amount,
-//                'currency' => $currency,
-//                'descripcion' => 'probando',
-//                'return_url' => 'http://kamaleon360.com',
-//                'cancel_url' => 'http://kamaleon360.com',
-//            ]
-//        ]);
-//        echo $response->body();
-//
-//        return;
-//
-//        $success =  $response->status() == 200;
-//        $processId = $success?$response->json()['process_id']:null;
-//        if($success){
-//            return view('prueba',[
-//                'success' => $success,
-//                'processId' => $processId,
-//            ]);
-//        }else{
-//            echo $response->body();
-//        }
-//    }
-
-//    private function rollBack($id){
-//        $token = md5(env('BANCARD_PRIVATE_KEY') .$id .  'rollback' . '0.00' );
-//        $response = Http::post('https://vpos.infonet.com.py:8888/vpos/api/0.3/single_buy/rollback',[
-//            'public_key' => env('BANCARD_PUBLIC_KEY'),
-//            "operation.operation"=> [
-//                "operation.token"=> $token,
-//                "operation.shop_process_id"=> $id,
-//                "operation.amount"=> '0.00',
-//                "operation.currency"=> "PYG",
-//                "operation.additional_data"=> "",
-//                "operation.description"=> "Compra de ",
-//                "operation.return_url"=> env('APP_URL'),
-//                "operation.cancel_url"=> env('APP_URL')
-//            ],
-//            "operation.test_client"=> true,
-//        ]);
-//        $respuesta = $response->json();
-//        if($respuesta == null){
-//            abort(400,$response->body());
-//        }
-//        if($respuesta['status'] == 'error'){
-//            abort(400,$response->body());
-//        }
-//    }
-
 
     public function rollback(Request $request, $id){
         $this->autorizar('financiero');
@@ -231,49 +165,32 @@ class ComprasController extends Controller
         $this->autorizar('user');
         $user = Auth::user();
         $compraId = $request->validate([
-            'compraId' => 'required|integer|min:1'
+            'compraId' => 'required|integer|min:1',
+            'metodo' => 'required|in:1,2,3'
         ])['compraId'];
         $compra =  Compra::find($compraId);
+        //borrar el producto delivery (si existiese)
+        $delivery = Producto::query()->where('codigo','delivery')->firstOrFail();   //el delivery
+        $compra->productos()->detach($delivery->id);        //sacamos si existiese
+        //agregarle el precio de delivery
+        $compra->productos()->attach($delivery->id,[
+            'cantidad' => 1,
+            'precio_actual' => 0
+        ]);
+        $compra->save();
+        //fin precio delivery
         if($user->carritoCompra()->id != $compra->id){
             abort(401,'no tenes autorizacion');
+        }
+        if($compra->precioTotal() < (env('PAGO_MINIMO') + env('PAGO_DELIVERY'))){
+            abort(401,'Pago minimo es '.env('PAGO_MINIMO'));
         }
         $compra->actualizarPreciosIntermedios();
         $pago = new Pago();
         $pago->compra()->associate($compra);
+        $pago->tipo_pago = ($metodoPago = $request->get('metodo'));
         $pago->save();
-        $precioTotalString = number_format($compra->precioTotal(),2,'.','');
-        $token = md5(env('BANCARD_PRIVATE_KEY') .$pago->id . $precioTotalString  . 'PYG' );
-        $pago->token = $token;
-        $response = Http::post(env('BANCARD_URL').'single_buy',[
-            'public_key' => env('BANCARD_PUBLIC_KEY'),
-            "operation"=> [
-                "token"=> $token,
-                "shop_process_id"=> $pago->id,
-                "amount"=> $precioTotalString,
-                "currency"=> "PYG",
-                "additional_data"=> "",
-                "description"=> "Compra de " . $user->name,
-                "return_url"=> env('APP_URL').'/carrito/historial',      //retorna ?status=payment_success si funciono
-                "cancel_url"=> env('APP_URL').'/carrito/historial',
-            ],
-            "test_client"=> true,
-        ]);
-        $respuesta = $response->json();
-        if($respuesta == null){
-            $pago->key = 'NO_ACCESS_VPOS';
-            $pago->save();
-            return response(['message'=>'no se pudo acceder a bancard'],400);
-        }
-        if($respuesta['status'] != 'success'){
-            $pago->dsc = $respuesta['messages'][0]['dsc'];
-            $pago->key =$respuesta['messages'][0]['key'];
-            $pago->save();
-            return response(['message'=> $respuesta['messages'][0]['key'], 'respuesta' => $respuesta],400);
-        }
-        $pago->process_id = $respuesta['process_id'];
-        $pago->save();
-
-        return ['success'=>true,'process_id'=>$pago->process_id];
+        return $pago->procesarPago();
     }
 
     public function respuestaVPOST(Request $request){
@@ -314,7 +231,7 @@ class ComprasController extends Controller
         }else{
             $this->autorizar('user');
             $user = Auth::user();
-            $pagos = $user->compras()->where('pagado',1)->orderBy('updated_at','desc');
+            $pagos = $user->compras()->where('estado','!=','carr')->orderBy('updated_at','desc');
         }
         return $pagos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
     }

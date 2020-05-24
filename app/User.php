@@ -46,7 +46,7 @@ class User extends Authenticatable
     }
 
     public function carritoCompra(){
-        return $this->compras->where('pagado',false)->first();
+        return $this->compras->where('pagado',false)->where('estado','!=','xx')->first();
     }
 
     public function authorizeRoles($roles){

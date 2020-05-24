@@ -100,7 +100,16 @@
                 })
                 this.modalConfirmacionPago.precio = total;
                 this.modalConfirmacionPago.compraId = this.carritoProductos[0].pivot.compra_id;
-                $('#modalConfirmarCompra').modal();
+                const pagoMinimo = this.$store.getters.pagoMinimo;
+                console.log(pagoMinimo);
+                if(pagoMinimo > total){
+                    $.notify({
+                        title: 'El pago minimo es de '+this.$precio(pagoMinimo),
+                        message:''
+                    })
+                }else{
+                    $('#modalConfirmarCompra').modal();
+                }
             },
             borrarCarrito(prod,index){
                 $('#modalBorrarCarrito').modal();

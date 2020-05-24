@@ -176,6 +176,8 @@ const store = new Vuex.Store({
             name: '',
             roles:[],
         },
+        pagoMinimo: 100000,     //ACTUALIZAR TAMBIEN EN ENVIORMENT
+        pagoDelivery: 20000,    //actualizar en enviorment
     },
     mutations:{
         setAuth(state,valor){
@@ -196,6 +198,12 @@ const store = new Vuex.Store({
         },
         iniciado: state=>{
             return state.auth && state.auth.iniciado;
+        },
+        pagoMinimo: state=>{
+            return state.pagoMinimo;
+        },
+        pagoDelivery: state=>{
+            return state.pagoDelivery;
         },
         isRol: (state) => (rol) =>{
             // console.log(state.auth.roles);

@@ -8,6 +8,7 @@
                 <th v-if="$store.getters.isRol('financiero')" scope="col">Nombre</th>
                 <th v-if="$store.getters.isRol('financiero')" scope="col">Telefono</th>
                 <th scope="col">Total</th>
+                <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
             </tr>
             </thead>
@@ -18,6 +19,7 @@
                 <td v-if="$store.getters.isRol('financiero')">{{compra.user.name}}{{compra.user.apellido}}</td>
                 <td v-if="$store.getters.isRol('financiero')">{{compra.user.telefono}}</td>
                 <td>{{$precio(compra.pago_total)}}</td>
+                <td>{{estado(compra)}}</td>
                 <td>
                     <router-link :to="{path:'/carrito/historial/detalle/'+compra.id}" data-toggle="tooltip" data-placement="top" title="Ver detalles de compra"><i class="material-icons">remove_red_eye</i></router-link>
                     <a href="#!" v-if="$store.getters.isRol('financiero')" @click.prevent="mostrarConfirmacionRollback(index)" data-toggle="tooltip" data-placement="top" title="Deshacer Pago"><i class="material-icons">close</i></a>
@@ -98,6 +100,14 @@
         // },
 
         methods: {
+            estado(compra){
+                if(compra.pagado == 1){
+                    return 'pagado';
+                }else if(compra.estado == 'xx'){
+                    return 'contraentrega pendiente'
+                }
+                return 'desconocido';
+            },
             leer(){
                 let parametroBusqueda = {
                     page: this.paginaActual,
