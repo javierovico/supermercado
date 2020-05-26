@@ -22,7 +22,7 @@ class Pago extends Model{
 
     public function procesarPago(){
         $compra = $this->compra;
-        $compra->response_code = 'x' . $this->tipo_pago;    //dennotara no pagado (x1, x2, x3 ...)
+        $compra->estado = 'x' . $this->tipo_pago;    //dennotara no pagado (x1, x2, x3 ...)
         $compra->save();
         switch ($this->tipo_pago){
             case 1:
