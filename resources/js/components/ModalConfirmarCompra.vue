@@ -64,6 +64,10 @@
         methods: {
             confirmarBorrar(){
                 this.cargando = true;
+                if(this.metodoPago=='' || this.metodoPago < 1){
+                    $.notify({title:'Debe seleccionar un metodo de pago',content:''});
+                    return;
+                }
                 axios.post('/compra/confirmar',{
                     compraId: this.modal.compraId,
                     metodo: this.metodoPago,
