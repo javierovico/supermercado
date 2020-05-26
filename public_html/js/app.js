@@ -4180,16 +4180,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metismenu/src/index.js");
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      // auth:{
-      //     iniciado: false,
-      //     name: '',
-      //     roles:[],
-      // },
       sel: 'inicio',
       //'inicio', 'carrito','categorias','productos','iniciar','registro',
       categoriasAnidadas: [],
@@ -4225,9 +4228,7 @@ var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metism
         query: {
           categoriaId: categoria.id
         }
-      }); // this.cambiarSeccion('inicio');
-      // this.categoriaSeleccionada = categoria;
-      // $('#navbarSupportedCategoria').collapse('hide');
+      });
     },
     cambiarSeccion: function cambiarSeccion(secc) {
       this.sel = secc;
@@ -4236,10 +4237,7 @@ var meti = __webpack_require__(/*! metismenu/src/index */ "./node_modules/metism
       var _this2 = this;
 
       axios.post('/logout').then(function (response) {
-        _this2.$store.commit('setAuth', response.data); // this.$auth.iniciado = false;
-        // this.$auth.name = '';
-        // this.$auth.roles = [];
-
+        _this2.$store.commit('setAuth', response.data);
       }).then(function (response) {
         _this2.$router.push('/');
       })["catch"](function (error) {
@@ -51963,23 +51961,9 @@ var render = function() {
         [
           _vm._m(0),
           _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "navbar-brand",
-              attrs: {
-                href: "#",
-                "data-toggle": "collapse",
-                "data-target": "#navbarSupportedCategoria",
-                "aria-controls": "navbarSupportedCategoria",
-                "aria-expanded": "false",
-                "aria-label": "Toggle navigation"
-              }
-            },
-            [_vm._v("Del Super")]
-          ),
-          _vm._v(" "),
           _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "div",
@@ -52251,7 +52235,7 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(3)
               ]),
               _vm._v(" "),
               _c(
@@ -52298,7 +52282,7 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _vm._m(3)
+                  _vm._m(4)
                 ]
               )
             ]
@@ -52587,7 +52571,7 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(4)
+    _vm._m(5)
   ])
 }
 var staticRenderFns = [
@@ -52609,6 +52593,30 @@ var staticRenderFns = [
         }
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "navbar-brand",
+        attrs: {
+          href: "#",
+          "data-toggle": "collapse",
+          "data-target": "#navbarSupportedCategoria",
+          "aria-controls": "navbarSupportedCategoria",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [
+        _c("img", {
+          attrs: { src: "/img/logo.png", width: "30", height: "30", alt: "" }
+        })
+      ]
     )
   },
   function() {
@@ -52671,84 +52679,82 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "page-footer" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col l6 s12" }, [
-            _c("h5", { staticClass: "white-text" }, [_vm._v("Footer Content")]),
-            _vm._v(" "),
-            _c("p", { staticClass: "grey-text text-lighten-4" }, [
+    return _c("footer", { staticClass: "pt-4 my-md-5 pt-md-5 border-top" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12 col-md" }, [
+          _c("img", {
+            staticClass: "mb-2",
+            attrs: { src: "img/logo.png", alt: "", width: "24", height: "24" }
+          }),
+          _vm._v(" "),
+          _c("small", { staticClass: "d-block mb-3 text-muted" }, [
+            _vm._v("© 2020-2020")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6 col-md-8" }, [
+          _c("h5", [_vm._v("Nosotros")]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "list-unstyled text-small" }, [
+            _c("p", [
               _vm._v(
-                "You can use rows and columns here to organize your footer content."
+                "\n                            Nacemos por que queremos cuidarte."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa,\n                            vimos la necesidad proteger la salud de las personas mas vulnerables."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            Buscamos hacer las compras del supermercado, mas facil, rapido y accesible."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa.\n                            facil - Rapido - seguro"
+              ),
+              _c("br"),
+              _vm._v("\n                            Como funciona?"),
+              _c("br"),
+              _vm._v(
+                "\n                            Desde ahora podes comprar desde tu casa y sin esfuerzo."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            Elegi un supermercado de tu zona de cobertura, hace tu recorrido en el supermercado virtual sin levantarte del\n                            sofa, una vez que tengas todo lo mas rico en tu carrito podes proceder al pago, mientras tanto nosotros\n                            preparamos tu pedido, vas a recibir un correo confirmando los productos que elegiste y el monto total."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            pronto el delivery estara llegando a tu casa."
+              ),
+              _c("br"),
+              _vm._v(
+                "\n                            Compra desde el exterior, desde la computadora en la oficina o desde u celular."
+              ),
+              _c("br"),
+              _vm._v("\n                            horario de envios"),
+              _c("br"),
+              _vm._v(
+                "\n                            una vez que confirmemos tu pedido, hacemos la entrega en un periodo de 1 - 5 horas\n                            los horarios de entrega son de 9:00 a 19:00\n                            los precios y horarios de entrega pueden variar segun el local y/o fechas festivas.\n                        "
               )
             ])
-          ]),
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-6 col-md" }, [
+          _c("h5", [_vm._v("Mas")]),
           _vm._v(" "),
-          _c("div", { staticClass: "col l4 offset-l2 s12" }, [
-            _c("h5", { staticClass: "white-text" }, [_vm._v("Links")]),
-            _vm._v(" "),
-            _c("ul", [
-              _c("li", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "grey-text text-lighten-3",
-                    attrs: { href: "#!" }
-                  },
-                  [_vm._v("Link 1")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "grey-text text-lighten-3",
-                    attrs: { href: "#!" }
-                  },
-                  [_vm._v("Link 2")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "grey-text text-lighten-3",
-                    attrs: { href: "#!" }
-                  },
-                  [_vm._v("Link 3")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "grey-text text-lighten-3",
-                    attrs: { href: "#!" }
-                  },
-                  [_vm._v("Link 4")]
-                )
-              ])
+          _c("ul", { staticClass: "list-unstyled text-small" }, [
+            _c("li", [
+              _c(
+                "a",
+                {
+                  staticClass: "text-muted",
+                  attrs: { href: "img/terminos.pdf" }
+                },
+                [_vm._v("Terminos y condiciones")]
+              )
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "footer-copyright" }, [
-        _c("div", { staticClass: "container" }, [
-          _vm._v(
-            "\n                    © 2014 Copyright Text\n                    "
-          ),
-          _c(
-            "a",
-            {
-              staticClass: "grey-text text-lighten-4 right",
-              attrs: { href: "#!" }
-            },
-            [_vm._v("More Links")]
-          )
         ])
       ])
     ])

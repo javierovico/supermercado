@@ -50,7 +50,7 @@ class ProductoController extends Controller{
         //solo de cierta categoria
         if($categoriaId = $request->get('categoria_id')){
             $productosQuery = $productosQuery->where(function(Builder $we) use ($request, $categoriaId) {
-                $we->whereHas('categorias',function (Builder $q) use (/*$palabraClave,*/ $categoriaId){$this->recur($q,$categoriaId/*,$palabraClave*/);});
+                $we->whereHas('categorias',function (Builder $q) use ($categoriaId){$this->recur($q,$categoriaId);});
                 if($request->get('recursivo',false)) {
                     $we->orwhereHas('categorias.categoriaPadre', function (Builder $q) use (/*$palabraClave,*/ $categoriaId) {
                         $this->recur($q, $categoriaId/*,$palabraClave*/);

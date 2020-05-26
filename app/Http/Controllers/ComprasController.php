@@ -26,7 +26,7 @@ class ComprasController extends Controller
         $this->autorizar('user');
         $user = Auth::user();
         /** @var Compra $carrito */
-        $carrito = $user->compras()->where('pagado',false)->where('estado','!=','xx')->first();//->productos();
+        $carrito = $user->carritoCompra();//->productos();
         $productos = $carrito?$carrito->productos()->where('codigo','!=','delivery'):Producto::query()->where('id','=',-1);
         return $productos->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
@@ -62,9 +62,7 @@ class ComprasController extends Controller
         }
         //FIN VALIDACION
         $user = Auth::user();
-        $ultimaCompra = Compra::query()->whereHas('user',function (Builder $q) use ($user) {
-            $q->where('id','=',$user->id);
-        })->where('pagado',false)->orderBy('updated_at','desc')->first();
+        $ultimaCompra = $user->carritoCompra();
         if($ultimaCompra == null){
             $ultimaCompra = new Compra();
             $ultimaCompra->user()->associate($user);

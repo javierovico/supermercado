@@ -6,7 +6,9 @@
 <!--                <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--                    <i class="material-icons">storefront</i>-->
 <!--                </button>-->
-                <a class="navbar-brand" href="#" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">Del Super</a>
+                <a class="navbar-brand" href="#" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="/img/logo.png" width="30" height="30" alt="">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="material-icons prefix white-text">face</i>
                 </button>
@@ -126,50 +128,52 @@
 <!--                <seccion-carrito :auth="auth" v-if="sel === 'carrito'"></seccion-carrito>-->
             </div>
         </main>
-        <footer class="page-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Footer Content</h5>
-                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-                    </div>
-                    <div class="col l4 offset-l2 s12">
-                        <h5 class="white-text">Links</h5>
-                        <ul>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                        </ul>
-                    </div>
+        <!-- Footer -->
+        <footer class="pt-4 my-md-5 pt-md-5 border-top">
+            <div class="row">
+                <div class="col-12 col-md">
+                    <img class="mb-2" src="img/logo.png" alt="" width="24" height="24">
+                    <small class="d-block mb-3 text-muted">© 2020-2020</small>
                 </div>
-            </div>
-            <div class="footer-copyright">
-                <div class="container">
-                    © 2014 Copyright Text
-                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+                <div class="col-6 col-md-8">
+                    <h5>Nosotros</h5>
+                    <ul class="list-unstyled text-small">
+                        <p>
+                            Nacemos por que queremos cuidarte.<br>
+                            En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa,
+                            vimos la necesidad proteger la salud de las personas mas vulnerables.<br>
+                            Buscamos hacer las compras del supermercado, mas facil, rapido y accesible.<br>
+                            desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa.
+                            facil - Rapido - seguro<br>
+                            Como funciona?<br>
+                            Desde ahora podes comprar desde tu casa y sin esfuerzo.<br>
+                            Elegi un supermercado de tu zona de cobertura, hace tu recorrido en el supermercado virtual sin levantarte del
+                            sofa, una vez que tengas todo lo mas rico en tu carrito podes proceder al pago, mientras tanto nosotros
+                            preparamos tu pedido, vas a recibir un correo confirmando los productos que elegiste y el monto total.<br>
+                            pronto el delivery estara llegando a tu casa.<br>
+                            Compra desde el exterior, desde la computadora en la oficina o desde u celular.<br>
+                            horario de envios<br>
+                            una vez que confirmemos tu pedido, hacemos la entrega en un periodo de 1 - 5 horas
+                            los horarios de entrega son de 9:00 a 19:00
+                            los precios y horarios de entrega pueden variar segun el local y/o fechas festivas.
+                        </p>
+                    </ul>
+                </div>
+                <div class="col-6 col-md">
+                    <h5>Mas</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="img/terminos.pdf">Terminos y condiciones</a></li>
+                    </ul>
                 </div>
             </div>
         </footer>
     </div>
-
-<!--    <div class="container">-->
-<!--        <seccion-producto v-if="sel === 'producto'"></seccion-producto>-->
-<!--        <seccion-categoria v-if="sel === 'categorias'"></seccion-categoria>-->
-<!--        <seccion-iniciar v-if="sel === 'iniciar'"></seccion-iniciar>-->
-<!--    </div>-->
 </template>
 
 <script>
-    const meti = require('metismenu/src/index');
     export default {
         data() {
             return {
-                // auth:{
-                //     iniciado: false,
-                //     name: '',
-                //     roles:[],
-                // },
                 sel: 'inicio',  //'inicio', 'carrito','categorias','productos','iniciar','registro',
                 categoriasAnidadas: [],
                 categoriaSeleccionada:null,
@@ -200,9 +204,6 @@
             menuPulsado: function(categoria){
                 // console.log(categoria.nombre);
                 this.$router.push({path:'/',query:{categoriaId: categoria.id}})
-                // this.cambiarSeccion('inicio');
-                // this.categoriaSeleccionada = categoria;
-                // $('#navbarSupportedCategoria').collapse('hide');
             },
             cambiarSeccion: function (secc) {
                 this.sel = secc;
@@ -210,9 +211,6 @@
             cerrarSesion: function () {
                 axios.post('/logout').then((response) => {
                     this.$store.commit('setAuth',response.data);
-                    // this.$auth.iniciado = false;
-                    // this.$auth.name = '';
-                    // this.$auth.roles = [];
                 }).then((response)=>{
                     this.$router.push('/');
                 }).catch((error)=>{

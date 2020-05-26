@@ -15,7 +15,7 @@ class UserTableSeeder extends Seeder
     public function run(){
         $user = new User();
         $user->name = 'Financiero';
-        $user->email = 'financiero@elsuper.com.py';
+        $user->email = 'financiero@delsuper.com.py';
         $user->password = Hash::make('f1nanc1Er0');
         $user->save();
         $user->roles()->attach(Role::where('name', 'user')->first());
@@ -23,7 +23,7 @@ class UserTableSeeder extends Seeder
 //admin
         $user = new User();
         $user->name = 'Administrador';
-        $user->email = 'administrador@elsuper.com.py';
+        $user->email = 'administrador@delsuper.com.py';
         $user->password = Hash::make('adm!nIstrd0R');
         $user->save();
         $user->roles()->attach(Role::where('name', 'user')->first());
