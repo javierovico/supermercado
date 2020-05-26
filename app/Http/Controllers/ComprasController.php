@@ -203,7 +203,7 @@ class ComprasController extends Controller
             $authorization = $operacion['operation']['authorization_number'];
             $ticket = $operacion['operation']['ticket_number'];
             $responseDesc = $operacion['operation']['response_description'];
-            $precio = $operacion['operation']['amount'];
+            $precio = floatval($operacion['operation']['amount']);
             $pago->precio = $precio;
             $pago->ticket = $ticket;
             $pago->response_code = $responseCode;
