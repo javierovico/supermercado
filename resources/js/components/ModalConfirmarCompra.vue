@@ -74,6 +74,9 @@
                             break;
                         case 2:
                         case 3:
+                        case '2':
+                        case '3':
+                            $('#modalConfirmarCompra').modal('hide');
                             this.$router.push('/carrito/historial');
                             break;
                     }

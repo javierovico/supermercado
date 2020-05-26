@@ -63,11 +63,6 @@ class ComprasController extends Controller
         //FIN VALIDACION
         $user = Auth::user();
         $ultimaCompra = $user->carritoCompra();
-        if($ultimaCompra == null){
-            $ultimaCompra = new Compra();
-            $ultimaCompra->user()->associate($user);
-            $ultimaCompra->save();
-        }
         $compraProducto = CompraProducto::query()
             ->where('compra_id','=',$ultimaCompra->id)
             ->where('producto_id','=',$producto->id)->first();
@@ -81,6 +76,7 @@ class ComprasController extends Controller
             $compraProducto->cantidad += $cantidad;
             $compraProducto->save();
         }
+        $ultimaCompra->actualizarPreciosIntermedios();
         return [
             'success' => true,
             'message' => 'guardado'
@@ -200,6 +196,7 @@ class ComprasController extends Controller
             $responseCode = $operacion['operation']['response_code'];
             if($responseCode == '00'){
                 $compra = $pago->compra;
+                $compra->estado = 'x1'; //que ya se pago con metodo 1
                 $compra->pagado = 1;
                 $compra->save();
             }
@@ -225,11 +222,11 @@ class ComprasController extends Controller
             'page'=>'integer',          //pagina actual
         ]);
         if(($user = Auth::user()) && $user->hasRole('financiero')){
-            $pagos = Compra::query()->where('pagado',1)->with('user')->orderBy('updated_at','desc');
+            $pagos = Compra::query()->where('estado','<>','car')->with('user')->orderBy('updated_at','desc');
         }else{
             $this->autorizar('user');
             $user = Auth::user();
-            $pagos = $user->compras()->where('estado','!=','carr')->orderBy('updated_at','desc');
+            $pagos = $user->compras()->where('estado','<>','car')->orderBy('updated_at','desc');
         }
         return $pagos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
     }

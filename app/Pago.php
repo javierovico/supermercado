@@ -21,13 +21,18 @@ class Pago extends Model{
     }
 
     public function procesarPago(){
+        $this->response_code = 'x' . $this->tipo_pago;    //dennotara no pagado (x1, x2, x3 ...)
+        $this->save();
         switch ($this->tipo_pago){
             case 1:
-                $this->procesarPost();
+                return $this->procesarPost();
                 break;
             case 2:
             case 3:
-                $this->procesarContraentrega();
+                return $this->procesarContraentrega();
+                break;
+            default:
+                return response([],400);
                 break;
         }
     }
@@ -70,15 +75,11 @@ class Pago extends Model{
         }
         $this->process_id = $respuesta['process_id'];
         $this->save();
-        return response(['success'=>true,'process_id'=>$this->process_id],200);
+        return response(['metodoPago' => $this->tipo_pago, 'success'=>true,'process_id'=>$this->process_id],200);
     }
 
     public function procesarContraentrega(){
-        $this->response_code = 'xx';    //dennotara no pagado
-        $this->save();
-        $compra = $this->compra;
-        $compra->estado = 'xx';         //dennota no pagado pero en proceso
-        $compra->save();
+        return response(['metodoPago' => $this->tipo_pago, 'success' => true]);
     }
 
 }

@@ -103,8 +103,10 @@
             estado(compra){
                 if(compra.pagado == 1){
                     return 'pagado';
-                }else if(compra.estado == 'xx'){
-                    return 'contraentrega pendiente'
+                }else if(compra.estado == 'x1'){
+                    return 'contraentrega pendiente (d/c)'
+                }else if(compra.estado == 'x2'){
+                    return 'contraentrega pendiente (e)'
                 }
                 return 'desconocido';
             },
