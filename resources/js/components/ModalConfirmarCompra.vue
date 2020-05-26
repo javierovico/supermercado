@@ -69,6 +69,7 @@
                     metodo: this.metodoPago,
                 }).then((response)=>{
                     switch(this.metodoPago){
+                        case '1':
                         case 1:
                             this.mostrarBancard(response.data.process_id);
                             break;
