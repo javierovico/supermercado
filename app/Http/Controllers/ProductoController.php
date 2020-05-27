@@ -63,7 +63,11 @@ class ProductoController extends Controller{
                     });
                 }
             });
-        }
+        }/*else{
+            $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q){
+                $q->where('codigo','principales');
+            });
+        }*/
         //solo de cierta palabra clave
         if($palabraClave){
             $productosQuery->where(function (Builder $query) use ($palabraClave) {

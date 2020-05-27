@@ -66,6 +66,8 @@ class ComprasController extends Controller
         $compraProducto = CompraProducto::query()
             ->where('compra_id','=',$ultimaCompra->id)
             ->where('producto_id','=',$producto->id)->first();
+//        $ultimaCompra->agregarProducto($producto,$cantidad);
+
         if($compraProducto == null){
             $ultimaCompra->productos()->attach($producto->id,[
                 'cantidad' => $cantidad,

@@ -7,7 +7,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!--Import Google Icon Font-->
 {{--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--}}
-    <link rel="icon" href="http://www.kamaleon360.com/wp-content/uploads/2019/04/logo.png" sizes="32x32" />
+    <link rel="icon" href="/img/logo.png" sizes="32x32" />
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 {{--    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">--}}
     <script>

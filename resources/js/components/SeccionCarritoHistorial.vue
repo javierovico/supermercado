@@ -107,6 +107,8 @@
                     return 'contraentrega pendiente (d/c)'
                 }else if(compra.estado == 'x2'){
                     return 'contraentrega pendiente (e)'
+                }else if(compra.estado == 'x3'){
+                    return 'contraentrega pendiente (e)'
                 }
                 return 'desconocido';
             },

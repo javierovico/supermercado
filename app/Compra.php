@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method Compra find($compraId)
+ * @property string estado : car: carrito,
  */
 class Compra extends Model{
 
@@ -50,6 +51,34 @@ class Compra extends Model{
             $this->productos()->updateExistingPivot($producto,[
                 'precio_actual' => $producto->precio
             ]);
+        }
+    }
+
+    public function agregarProducto(Producto $producto, $cantidad){
+        //Ver si ya existia ese producto
+        /** @var Producto $producto */
+        if($producto = $this->productos()->where('id',$producto->id)->first()){
+            $this->productos()->updateExistingPivot($producto->id,[
+                'cantidad' => $cantidad + $producto->pivot->cantidad,
+                'precio' => $producto->precio
+            ]);
+        }else{
+            $this->productos()->attach($producto->id,[
+                'cantidad' => $cantidad,
+                'precio_actual' => $cantidad * $producto->precio,
+            ]);
+        }
+
+
+        if($compraProducto == null){
+            $ultimaCompra->productos()->attach($producto->id,[
+                'cantidad' => $cantidad,
+                'precio_actual' => 0
+            ]);
+            $ultimaCompra->save();
+        }else{
+            $compraProducto->cantidad += $cantidad;
+            $compraProducto->save();
         }
     }
 

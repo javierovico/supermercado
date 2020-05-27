@@ -128,45 +128,113 @@
 <!--                <seccion-carrito :auth="auth" v-if="sel === 'carrito'"></seccion-carrito>-->
             </div>
         </main>
-        <!-- Footer -->
-        <footer class="pt-4 my-md-5 pt-md-5 border-top">
-            <div class="row">
-                <div class="col-12 col-md">
-                    <img class="mb-2" src="img/logo.png" alt="" width="24" height="24">
-                    <small class="d-block mb-3 text-muted">© 2020-2020</small>
+        <!-- Footer --><footer id="footer" class="section-bg">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="footer-info">
+                                    <h3>Del Super</h3>
+                                    <p>
+                                        Nacemos por que queremos cuidarte.
+                                        En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa, vimos la necesidad proteger la salud de las personas mas vulnerables.
+                                        Buscamos hacer las compras del supermercado, mas facil, rapido y accesible.
+                                        desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa. facil - Rapido - seguro
+                                    </p>
+                                </div>
+                                <div class="footer-newsletter">
+                                    <h4>Suscripcion</h4>
+                                    <form action="" method="post">
+                                        <input type="email" name="email"><input type="submit" value="Anotame!">
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="footer-links">
+                                    <h4>Links Utiles</h4>
+                                    <ul>
+                                        <li><a href="#">Acerca de nosotros</a></li>
+                                        <li><a href="#">Servicios</a></li>
+                                        <li><a href="/img/terminos.pdf">Terminos del servicio</a></li>
+                                        <li><a href="/img/terminos.pdf">Politicas de Privacidad</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="footer-links">
+                                    <h4>Contactos</h4>
+                                    <p>
+                                        Coronel Bogado C/ Saturio Rios <br>
+                                        San Lorenzo, Central<br>
+                                        Paraguay <br>
+                                        <a href="tel:+5959982425662 "><strong>Telefono:</strong> +5959982425662</a><br>
+                                        <a href="https://wa.me/5959982425662?text=Me%20gustaría%20saber%20mas"><strong>Whatsapp:</strong> 5959982425662</a> <br>
+                                        <a href="mailto:sacdelsuper@gmail.com" target="_blank"><strong>Correo:</strong> sacdelsuper@gmail.com</a> <br>
+                                    </p>
+                                </div>
+
+                                <div class="social-links">
+                                    <a href="https://twitter.com/" class="twitter"><i class="fa fa-twitter"></i></a>
+                                    <a href="https://www.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://www.instagram.com/" class="instagram"><i class="fa fa-instagram"></i></a>
+                                    <a class="linkedin"><i class="fa fa-linkedin"></i></a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <section id="contact" class="col-lg-6">
+
+                        <div class="form">
+
+                            <h4>Dejanos Un mensaje</h4>
+                            <p>Tambien podes hacerlo a travez de nuestro correo electronico, llamandonos, o escribiendonos por whatsapp :).</p>
+                            <form action="" method="get" role="form" class="contactForm">
+                                <div class="form-group">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Tu nombre" data-rule="minlen:4" data-msg="Por favor ingresa al menos cuatro caracteres">
+                                    <div class="validation"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="contacto" id="contacto" placeholder="Tu correo o Telefono" data-rule="minlen:4" data-msg="Por favor, proporciona un correo o numero de telefono para que podamos responderte">
+                                    <div class="validation"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" data-rule="minlen:4" data-msg="Por favor, ingresa al menos cuatro caracteres">
+                                    <div class="validation"></div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="No te olvides del mensaje" placeholder="Mensaje y telefono..."></textarea>
+                                    <div class="validation"></div>
+                                </div>
+
+                                <div id="sendmessage">Tu mensaje fue correctamente enviado!</div>
+                                <div id="errormessage"></div>
+
+                                <div class="text-center"><button type="submit" title="Send Message">Enviar Mensaje</button></div>
+                            </form>
+                        </div>
+
+                    </section>
+
+
+
                 </div>
-                <div class="col-6 col-md-8">
-                    <h5>Nosotros</h5>
-                    <ul class="list-unstyled text-small">
-                        <p>
-                            Nacemos por que queremos cuidarte.<br>
-                            En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa,
-                            vimos la necesidad proteger la salud de las personas mas vulnerables.<br>
-                            Buscamos hacer las compras del supermercado, mas facil, rapido y accesible.<br>
-                            desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa.
-                            facil - Rapido - seguro<br>
-                            Como funciona?<br>
-                            Desde ahora podes comprar desde tu casa y sin esfuerzo.<br>
-                            Elegi un supermercado de tu zona de cobertura, hace tu recorrido en el supermercado virtual sin levantarte del
-                            sofa, una vez que tengas todo lo mas rico en tu carrito podes proceder al pago, mientras tanto nosotros
-                            preparamos tu pedido, vas a recibir un correo confirmando los productos que elegiste y el monto total.<br>
-                            pronto el delivery estara llegando a tu casa.<br>
-                            Compra desde el exterior, desde la computadora en la oficina o desde u celular.<br>
-                            horario de envios<br>
-                            una vez que confirmemos tu pedido, hacemos la entrega en un periodo de 1 - 5 horas
-                            los horarios de entrega son de 9:00 a 19:00
-                            los precios y horarios de entrega pueden variar segun el local y/o fechas festivas.
-                        </p>
-                    </ul>
-                </div>
-                <div class="col-6 col-md">
-                    <h5>Mas</h5>
-                    <ul class="list-unstyled text-small">
-                        <li><a class="text-muted" href="img/terminos.pdf">Terminos y condiciones</a></li>
-                    </ul>
-                </div>
+
             </div>
-        </footer>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                © 2020-2020 Copyright <strong>DelSuper</strong>. Todos los derechos reservados
+            </div>
+        </div>
+    </footer>
     </div>
 </template>
 

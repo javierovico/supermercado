@@ -45,6 +45,9 @@ class User extends Authenticatable
         return $this->hasMany(Compra::class);
     }
 
+    /**
+     * @return Compra
+     */
     public function carritoCompra(){
         if(null == ($carrito =  $this->compras->where('pagado',false)->where('estado','=','car')->first())){
             $carrito = new Compra();
