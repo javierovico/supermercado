@@ -104,7 +104,7 @@
                 if(compra.pagado == 1){
                     return 'pagado';
                 }else if(compra.estado == 'x1'){
-                    return 'contraentrega pendiente (d/c)'
+                    return 'Pago pos (entrega en curso)'
                 }else if(compra.estado == 'x2'){
                     return 'contraentrega pendiente (e)'
                 }else if(compra.estado == 'x3'){

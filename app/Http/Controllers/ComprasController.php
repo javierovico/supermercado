@@ -63,22 +63,7 @@ class ComprasController extends Controller
         //FIN VALIDACION
         $user = Auth::user();
         $ultimaCompra = $user->carritoCompra();
-        $compraProducto = CompraProducto::query()
-            ->where('compra_id','=',$ultimaCompra->id)
-            ->where('producto_id','=',$producto->id)->first();
-//        $ultimaCompra->agregarProducto($producto,$cantidad);
-
-        if($compraProducto == null){
-            $ultimaCompra->productos()->attach($producto->id,[
-                'cantidad' => $cantidad,
-                'precio_actual' => 0
-            ]);
-            $ultimaCompra->save();
-        }else{
-            $compraProducto->cantidad += $cantidad;
-            $compraProducto->save();
-        }
-        $ultimaCompra->actualizarPreciosIntermedios();
+        $ultimaCompra->agregarProducto($producto,$cantidad);
         return [
             'success' => true,
             'message' => 'guardado'
@@ -224,11 +209,12 @@ class ComprasController extends Controller
             'page'=>'integer',          //pagina actual
         ]);
         if(($user = Auth::user()) && $user->hasRole('financiero')){
-            $pagos = Compra::query()->where('estado','<>','car')->with('user')->orderBy('updated_at','desc');
+            $pagos = Compra::detallePagosUsuarios();
         }else{
-            $this->autorizar('user');
+            /** @var \App\User $user */
             $user = Auth::user();
-            $pagos = $user->compras()->where('estado','<>','car')->orderBy('updated_at','desc');
+            $this->autorizar('user');
+            $pagos = Compra::detallePagosPersonal($user->id);
         }
         return $pagos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
     }

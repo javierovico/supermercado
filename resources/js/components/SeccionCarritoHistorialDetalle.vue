@@ -4,6 +4,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Codigo</th>
                 <th scope="col">Producto</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Precio Unitario</th>
@@ -13,6 +14,7 @@
             <tbody>
             <tr v-for="(producto,index) in productos">
                 <th scope="row">{{index+1}}</th>
+                <td>{{producto.codigo}}</td>
                 <td>{{producto.nombre}}</td>
                 <td>{{producto.pivot.cantidad}}</td>
                 <td>{{$precio(producto.pivot.precio_actual)}}</td>

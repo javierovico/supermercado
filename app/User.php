@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property int id
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -49,13 +52,7 @@ class User extends Authenticatable
      * @return Compra
      */
     public function carritoCompra(){
-        if(null == ($carrito =  $this->compras->where('pagado',false)->where('estado','=','car')->first())){
-            $carrito = new Compra();
-            $carrito->estado = 'car';
-            $carrito->user()->associate($this);
-            $carrito->save();
-        }
-        return $carrito;
+        return Compra::carritoCompra($this);
     }
 
     public function authorizeRoles($roles){
