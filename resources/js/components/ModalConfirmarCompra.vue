@@ -27,9 +27,9 @@
                             </div>
                             <select v-model="metodoPago" class="custom-select" id="inputGroupSelect01">
                                 <option disabled value="">Selecciona...</option>
-                                <option value="1">POST Online</option>
+                                <option value="1">Pago online via Bancard</option>
                                 <option value="2">Tarjeta Credito/Debito contraentrega</option>
-                                <option value="3">Efectivo contraentrega</option>
+                                <option value="3">Efectivo Contraentrega</option>
                             </select>
                         </div>
                     </template>

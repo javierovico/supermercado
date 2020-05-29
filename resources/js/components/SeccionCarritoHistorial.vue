@@ -106,9 +106,11 @@
                 }else if(compra.estado == 'x1'){
                     return 'Pago online pendiente'
                 }else if(compra.estado == 'x2'){
-                    return 'Contraentrega pendiente (d/c)'
+                    return 'Contraentrega pendiente (d/c)';
                 }else if(compra.estado == 'x3'){
-                    return 'Contraentrega pendiente (e)'
+                    return 'Contraentrega pendiente (e)';
+                }else if(compra.estado == 'd1'){
+                    return 'Pago Denegado Bancard';
                 }
                 return 'desconocido';
             },

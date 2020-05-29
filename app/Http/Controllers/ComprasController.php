@@ -181,12 +181,15 @@ class ComprasController extends Controller
         $pago->dsc = json_encode($operacion);
         try{
             $responseCode = $operacion['operation']['response_code'];
+            $compra = $pago->compra;
             if($responseCode == '00'){
-                $compra = $pago->compra;
                 $compra->estado = 'x1'; //que ya se pago con metodo 1
                 $compra->pagado = 1;
-                $compra->save();
+            }else{
+                $compra->estado = 'd1'; //que se denego el pago
+                $compra->pagado = 0;
             }
+            $compra->save();
             $authorization = $operacion['operation']['authorization_number'];
             $ticket = $operacion['operation']['ticket_number'];
             $responseDesc = $operacion['operation']['response_description'];
