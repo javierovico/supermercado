@@ -111,6 +111,8 @@
                     return 'Contraentrega pendiente (e)';
                 }else if(compra.estado == 'd1'){
                     return 'Pago Denegado Bancard';
+                }else if(compra.estado == 'roll'){
+                    return 'Pago Cancelado';
                 }
                 return 'desconocido';
             },
