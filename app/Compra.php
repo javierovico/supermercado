@@ -35,9 +35,9 @@ class Compra extends Model{
         return self::query()
             ->where('estado','<>',self::TIPO_CARRITO)
             ->where('user_id','=',$userId)
-            ->withCount(['productos' => function(Builder $q){
-                $q->sum('precio_actual');
-            }])
+//            ->withCount(['productos' => function(Builder $q){
+//                $q->sum('precio_actual');
+//            }])
             ->orderBy('updated_at','desc');
     }
 
@@ -57,7 +57,11 @@ class Compra extends Model{
     }
 
     public function getPagoTotalAttribute(){
-        $suma = $this->pagos()->where('response_code','00')->sum('precio');
+        $suma = $this->productos()->get()->sum(function($t){
+//            dd($t->pivot);
+//            $d = $t->pivot->precio;
+            return $t->pivot->precio_actual * $t->pivot->cantidad;
+        });
         return $suma;
     }
 

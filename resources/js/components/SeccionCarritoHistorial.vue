@@ -102,13 +102,13 @@
         methods: {
             estado(compra){
                 if(compra.pagado == 1){
-                    return 'pagado';
+                    return 'Pagado';
                 }else if(compra.estado == 'x1'){
-                    return 'Pago pos (entrega en curso)'
+                    return 'Pago online pendiente'
                 }else if(compra.estado == 'x2'){
-                    return 'contraentrega pendiente (e)'
+                    return 'Contraentrega pendiente (d/c)'
                 }else if(compra.estado == 'x3'){
-                    return 'contraentrega pendiente (e)'
+                    return 'Contraentrega pendiente (e)'
                 }
                 return 'desconocido';
             },
