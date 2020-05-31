@@ -19,8 +19,7 @@ class CategoriaController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $request->validate([
             'cantidad' => 'integer',
             'page'=>'integer',
@@ -74,6 +73,21 @@ class CategoriaController extends Controller
 
 //        $categoria_id = $request->input('categoria_id');
 //        return Categoria::porPadreId($categoria_id);
+    }
+
+    public function catSel(Request $request){
+        $request->validate([
+            'cantidad' => 'integer',
+            'page'=>'integer',
+            'categoria_id' => 'integer',        //si pertenece a cierto padre unicamenbte (si es vacio, trae las categorias principales (0->null)
+        ]);
+        $categoriasQuery = Categoria::query();
+        if (null !==($categoriaPadre = $request->get('categoria_id', null))) {
+            $categoriasQuery = $categoriasQuery->where('categoria_id',$categoriaPadre);
+        } else{
+            $categoriasQuery = $categoriasQuery->where('categoria_id',null);
+        }
+        return $categoriasQuery->paginate($request->input('cantidad',10),['*'],'page',$request->input('page',1));
     }
 
     /**

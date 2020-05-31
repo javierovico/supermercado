@@ -52,6 +52,7 @@ Route::get('/cat', 'CategoriaController@catName');
 Route::get('/categoria/byProducto/{productoId}', 'CategoriaController@byProducto')->where('productoId','[0-9]+');
 Route::post('/categoria/updateProductosList', 'CategoriaController@updateProductosList');
 Route::get('/categoria/listaOrdenada', 'CategoriaController@listaOrdenada');
+Route::get('/categoria/catSel', 'CategoriaController@catSel');
 Route::apiResource('/categoria', 'CategoriaController');
 
 Route::apiResource('/compraProducto','CompraProductoController');

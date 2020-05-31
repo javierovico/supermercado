@@ -137,7 +137,7 @@
                 this.leer(categoria.nombre,categoria.id);
             },
             leer(nombre, id){
-                axios.get('/categoria',{params:{categoria_id:id}}).then((response) => {
+                axios.get('/categoria/catSel',{params:{categoria_id:id}}).then((response) => {
                     this.categoriasAnteriores.push({nombre:nombre,id:id});
                     this.categorias = response.data.data;
                     this.idPadre = id;
