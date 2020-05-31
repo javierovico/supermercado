@@ -34,6 +34,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link to="/admin/categorias" class="dropdown-item" href="#">Categorias</router-link>
                                 <router-link to="/admin/productos" class="dropdown-item" href="#">Productos</router-link>
+                                <router-link to="/front/admin/sugerencias" class="dropdown-item" href="#">Buzon Sugerencia</router-link>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#!">Otros</a>
                             </div>
@@ -60,8 +61,8 @@
                                 </template>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        <li :class="'nav-item'+($route.fullPath==='/front/contacto'?' active':'')">
+                            <router-link to="/front/contacto" class="nav-link" href="#">Contacto <span v-if="$route.fullPath==='/front/contacto'" class="sr-only">(current)</span></router-link>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="$router.push({path:'/',query:{busqueda:busquedaTexto,categoriaId:$route.query.categoriaId}})">

@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import UserByCompra from "./components/UserByCompra";
+
 require('./bootstrap');
 
 import 'jquery-ui/ui/widgets/autocomplete.js';
@@ -122,6 +124,8 @@ import ProductosView from "./components/ProductosView";
 import CategoriasView from "./components/CategoriasView";
 import SeccionCarritoHistorial from "./components/SeccionCarritoHistorial";
 import SeccionCarritoHistorialDetalle from "./components/SeccionCarritoHistorialDetalle";
+import ContactForm from "./components/ContactForm";
+import SuregenciasBox from "./components/SuregenciasBox";
 
 const router = new VueRouter({
     mode: 'history',
@@ -136,6 +140,9 @@ const router = new VueRouter({
         {path: '/registrarse', component: RegistrarView},
         {path: '/admin/productos', component: ProductosView},
         {path: '/admin/categorias', component: CategoriasView},
+        {path: '/front/admin/usuario/byCompra/:idCompra', component: UserByCompra, props:true},
+        {path: '/front/contacto', component: ContactForm},
+        {path: '/front/admin/sugerencias', component: SuregenciasBox},
     ],
 });
 
@@ -223,8 +230,11 @@ Vue.prototype.$intToFecha = function (unix_timestamp) {
 // Seconds part from the timestamp
     const seconds = "0" + date.getSeconds();
     const anho = date.getFullYear();
-    const mes = '0'+date.getMonth();
-    const dia = '0'+date.getDay();
+    const mes = '0'+(date.getMonth()+1);
+    const dia = '0'+date.getDate();
+    // console.log(date.getDate());
+    // console.log(date.getMonth());
+    // console.log(date.getDay());
 
 // Will display time in 10:30:23 format
     const formattedTime = anho + '-' + mes.substr(-2) + '-' + dia.substr(-2) + ' ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);

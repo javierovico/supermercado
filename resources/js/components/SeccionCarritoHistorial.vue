@@ -21,6 +21,7 @@
                 <td>{{$precio(compra.pago_total)}}</td>
                 <td>{{estado(compra)}}</td>
                 <td>
+                    <router-link :to="{path:'/front/admin/usuario/byCompra/'+compra.id}" v-if="$store.getters.isRol('financiero')" data-toggle="tooltip" data-placement="top" title="Ver usuario"><i class="material-icons">person</i></router-link>
                     <router-link :to="{path:'/carrito/historial/detalle/'+compra.id}" data-toggle="tooltip" data-placement="top" title="Ver detalles de compra"><i class="material-icons">remove_red_eye</i></router-link>
                     <a href="#!" v-if="$store.getters.isRol('financiero')" @click.prevent="mostrarConfirmacionRollback(index)" data-toggle="tooltip" data-placement="top" title="Deshacer Pago"><i class="material-icons">close</i></a>
                 </td>

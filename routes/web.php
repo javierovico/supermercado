@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 ////    }
 //});
 
+Route::get('/front/{config}','MainController@index')->where('config','.*');
 Route::get('/', 'MainController@index')->name('index');
 Route::get('/carrito/historial/detalle/{id}', 'MainController@index');
 Route::get('/carrito/historial', 'MainController@index');
@@ -63,6 +64,7 @@ Route::get('/compra/historial','ComprasController@historial');
 Route::post('/compra/respuestaVPOST','ComprasController@respuestaVPOST');
 Route::post('/compra/confirmar','ComprasController@confirmar');
 Route::apiResource('/compra','ComprasController');
+Route::apiResource('/sugerencia','SugerenciaController');
 
 Auth::routes(/*['register'=>false]*/);
 

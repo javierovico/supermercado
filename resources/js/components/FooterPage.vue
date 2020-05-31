@@ -54,8 +54,8 @@
                     <h6 class="text-uppercase font-weight-bold"><strong>Contacto</strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
                     <p><font-awesome-icon icon="home" class="fas fa-home mr-3"></font-awesome-icon> Colon 520 c/ ytororo - villeta</p>
-                    <a href="mailto:sacdelsuper@gmail.com" target="_blank"><font-awesome-icon icon="envelope" class="fas fa-envelope mr-3"></font-awesome-icon> sacdelsuper@gmail.com</a>
-                    <p><font-awesome-icon icon="phone" class="fas fa-phone mr-3"></font-awesome-icon> + 595 9982 425 662</p>
+                    <p><a href="mailto:sacdelsuper@gmail.com" target="_blank"><font-awesome-icon icon="envelope" class="fas fa-envelope mr-3"></font-awesome-icon> sacdelsuper@gmail.com</a></p>
+                    <p><a href="tel:+5959982425662"><font-awesome-icon icon="phone" class="fas fa-phone mr-3"></font-awesome-icon> + 595 9982 425 662</a></p>
                     <p><font-awesome-icon icon="print" class="fas fa-print mr-3"></font-awesome-icon> + 595 9982 425 662</p>
                     <a href="https://wa.me/5959982425662?text=Me%20gustaría%20saber%20mas"><font-awesome-icon :icon="['fab','whatsapp']" class="fas fa-print mr-3"></font-awesome-icon> + 595 9982 425 662</a>
                 </mdb-col>
