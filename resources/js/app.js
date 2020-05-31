@@ -44,19 +44,6 @@ $.notifyDefaults({
     onClose: null,
     onClosed: null,
     icon_type: 'class',
-    // template: `
-    // <div class="alert alert-info">
-    //     <div class="container">
-    //         <div class="alert-icon">
-    //             <i class="material-icons">info_outline</i>
-    //         </div>
-    //         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    //             <span aria-hidden="true"><i class="material-icons">clear</i></span>
-    //         </button>
-    //
-    //         <b>Info alert:</b> You've got some friends nearby, stop looking at your phone and find them...
-    //     </div>
-    // </div>`,
     template: `
 <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">
     <button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>
@@ -67,27 +54,7 @@ $.notifyDefaults({
     </div>
     <a href="{3}" target="{4}" data-notify="url"></a>
 </div>`
-    // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-    //     '<img data-notify="icon" class="img-circle pull-left">' +
-    //     '<span data-notify="title">{1}</span>' +
-    //     '<span data-notify="message">{2}</span>' +
-    //     '</div>'
-    // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-    //     '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-    //     '<span data-notify="icon"></span> ' +
-    //     '<span data-notify="title">{1}</span> ' +
-    //     '<span data-notify="message">{2}</span>' +
-    //     '<div class="progress" data-notify="progressbar">' +
-    //     '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-    //     '</div>' +
-    //     '<a href="{3}" target="{4}" data-notify="url"></a>' +
-    //     '</div>'
 });
-//menu
-// import './hoverIntent'
-// import './jquery.dropdown'
-// import './jquery.dropdownPlain'
-
 import 'metismenu/src/index'
 
 $.datepicker.setDefaults({
@@ -111,6 +78,7 @@ window.Vue = require('vue');
 
 import SlidingPagination from 'vue-sliding-pagination'
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.component('my-thoughts-component', require('./components/MyThoughtsComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
@@ -141,6 +109,8 @@ Vue.component('modal-editar-producto-categoria', require('./components/ModalEdit
 Vue.component('modal-agregar-producto-carrito',require('./components/ModalAgregarProductoCarrito.vue').default);
 Vue.component('modal-confirmar-compra',require('./components/ModalConfirmarCompra.vue').default);
 Vue.component('pruebas-pago',require('./components/PruebasPagos.vue').default);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueRouter);
 Vue.use(Vuex);

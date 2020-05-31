@@ -25,7 +25,8 @@ class ProductoController extends Controller{
             'palabra_clave' => 'string|max:40',
             'categoria_match' => 'integer',     //para que aparte de mostrar todx lo que ya tenemos, muestre si esta o no en una categoria especifica
             'opcionCategoria' => 'integer',     //1-> todos 2->sincate, 3->con cat
-            'recursivo' => 'boolean'
+            'recursivo' => 'boolean',
+            'princi' => 'boolean',              //si es true, trae los productos principales (categoria_id no debe estar presente)
         ]);
         $perpage = $request->input('cantidad',10);
         $page = $request->input('page',1);
@@ -63,11 +64,11 @@ class ProductoController extends Controller{
                     });
                 }
             });
-        }/*else{
+        }else if($request->get('princi',false)){
             $productosQuery = $productosQuery->whereHas('categorias',function (Builder $q){
                 $q->where('codigo','principales');
             });
-        }*/
+        }
         //solo de cierta palabra clave
         if($palabraClave){
             $productosQuery->where(function (Builder $query) use ($palabraClave) {

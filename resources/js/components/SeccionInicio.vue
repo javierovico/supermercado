@@ -119,6 +119,7 @@
                     page: this.paginaActual,
                     cantidad: this.paginaCantidadItem,
                     opcionCategoria: this.busqueda.opcionCategoria,
+                    princi: this.categoriaId?null:1,    //muestra los principales si la categoria no esta seleccionada
                 };
                 if(this.busquedaTexto.length > 0){
                     parametroBusqueda.palabra_clave = this.busquedaTexto;
