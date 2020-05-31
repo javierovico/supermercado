@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import UserByCompra from "./components/UserByCompra";
+import UserByCompra from "./components/UserProfile";
 
 require('./bootstrap');
 
@@ -126,6 +126,7 @@ import SeccionCarritoHistorial from "./components/SeccionCarritoHistorial";
 import SeccionCarritoHistorialDetalle from "./components/SeccionCarritoHistorialDetalle";
 import ContactForm from "./components/ContactForm";
 import SuregenciasBox from "./components/SuregenciasBox";
+import UserProfile from "./components/UserProfile";
 
 const router = new VueRouter({
     mode: 'history',
@@ -140,7 +141,7 @@ const router = new VueRouter({
         {path: '/registrarse', component: RegistrarView},
         {path: '/admin/productos', component: ProductosView},
         {path: '/admin/categorias', component: CategoriasView},
-        {path: '/front/admin/usuario/byCompra/:idCompra', component: UserByCompra, props:true},
+        {path: '/front/admin/usuario/:idUsuario', component: UserProfile, props:true},
         {path: '/front/contacto', component: ContactForm},
         {path: '/front/admin/sugerencias', component: SuregenciasBox},
     ],
@@ -197,6 +198,12 @@ const store = new Vuex.Store({
 Vue.prototype.$url = 'https://s3.us-east-2.amazonaws.com/supermercado.kamaleon360.com/elsuper/';
 Vue.prototype.$precio = function (precio) {
     return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")+' Gs. ';
+}
+Vue.prototype.$mostrarError = function (error){
+    $.notify({
+        title: error.response.data.message,
+        message: '',// this.$printJson(error.response.data.errors),
+    })
 }
 Vue.prototype.$printJson = function (json) {
     if (typeof json != 'string') {

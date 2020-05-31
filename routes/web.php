@@ -65,6 +65,7 @@ Route::post('/compra/respuestaVPOST','ComprasController@respuestaVPOST');
 Route::post('/compra/confirmar','ComprasController@confirmar');
 Route::apiResource('/compra','ComprasController');
 Route::apiResource('/sugerencia','SugerenciaController');
+Route::apiResource('/user','UserController');
 
 Auth::routes(/*['register'=>false]*/);
 
