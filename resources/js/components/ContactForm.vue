@@ -37,7 +37,6 @@
                             <mdb-row>
                                 <mdb-col class="mt-4">
                                     <font-awesome-icon icon="map-marked-alt" size="2x" />
-                                    <p>Colon 520 c/ ytororo - villeta</p>
                                 </mdb-col>
                             </mdb-row>
                             <mdb-row>
@@ -49,7 +48,7 @@
                             <mdb-row>
                                 <mdb-col class="mt-4">
                                     <font-awesome-icon icon="envelope" size="2x" />
-                                    <p>sacdelsuper@gmail.com</p>
+                                    <p>financiero@delsuper.com.py</p>
                                 </mdb-col>
                             </mdb-row>
                         </mdb-col>

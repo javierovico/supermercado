@@ -18,6 +18,19 @@
                         </div>
                     </div>
                     <template v-else>
+                        <p>Metodo Entrega</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" :value="true" v-model="delivery">
+                            <label class="form-check-label" for="exampleRadios1">
+                                Delivery
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" :value="false" v-model="delivery">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Carry Out
+                            </label>
+                        </div>
                         <p>Precio Productos: {{$precio(modal.precio)}}</p>
                         <p>Precio Delivery: {{$precio($store.getters.pagoDelivery)}}</p>
                         <p>Precio Total: {{$precio(modal.precio + $store.getters.pagoDelivery)}}</p>
@@ -53,7 +66,8 @@
         data() {
             return {
                 cargando: false,
-                metodoPago: ''
+                metodoPago: '',
+                delivery: null,
             }
         },
         watch:{
@@ -64,13 +78,18 @@
         methods: {
             confirmarBorrar(){
                 if(this.metodoPago=='' || this.metodoPago < 1){
-                    $.notify({title:'Debe seleccionar un metodo de pago',content:''});
+                    $.notify({title:'Debe seleccionar un metodo de pago',message:''});
+                    return;
+                }
+                if(this.delivery == null){
+                    $.notify({title:'Debe seleccionar tipo de entrega',message:''});
                     return;
                 }
                 this.cargando = true;
                 axios.post('/compra/confirmar',{
                     compraId: this.modal.compraId,
                     metodo: this.metodoPago,
+                    delivery: this.delivery?'1':'0',
                 }).then((response)=>{
                     switch(this.metodoPago){
                         case '1':

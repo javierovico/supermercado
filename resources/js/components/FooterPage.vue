@@ -28,35 +28,27 @@
                     </strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
                     <p>
-                        Nacemos por que queremos cuidarte.
-                        En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa, vimos la necesidad proteger la salud de las personas mas vulnerables.
-                        Buscamos hacer las compras del supermercado, mas facil, rapido y accesible.
-                        desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa. facil - Rapido - seguro
+                        Recorre los pasillos del supermercado desde la comodida de tu casa u oficina.<br><b>Súper fácil</b><br><br>Recibí tus compras en el horario más conveniente para vos.<br><b>Es rápido</b>
+                        <br><br>también podes envir tus compras a una persona muy querida.<br><b>Es seguro!</b>
                     </p>
                 </mdb-col>
                 <mdb-col md="2" lg="2" xl="2" class="mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Productos</strong></h6>
+                    <h6 class="text-uppercase font-weight-bold"><strong>Cobertura</strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
-                    <p><a href="#!">MDBootstrap</a></p>
-                    <p><a href="#!">MDWordPress</a></p>
-                    <p><a href="#!">BrandFlow</a></p>
-                    <p><a href="#!">Bootstrap Angular</a></p>
+                    <p>Horarios de entrega</p>
+                    <p>Lunes a sábados 9:00 - 18:00</p>
+                    <p>Domingos 9:00 - 12:00</p>
                 </mdb-col>
                 <mdb-col md="3" lg="2" xl="2" class="mb-4">
                     <h6 class="text-uppercase font-weight-bold"><strong>Links Utiles</strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
                     <p><a href="/img/terminos.pdf">Terminos del servicio</a></p>
-                    <p><a href="/img/terminos.pdf">Politicas de Privacidad</a></p>
-                    <p><a href="#!">Shipping Rates</a></p>
-                    <p><a href="#!">Help</a></p>
+                    <p><a href="/img/terminos.pdf"></a></p>
                 </mdb-col>
                 <mdb-col md="4" lg="3" xl="3" class="mb-4">
                     <h6 class="text-uppercase font-weight-bold"><strong>Contacto</strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
-                    <p><font-awesome-icon icon="home" class="fas fa-home mr-3"></font-awesome-icon> Colon 520 c/ ytororo - villeta</p>
-                    <p><a href="mailto:sacdelsuper@gmail.com" target="_blank"><font-awesome-icon icon="envelope" class="fas fa-envelope mr-3"></font-awesome-icon> sacdelsuper@gmail.com</a></p>
-                    <p><a href="tel:+5959982425662"><font-awesome-icon icon="phone" class="fas fa-phone mr-3"></font-awesome-icon> + 595 9982 425 662</a></p>
-                    <p><font-awesome-icon icon="print" class="fas fa-print mr-3"></font-awesome-icon> + 595 9982 425 662</p>
+                    <p><a href="mailto:finaciero@delsuper.com.py" target="_blank"><font-awesome-icon icon="envelope" class="fas fa-envelope mr-3"></font-awesome-icon> financiero@delsuper.com.py</a></p>
                     <a href="https://wa.me/5959982425662?text=Me%20gustaría%20saber%20mas"><font-awesome-icon :icon="['fab','whatsapp']" class="fas fa-print mr-3"></font-awesome-icon> + 595 9982 425 662</a>
                 </mdb-col>
             </mdb-row>

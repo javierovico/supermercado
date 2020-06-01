@@ -147,8 +147,11 @@ class ComprasController extends Controller
         $user = Auth::user();
         $compraId = $request->validate([
             'compraId' => 'required|integer|min:1',
-            'metodo' => 'required|in:1,2,3'
+            'metodo' => 'required|in:1,2,3',
+            'delivery' => 'required|boolean'
         ])['compraId'];
+
+        return $request->get('delivery');
         $compra =  Compra::find($compraId);
         //borrar el producto delivery (si existiese)
         $delivery = Producto::query()->where('codigo','delivery')->firstOrFail();   //el delivery

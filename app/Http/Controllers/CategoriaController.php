@@ -157,9 +157,9 @@ class CategoriaController extends Controller
         if($id == null){
             $catRoot = Categoria::query()->whereHas('categoriaPadre',function (Builder $q) {
                 $q->where('codigo','=','general');
-            })->get();
+            })->orderBy('posicion')->get();
         }else{
-            $catRoot = Categoria::query()->where('categoria_id',$id)->get();
+            $catRoot = Categoria::query()->where('categoria_id',$id)->orderBy('posicion')->get();
         }
         foreach($catRoot as $cat){
             $cat->subCategorias = $this->listaOrdenada($cat->id);
