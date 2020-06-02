@@ -6,6 +6,7 @@ use App\Compra;
 use App\CompraProducto;
 use App\Pago;
 use App\Producto;
+use App\Role;
 use http\Client\Curl\User;
 use http\Env\Response;
 use http\Exception;
@@ -150,23 +151,23 @@ class ComprasController extends Controller
             'metodo' => 'required|in:1,2,3',
             'delivery' => 'required|boolean'
         ])['compraId'];
-
-        return $request->get('delivery');
         $compra =  Compra::find($compraId);
         //borrar el producto delivery (si existiese)
         $delivery = Producto::query()->where('codigo','delivery')->firstOrFail();   //el delivery
         $compra->productos()->detach($delivery->id);        //sacamos si existiese
-        //agregarle el precio de delivery
-        $compra->productos()->attach($delivery->id,[
-            'cantidad' => 1,
-            'precio_actual' => 0
-        ]);
+        if($request->get('delivery')){
+            //agregarle el precio de delivery
+            $compra->productos()->attach($delivery->id,[
+                'cantidad' => 1,
+                'precio_actual' => 0
+            ]);
+        }
         $compra->save();
         //fin precio delivery
         if($user->carritoCompra()->id != $compra->id){
             abort(401,'no tenes autorizacion');
         }
-        if($compra->precioTotal() < (env('PAGO_MINIMO') + env('PAGO_DELIVERY'))){
+        if($compra->precioTotal() < (env('PAGO_MINIMO') + ($request->get('delivery')?env('PAGO_DELIVERY'):0))){
             abort(401,'Pago minimo es '.env('PAGO_MINIMO'));
         }
         $compra->actualizarPreciosIntermedios();
@@ -213,14 +214,18 @@ class ComprasController extends Controller
         $request->validate([
             'cantidad' => 'integer|max:40',    //por pagina
             'page'=>'integer',          //pagina actual
+            'pendientes' => 'boolean',
         ]);
-        if(($user = Auth::user()) && $user->hasRole('financiero')){
+        if(($user = Auth::user()) && $user->hasAnyRole(['financiero',Role::NOMBRE_DELIVERY])){
             $pagos = Compra::detallePagosUsuarios();
         }else{
             /** @var \App\User $user */
             $user = Auth::user();
             $this->autorizar('user');
             $pagos = Compra::detallePagosPersonal($user->id);
+        }
+        if($request->get('pendientes')){
+            $pagos->where('estado_entrega',Compra::ENTREGA_NO_ENTREGADO);
         }
         return $pagos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
     }
@@ -230,14 +235,25 @@ class ComprasController extends Controller
             'cantidad' => 'integer|max:40',    //por pagina
             'page'=>'integer',          //pagina actual
         ]);
-        $this->autorizar(['user','financiero']);
+        $this->autorizar('user','financiero',Role::NOMBRE_DELIVERY);
         $user = Auth::user();
         $compra = Compra::find($id);
-        if ($compra->user->id != $user->id && !$user->hasRole('financiero')) {
+        if ($compra->user->id != $user->id && !$user->hasAnyRole('financiero', Role::NOMBRE_DELIVERY)) {
             abort(401, 'Se cruzaron datos');
         }
         $productos = $compra->productos();
         return $productos->paginate($request->get('cantidad',20),['*'],'page',$request->get('page',1));
+    }
+
+    public function entregado(Request $request, $id){
+        $this->autorizar(Role::NOMBRE_DELIVERY);
+        $user = Auth::user();
+        $compra = Compra::find($id);
+//        if ($compra->user->id != $user->id) {
+//            abort(401, 'Se cruzaron datos');
+//        }
+        $compra->setEntregado(true);
+        $compra->save();
     }
 }
 

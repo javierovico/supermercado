@@ -47,6 +47,14 @@
                                 <router-link href="#" class="dropdown-item" to="/financiero/pagos">Ver Pagos</router-link>
                             </div>
                         </li>
+                        <li v-if="$store.getters.isDelivery()" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDelivery" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Gestion Delivery
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownDelivery">
+                                <router-link href="#" class="dropdown-item" to="/front/delivery/pendiente">Ver Entregas Pendientes</router-link>
+                            </div>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSessi" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{$store.getters.getAuth.iniciado?$store.getters.getAuth.name:'Invitado'}}
@@ -129,114 +137,6 @@
 <!--                <seccion-carrito :auth="auth" v-if="sel === 'carrito'"></seccion-carrito>-->
             </div>
         </main>
-        <!-- Footer -->
-<!--        <footer id="footer" class="section-bg">-->
-<!--        <div class="footer-top">-->
-<!--            <div class="container">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-6">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-sm-6">-->
-<!--                                <div class="footer-info">-->
-<!--                                    <h3>Del Super</h3>-->
-<!--                                    <p>-->
-<!--                                        Nacemos por que queremos cuidarte.-->
-<!--                                        En medio de una pandemia que afecta a todo el mundo, y mensajes que nos piden que nos quedemos en casa, vimos la necesidad proteger la salud de las personas mas vulnerables.-->
-<!--                                        Buscamos hacer las compras del supermercado, mas facil, rapido y accesible.-->
-<!--                                        desde ahora quedate tranqui en casa, todo lo que necesitas llega hasta la puerta de tu casa. facil - Rapido - seguro-->
-<!--                                    </p>-->
-<!--                                </div>-->
-<!--                                <div class="footer-newsletter">-->
-<!--                                    <h4>Suscripcion</h4>-->
-<!--                                    <form action="" method="post">-->
-<!--                                        <input type="email" name="email"><input type="submit" value="Anotame!">-->
-<!--                                    </form>-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-
-<!--                            <div class="col-sm-6">-->
-<!--                                <div class="footer-links">-->
-<!--                                    <h4>Links Utiles</h4>-->
-<!--                                    <ul>-->
-<!--                                        <li><a href="#">Acerca de nosotros</a></li>-->
-<!--                                        <li><a href="#">Servicios</a></li>-->
-<!--                                        <li><a href="/img/terminos.pdf">Terminos del servicio</a></li>-->
-<!--                                        <li><a href="/img/terminos.pdf">Politicas de Privacidad</a></li>-->
-<!--                                    </ul>-->
-<!--                                </div>-->
-
-<!--                                <div class="footer-links">-->
-<!--                                    <h4>Contactos</h4>-->
-<!--                                    <p>-->
-<!--                                        Coronel Bogado C/ Saturio Rios <br>-->
-<!--                                        San Lorenzo, Central<br>-->
-<!--                                        Paraguay <br>-->
-<!--                                        <a href="tel:+5959982425662 "><strong>Telefono:</strong> +5959982425662</a><br>-->
-<!--                                        <a href="https://wa.me/5959982425662?text=Me%20gustaría%20saber%20mas"><strong>Whatsapp:</strong> 5959982425662</a> <br>-->
-<!--                                        <a href="mailto:sacdelsuper@gmail.com" target="_blank"><strong>Correo:</strong> sacdelsuper@gmail.com</a> <br>-->
-<!--                                    </p>-->
-<!--                                </div>-->
-
-<!--                                <div class="social-links">-->
-<!--                                    <a href="https://twitter.com/" class="twitter"><i class="fa fa-twitter"></i></a>-->
-<!--                                    <a href="https://www.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>-->
-<!--                                    <a href="https://www.instagram.com/" class="instagram"><i class="fa fa-instagram"></i></a>-->
-<!--                                    <a class="linkedin"><i class="fa fa-linkedin"></i></a>-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-
-<!--                        </div>-->
-
-<!--                    </div>-->
-
-<!--                    <section id="contact" class="col-lg-6">-->
-
-<!--                        <div class="form">-->
-
-<!--                            <h4>Dejanos Un mensaje</h4>-->
-<!--                            <p>Tambien podes hacerlo a travez de nuestro correo electronico, llamandonos, o escribiendonos por whatsapp :).</p>-->
-<!--                            <form action="" method="get" role="form" class="contactForm">-->
-<!--                                <div class="form-group">-->
-<!--                                    <input type="text" name="name" class="form-control" id="name" placeholder="Tu nombre" data-rule="minlen:4" data-msg="Por favor ingresa al menos cuatro caracteres">-->
-<!--                                    <div class="validation"></div>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <input type="text" class="form-control" name="contacto" id="contacto" placeholder="Tu correo o Telefono" data-rule="minlen:4" data-msg="Por favor, proporciona un correo o numero de telefono para que podamos responderte">-->
-<!--                                    <div class="validation"></div>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" data-rule="minlen:4" data-msg="Por favor, ingresa al menos cuatro caracteres">-->
-<!--                                    <div class="validation"></div>-->
-<!--                                </div>-->
-<!--                                <div class="form-group">-->
-<!--                                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="No te olvides del mensaje" placeholder="Mensaje y telefono..."></textarea>-->
-<!--                                    <div class="validation"></div>-->
-<!--                                </div>-->
-
-<!--                                <div id="sendmessage">Tu mensaje fue correctamente enviado!</div>-->
-<!--                                <div id="errormessage"></div>-->
-
-<!--                                <div class="text-center"><button type="submit" title="Send Message">Enviar Mensaje</button></div>-->
-<!--                            </form>-->
-<!--                        </div>-->
-
-<!--                    </section>-->
-
-
-
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="container">-->
-<!--            <div class="copyright">-->
-<!--                © 2020-2020 Copyright <strong>DelSuper</strong>. Todos los derechos reservados-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </footer>-->
         <FooterPage></FooterPage>
     </div>
 </template>

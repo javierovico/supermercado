@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property int id
+ * @property string name
+ * @property string email
+ * @property string password
  */
 class User extends Authenticatable
 {
@@ -60,7 +63,10 @@ class User extends Authenticatable
         return true;
     }
 
-    public function hasAnyRole($roles){
+    public function hasAnyRole(...$roles){
+        if(count($roles)==1){   //si hay solo un argumento
+            $roles = $roles[0];
+        }
         if (is_array($roles)) {
             foreach ($roles as $role) {
                 if ($this->hasRole($role)) {

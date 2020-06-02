@@ -32,8 +32,8 @@
                             </label>
                         </div>
                         <p>Precio Productos: {{$precio(modal.precio)}}</p>
-                        <p>Precio Delivery: {{$precio($store.getters.pagoDelivery)}}</p>
-                        <p>Precio Total: {{$precio(modal.precio + $store.getters.pagoDelivery)}}</p>
+                        <p v-if="delivery">Precio Delivery: {{$precio($store.getters.pagoDelivery)}}</p>
+                        <p>Precio Total: {{$precio(modal.precio + (delivery?$store.getters.pagoDelivery:0))}}</p>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Metodo pago</label>

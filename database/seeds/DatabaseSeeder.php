@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SuperSeeder::class);
         $this->call(ProductoDeliverySeeder::class);     //agrega el producto con codigo delivery
         $this->call(RoleTableSeeder::class);
+        $this->call(RolDeliverySeeder::class);
         $this->call(UserTableSeeder::class);
         $this->call(CategorizacionNuevaSeeder::class);
     }

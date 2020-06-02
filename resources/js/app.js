@@ -62,7 +62,8 @@ import 'metismenu/src/index'
 $.datepicker.setDefaults({
     changeYear: true,
     changeMonth: true,
-    dateFormat: 'yy-mm-dd'
+    dateFormat: 'yy-mm-dd',
+    yearRange: '1950:2000'
 });
 
 window.Vue = require('vue');
@@ -134,9 +135,9 @@ const router = new VueRouter({
     routes:[
         {path: '/', component: SeccionInicio, props:(route)=>({query:route.query})},
         {path: '/carrito/historial/detalle/:id', component: SeccionCarritoHistorialDetalle},
-        {path: '/carrito/historial', component: SeccionCarritoHistorial},
+        {path: '/carrito/historial', component: SeccionCarritoHistorial,props:{pendientes:false}},
         {path: '/carrito', component: SeccionCarrito},
-        {path: '/financiero/pagos', component: SeccionCarritoHistorial},
+        {path: '/financiero/pagos', component: SeccionCarritoHistorial,props:{pendientes:false}},
         {path: '/iniciar-sesion', component: IniciarView},
         {path: '/registrarse', component: RegistrarView},
         {path: '/admin/productos', component: ProductosView},
@@ -144,6 +145,7 @@ const router = new VueRouter({
         {path: '/front/admin/usuario/:idUsuario', component: UserProfile, props:true},
         {path: '/front/contacto', component: ContactForm},
         {path: '/front/admin/sugerencias', component: SuregenciasBox},
+        {path: '/front/delivery/pendiente', component: SeccionCarritoHistorial, props:{pendientes:true}}
     ],
 });
 
@@ -155,7 +157,7 @@ const store = new Vuex.Store({
             roles:[],
         },
         pagoMinimo: 100000,     //ACTUALIZAR TAMBIEN EN ENVIORMENT
-        pagoDelivery: 20000,    //actualizar en enviorment
+        pagoDelivery: 10000,    //actualizar en enviorment
     },
     mutations:{
         setAuth(state,valor){
@@ -186,6 +188,9 @@ const store = new Vuex.Store({
         isRol: (state) => (rol) =>{
             // console.log(state.auth.roles);
             return state.auth && state.auth.roles.includes(rol);
+        },
+        isDelivery: (state) => () => {
+            return state.auth && state.auth.roles.includes('delivery');     //no se puede mas cambiar
         },
     },
 });

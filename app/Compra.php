@@ -11,12 +11,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method Compra find($compraId)
  * @property string estado : car: carrito,
  * @property User user
+ * @property int pagado
+ * @property integer estado_entrega
  */
 class Compra extends Model{
 
+    /* Estado de entregas */
+    public const ENTREGA_NO_ENTREGADO = 0;
+    public const ENTREGA_ENTREGADO = 1;
+
     public const TIPO_CARRITO = 'car';
 
-    protected $appends = ['pago_total'];
+
+    protected $appends = ['pago_total','entrega','estadoStr'];
     protected $casts = ['updated_at' => 'timestamp'];
 
     //2020-05-15T18:33:50.000000Z
@@ -54,6 +61,29 @@ class Compra extends Model{
             $carrito->save();
         }
         return $carrito;
+    }
+
+    public function getEntregaAttribute(){
+        return (null != $this->productos()->where('codigo','=','delivery')->first())?'Delivery':'Pick up';
+    }
+
+    public function getEstadoStrAttribute(){
+        if($this->estado_entrega == self::ENTREGA_ENTREGADO){
+            return 'entregado';
+        }else if($this->pagado == 1){
+            return 'Pagado';
+        }else if($this->estado == 'x1'){
+            return 'Pago online pendiente';
+        }else if($this->estado == 'x2'){
+            return 'Contraentrega pendiente (d/c)';
+        }else if($this->estado == 'x3'){
+            return 'Contraentrega pendiente (e)';
+        }else if($this->estado == 'd1'){
+            return 'Pago Denegado Bancard';
+        }else if($this->estado == 'roll'){
+            return 'Pago Cancelado';
+        }
+        return 'desconocido';
     }
 
     public function getPagoTotalAttribute(){
@@ -108,6 +138,10 @@ class Compra extends Model{
                 'precio_actual' => $cantidad * $producto->precio,
             ]);
         }
+    }
+
+    public function setEntregado(bool $true){
+        $this->estado_entrega = $true?self::ENTREGA_ENTREGADO:self::ENTREGA_NO_ENTREGADO;
     }
 
 }

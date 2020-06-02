@@ -16,7 +16,10 @@ class Controller extends BaseController
      * @param $rol string|array
      * @return bool
      */
-    public function autorizar($rol){
+    public function autorizar(...$rol){
+        if(count($rol)==1){
+            $rol = $rol[0];
+        }
         $user = Auth::user();
         if(!$user){
             abort(401,"tenes que iniciar sesion");
