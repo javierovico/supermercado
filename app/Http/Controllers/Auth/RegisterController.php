@@ -57,7 +57,8 @@ class RegisterController extends Controller
             'telefono' => ['required', 'string', 'max:255',"regex:/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/"],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
-            'nacimiento' => ['required','date']
+            'nacimiento' => ['required','date'],
+            'sexo' => ['required','in:m,f']
         ],[
             'nacimiento.required'=>'Necesitamos para conocer tu edad'
         ]);
@@ -78,6 +79,7 @@ class RegisterController extends Controller
             'telefono' => $data['telefono'],
             'direccion' => $data['direccion'],
             'password' => Hash::make($data['password']),
+            'sexo' => $data['sexo'],
         ]);
         $user->roles()->attach(Role::where('name', 'user')->first());
         return $user;

@@ -17,6 +17,20 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" :value="'m'" v-model="sexo.valor">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Hombre
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" :value="'f'" v-model="sexo.valor">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Mujer
+                    </label>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail4">Email</label>
@@ -49,11 +63,20 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputAddress">Direccion</label>
-                <input v-model="direccion.valor" type="text" :class="'form-control'+((direccion.error === false)?'':(direccion.error===''?(' is-valid'):(' is-invalid')))" id="inputAddress" placeholder="1234 Central" required>
-                <div class="invalid-feedback">
-                    {{direccion.error}}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputAddress">Calle</label>
+                    <input v-model="direccion.valor" type="text" :class="'form-control'+((direccion.error === false)?'':(direccion.error===''?(' is-valid'):(' is-invalid')))" id="inputAddress" placeholder="1234 Central" required>
+                    <div class="invalid-feedback">
+                        {{direccion.error}}
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputAddressCasa">Nro Casa</label>
+                    <input v-model="nroCasa.valor" type="text" :class="'form-control'+((nroCasa.error === false)?'':(nroCasa.error===''?(' is-valid'):(' is-invalid')))" id="inputAddressCasa" placeholder="1234" required>
+                    <div class="invalid-feedback">
+                        {{nroCasa.error}}
+                    </div>
                 </div>
             </div>
             <div class="form-row">
@@ -93,12 +116,22 @@
                     error: false,
                     mensajeError: 'No puede quedar vacio',
                 },
+                sexo:{
+                    valor: 'm',
+                    error: false,
+                    mensajeError: 'No puede quedar vacio',
+                },
                 telefono:{
                     valor: '',
                     error: false,
                     mensajeError: 'No puede quedar vacio',
                 },
                 direccion:{
+                    valor: '',
+                    error: false,
+                    mensajeError: 'No puede quedar vacio',
+                },
+                nroCasa:{
                     valor: '',
                     error: false,
                     mensajeError: 'No puede quedar vacio',
@@ -139,9 +172,10 @@
                     password_confirmation: this.passwordConfirm.valor,
                     email: this.email.valor,
                     name: this.nombre.valor,
-                    direccion: this.direccion.valor,
+                    direccion: this.direccion.valor + ' ' + this.nroCasa.valor,
                     apellido: this.apellido.valor,
                     telefono: this.telefono.valor,
+                    sexo: this.sexo.valor,
                     nacimiento: $('#nacimiento').datepicker('getDate'),
                 };
                 this.cargando = true;
