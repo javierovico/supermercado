@@ -176,6 +176,9 @@
             },
             menuPulsado: function(categoria){
                 // console.log(categoria.nombre);
+                if(categoria.subCategorias.length == 0){
+                    $('#navbarSupportedCategoria').collapse('hide');
+                }
                 this.$router.push({path:'/',query:{categoriaId: categoria.id}})
             },
             cambiarSeccion: function (secc) {

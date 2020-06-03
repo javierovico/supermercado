@@ -33,11 +33,12 @@
                     </p>
                 </mdb-col>
                 <mdb-col md="2" lg="2" xl="2" class="mb-4">
-                    <h6 class="text-uppercase font-weight-bold"><strong>Cobertura</strong></h6>
+                    <h6 class="text-uppercase font-weight-bold"><strong>Informacion</strong></h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
                     <p>Horarios de entrega</p>
                     <p>Lunes a sábados 9:00 - 18:00</p>
                     <p>Domingos 9:00 - 12:00</p>
+                    <p><a @click.prevent="mostrarPopUp" href="#!">Ver Cobertura</a></p>
                 </mdb-col>
                 <mdb-col md="3" lg="2" xl="2" class="mb-4">
                     <h6 class="text-uppercase font-weight-bold"><strong>Links Utiles</strong></h6>
@@ -58,6 +59,16 @@
                 &copy; 2020 Copyright: <a href="https://www.facebook.com/delsupercompy-100110658389853/"> delsuper.com.py </a>
             </mdb-container>
         </div>
+        <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <img src="/img/cobertura.jpg" class="imagepreview" style="width: 100%;" >
+                    </div>
+                </div>
+            </div>
+        </div>
     </mdb-footer>
     <!-- Footer -->
 </template>
@@ -75,6 +86,12 @@
             mdbContainer,
             mdbRow,
             mdbCol
+        },
+        methods:{
+            mostrarPopUp (){
+                // $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+                $('#imagemodal').modal('show');
+            }
         }
     }
 </script>
