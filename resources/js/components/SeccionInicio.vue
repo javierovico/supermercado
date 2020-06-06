@@ -13,21 +13,29 @@
                             <div class="carousel-item active">
                                 <div class="embed-responsive embed-responsive-21by9 hero-image">
                                     <a href="#!">
-                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/logo.png" style="object-fit: cover">
+                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/1.png" style="object-fit: cover">
                                     </a>
                                 </div>
                             </div>
                             <div class="carousel-item">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <span class="h1 text-white bg-dark">¿Aún no te registrate?</span>
+                                    <p><router-link class="text-white bg-dark" to="/registrarse">Registrarse</router-link></p>
+                                </div>
                                 <div class="embed-responsive embed-responsive-21by9 hero-image">
                                     <a href="#!">
-                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/logo.png" style="object-fit: cover">
+                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/2.png" style="object-fit: cover">
                                     </a>
                                 </div>
                             </div>
                             <div class="carousel-item">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <span  class="h1 text-white bg-dark">Regristra a tu supermercado</span>
+                                    <p><router-link  class="text-white bg-dark" to="/front/contacto">Registrarse</router-link></p>
+                                </div>
                                 <div class="embed-responsive embed-responsive-21by9 hero-image">
                                     <a href="#!">
-                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/logo.png" style="object-fit: cover">
+                                        <img @error="imageDefault"  class="img-thumbnail card-img-top embed-responsive-item" src="/img/3.png" style="object-fit: cover">
                                     </a>
                                 </div>
                             </div>
@@ -50,7 +58,10 @@
                     <div class="card" style="height: 100%">
                         <div class="embed-responsive embed-responsive-4by3 hero-image">
                             <a href="#!">
-                                <img @error="imageDefault" :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item" :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
+                                <div id="imagencontent" class="img-thumbnail card-img-top embed-responsive-item" >
+                                    <img @error="imageDefault" :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item"  :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
+                                    <img v-if="categoriaId==null" src="/img/destacado.png" class="img-thumbnail card-img-top embed-responsive-item" style="background: transparent"/>
+                                </div>
                             </a>
                         </div>
                         <div class="card-body">
@@ -163,6 +174,7 @@
                 };
                 if(this.busquedaTexto.length > 0){
                     parametroBusqueda.palabra_clave = this.busquedaTexto;
+                    parametroBusqueda.princi = null;
                 }
                 axios.get('/producto',{params:parametroBusqueda}).then((response) => {
                     this.productos = response.data.data;

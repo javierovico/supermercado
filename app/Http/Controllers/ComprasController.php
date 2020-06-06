@@ -255,5 +255,19 @@ class ComprasController extends Controller
         $compra->setEntregado(true);
         $compra->save();
     }
+
+    public function calificar(Request $request, $id){
+        $request->validate([
+            'estrellas' => 'required|in:1,2,3,4,5'
+        ]);
+        $this->autorizar(Role::NOMBRE_USUARIO);
+        $user = Auth::user();
+        $compra = Compra::find($id);
+        if ($compra->user->id != $user->id) {
+            abort(401, 'Se cruzaron datos');
+        }
+        $compra->setCalificacion($request->get('estrellas'));
+        $compra->save();
+    }
 }
 

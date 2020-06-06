@@ -63,6 +63,7 @@ Route::delete('/compra/rollback/{id}','ComprasController@rollback');
 Route::get('/compra/historial','ComprasController@historial');
 Route::post('/compra/respuestaVPOST','ComprasController@respuestaVPOST');
 Route::post('/compra/confirmar','ComprasController@confirmar');
+Route::post('/compra/calificar/{id}','ComprasController@calificar');
 Route::post('/compra/entregado/{id}','ComprasController@entregado');
 Route::apiResource('/compra','ComprasController');
 Route::apiResource('/sugerencia','SugerenciaController');

@@ -29,7 +29,7 @@
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px" />
                     <p>
                         Recorre los pasillos del supermercado desde la comodida de tu casa u oficina.<br><b>Súper fácil</b><br><br>Recibí tus compras en el horario más conveniente para vos.<br><b>Es rápido</b>
-                        <br><br>también podes envir tus compras a una persona muy querida.<br><b>Es seguro!</b>
+                        <br><br>también podes enviar tus compras a una persona muy querida.<br><b>Es seguro!</b>
                     </p>
                 </mdb-col>
                 <mdb-col md="2" lg="2" xl="2" class="mb-4">

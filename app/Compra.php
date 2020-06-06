@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property User user
  * @property int pagado
  * @property integer estado_entrega
+ * @property int estrellas
  */
 class Compra extends Model{
 
@@ -24,7 +25,7 @@ class Compra extends Model{
 
 
     protected $appends = ['pago_total','entrega','estadoStr'];
-    protected $casts = ['updated_at' => 'timestamp'];
+    protected $casts = ['updated_at' => 'timestamp','created_at' => 'timestamp'];
 
     //2020-05-15T18:33:50.000000Z
 //    public function getUpdatedAtAttribute($date)
@@ -35,7 +36,7 @@ class Compra extends Model{
         return self::query()
             ->where('estado','<>',self::TIPO_CARRITO)
             ->with('user')
-            ->orderBy('updated_at','desc');
+            ->orderBy('created_at','desc');
     }
 
     public static function detallePagosPersonal($userId){
@@ -45,7 +46,7 @@ class Compra extends Model{
 //            ->withCount(['productos' => function(Builder $q){
 //                $q->sum('precio_actual');
 //            }])
-            ->orderBy('updated_at','desc');
+            ->orderBy('created_at','desc');
     }
 
     public static function carritoCompra(User $user){
@@ -142,6 +143,10 @@ class Compra extends Model{
 
     public function setEntregado(bool $true){
         $this->estado_entrega = $true?self::ENTREGA_ENTREGADO:self::ENTREGA_NO_ENTREGADO;
+    }
+
+    public function setCalificacion($estrellas){
+        $this->estrellas = $estrellas;
     }
 
 }

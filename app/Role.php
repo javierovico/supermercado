@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model{
 
     const NOMBRE_DELIVERY = 'delivery';
+    const NOMBRE_USUARIO = 'user';
     protected $fillable = ['name','descripcion'];
 
     public function users(){

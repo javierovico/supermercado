@@ -18,7 +18,7 @@ class SugerenciaController extends Controller
             'cantidad' => 'integer|max:40',
             'page'=>'integer',
         ]);
-        $this->autorizar('admin');
+        $this->autorizar('financiero');
         return Sugerencia::query()->orderBy('updated_at')->paginate($request->get('cantidad'),['*'],'page',$request->get('page'));
     }
 

@@ -1,7 +1,7 @@
 <template>
     <mdb-container class="mt-5">
         <mdb-card>
-            <mdb-card-title class="mt-4 h2">Contact us</mdb-card-title>
+            <mdb-card-title class="mt-4 h2">Contacto</mdb-card-title>
             <mdb-card-body>
                 <mdb-card-text class="pr-5 pl-5" mr-4 ml-4>
                     Tenes alguna duda? Nuestro equipo esta siempre disponible.

@@ -1,7 +1,7 @@
 <template>
     <div id="principal">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light navbar-dark bg-primary">
+            <nav class="navbar navbar-expand-lg navbar-light navbar-dark bg-primary fixed-top">
                 <a href="#!" class="text-white" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></a>
 <!--                <button class="btn" type="button" data-toggle="collapse" data-target="#navbarSupportedCategoria" aria-controls="navbarSupportedCategoria" aria-expanded="false" aria-label="Toggle navigation">-->
 <!--                    <i class="material-icons">storefront</i>-->
@@ -34,7 +34,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <router-link to="/admin/categorias" class="dropdown-item" href="#">Categorias</router-link>
                                 <router-link to="/admin/productos" class="dropdown-item" href="#">Productos</router-link>
-                                <router-link to="/front/admin/sugerencias" class="dropdown-item" href="#">Buzon Sugerencia</router-link>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#!">Otros</a>
                             </div>
@@ -45,6 +44,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownPagos">
                                 <router-link href="#" class="dropdown-item" to="/financiero/pagos">Ver Pagos</router-link>
+                                <router-link to="/front/admin/sugerencias" class="dropdown-item" href="#">Buzon Sugerencia</router-link>
                             </div>
                         </li>
                         <li v-if="$store.getters.isDelivery()" class="nav-item dropdown">
@@ -73,42 +73,43 @@
                             <router-link to="/front/contacto" class="nav-link" href="#">Contacto <span v-if="$route.fullPath==='/front/contacto'" class="sr-only">(current)</span></router-link>
                         </li>
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="$router.push({path:'/',query:{busqueda:busquedaTexto,categoriaId:$route.query.categoriaId}})">
+                    <form class="form-inline my-2 my-lg-0" v-on:submit.prevent="$router.push({path:'/',query:{busqueda:busquedaTexto}})">
                         <input v-model="busquedaTexto" class="form-control mr-sm-2" type="search" placeholder="Busqueda..." aria-label="Buscar">
                         <button type="submit" href="#!" class="text-white btn btn-link"><i class="material-icons prefix white-text">search</i></button>
                     </form>
                 </div>
             </nav>
-            <div class="container-fluid">
+            <div class="container-fluid fixed-top" style="top: 7ex">
                 <div class="row">
                     <div class="col-11 col-sm-8 col-md-6 col-lg-5">
                         <div class="collapse navbar-collapse" id="navbarSupportedCategoria">
-                            <nav class="sidebar-nav">
+                            <nav class="sidebar-nav ">
                                 <ul class="metismenu" id="menu1">
                                     <li v-for="(categoria,index) in categoriasAnidadas">
                                         <a v-on:click.passive="menuPulsado(categoria)" :class="(categoria.subCategorias.length > 0)?'has-arrow':''" href="#" :aria-expanded="(categoria.subCategorias.length > 0)?'false':null">
-                                            <i class="material-icons">storefront</i>
+                                            <!--                                            <i class="material-icons">storefront</i>-->
+                                            <img :src="'/img/categoria/'+categoria.id+'.png'" style="height: 2vh">
                                             {{categoria.nombre}}
                                         </a>
                                         <ul v-if="categoria.subCategorias.length > 0" class="mm-collapse">
                                             <li v-for="(categoria2,index2) in categoria.subCategorias">
                                                 <a v-on:click.passive="menuPulsado(categoria2)" :class="(categoria2.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria2.subCategorias.length > 0)?'false':null" href="#">
-                                                     {{categoria2.nombre}}
+                                                    {{categoria2.nombre}}
                                                 </a>
                                                 <ul v-if="categoria2.subCategorias.length > 0" class="mm-collapse">
                                                     <li v-for="(categoria3,index3) in categoria2.subCategorias">
                                                         <a v-on:click.passive="menuPulsado(categoria3)" :class="(categoria3.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria3.subCategorias.length > 0)?'false':null" href="#">
-                                                             {{categoria3.nombre}}
+                                                            {{categoria3.nombre}}
                                                         </a>
                                                         <ul v-if="categoria3.subCategorias.length > 0" class="mm-collapse">
                                                             <li v-for="(categoria4,index4) in categoria3.subCategorias">
                                                                 <a v-on:click.passive="menuPulsado(categoria4)" :class="(categoria4.subCategorias.length > 0)?'has-arrow':''" :aria-expanded="(categoria4.subCategorias.length > 0)?'false':null" href="#">
-                                                                     {{categoria4.nombre}}
+                                                                    {{categoria4.nombre}}
                                                                 </a>
                                                                 <ul v-if="categoria4.subCategorias.length > 0" class="mm-collapse">
                                                                     <li v-for="(categoria5,index5) in categoria4.subCategorias">
                                                                         <a v-on:click.passive="menuPulsado(categoria5)" href="#">
-                                                                             {{categoria5.nombre}}
+                                                                            {{categoria5.nombre}}
                                                                         </a>
                                                                     </li>
                                                                 </ul>
@@ -126,6 +127,7 @@
                 </div>
             </div>
         </header>
+        <div style="height: 8ex"></div>
         <main class="py-4">
             <div class="container-fluid">
                 <router-view @checkUser="checkUser()" class="view"></router-view>

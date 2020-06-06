@@ -8,6 +8,7 @@
                 <th v-if="$store.getters.isRol('financiero')" scope="col">Nombre</th>
                 <th v-if="$store.getters.isRol('financiero')" scope="col">Telefono</th>
                 <th scope="col">Total</th>
+                <th v-if="$store.getters.isRol('financiero')" scope="col">Estrellas</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Entrega</th>
                 <th scope="col">Acciones</th>
@@ -16,10 +17,11 @@
             <tbody>
             <tr v-for="(compra,index) in compras" :style="'background:'+(compra.estadoStr!='entregado'?'#fbdbdb':'rgb(205, 247, 200)')">
                 <th scope="row">{{index+1}}</th>
-                <td>{{$intToFecha(compra.updated_at)}}</td>
+                <td>{{$intToFecha(compra.created_at)}}</td>
                 <td v-if="$store.getters.isRol('financiero')">{{compra.user.name}}{{compra.user.apellido}}</td>
                 <td v-if="$store.getters.isRol('financiero')">{{compra.user.telefono}}</td>
                 <td>{{$precio(compra.pago_total)}}</td>
+                <td v-if="$store.getters.isRol('financiero')">{{(compra.estrellas>0)?compra.estrellas:'n/a'}}</td>
                 <td>{{compra.estadoStr}}</td>
                 <td>{{compra.entrega}}</td>
                 <td>
@@ -27,6 +29,7 @@
                     <router-link :to="{path:'/carrito/historial/detalle/'+compra.id}" data-toggle="tooltip" data-placement="top" title="Ver detalles de compra"><i class="material-icons">remove_red_eye</i></router-link>
                     <a href="#!" v-if="$store.getters.isRol('financiero')" @click.prevent="mostrarConfirmacionRollback(index)" data-toggle="tooltip" data-placement="top" title="Deshacer Pago"><i class="material-icons">close</i></a>
                     <a href="#!" v-if="$store.getters.isDelivery()" @click.prevent="mostrarConfirmacionEntregado(index)" data-toggle="tooltip" data-placement="top" title="Marcar como entregado"><i class="material-icons">done</i></a>
+                    <a href="#!" :style="(compra.estrellas>0)?'color: orange;':null" v-if="compra.estadoStr == 'entregado'" @click.prevent="calificarCompra(index)" data-toggle="tooltip" data-placement="top" title="Calificar compra"><i class="material-icons">star</i></a>
                 </td>
             </tr>
             </tbody>
@@ -34,7 +37,7 @@
         <vista-paginacion
             :actual="paginaActual"
             :total="paginaTotal"
-            :slidingEndingSize="10"
+            :slidingEndingSize="paginaCantidadItem"
             @paginacionClick="paginacionClick"
         ></vista-paginacion>
         <ModalConfirmarRollback
@@ -43,13 +46,18 @@
         <ModalConfirmarEntrega
             :modal="modalEntrega"
         ></ModalConfirmarEntrega>
+        <ModalCalificarEntrega
+            :modal="modalCalificar"
+            :index="modalCalificar.index"
+        ></ModalCalificarEntrega>
     </div>
 </template>
 <script>
     import ModalConfirmarRollback from "./ModalConfirmarRollback";
     import ModalConfirmarEntrega from "./ModalConfirmarEntrega";
+    import ModalCalificarEntrega from "./ModalCalificarEntrega";
     export default {
-        components: {ModalConfirmarEntrega, ModalConfirmarRollback},
+        components: {ModalCalificarEntrega, ModalConfirmarEntrega, ModalConfirmarRollback},
         props:[
             'auth',             //para saber si esta o no iniciado
             'pendientes'
@@ -59,7 +67,7 @@
                 compras: [],
                 paginaActual: 1,
                 paginaTotal: 1,
-                paginaCantidadItem:20,
+                paginaCantidadItem:30,
                 busqueda:{
                     buscarProducto: ''
                 },
@@ -77,6 +85,10 @@
                 },
                 modalEntrega:{
                     compraEntrega:null,
+                    index:null,
+                },
+                modalCalificar:{
+                    compraCalificar:null,
                     index:null,
                 }
             }
@@ -159,6 +171,18 @@
                 this.modalEntrega.compraEntrega = this.compras[index];
                 this.modalEntrega.index = index;
                 $('#modalConfirmarEntrega').modal();
+            },
+            calificarCompra(index){
+                if(this.compras[index].estrellas >0){
+                    $.notify({
+                        title: 'Ya calificaste esta compra con '+this.compras[index].estrellas +' estrella(s)',
+                        message: '',
+                    });
+                    return;
+                }
+                this.modalCalificar.compraCalificar = this.compras[index];
+                this.modalCalificar.index = index;
+                $('#modalCalificarEntrega').modal();
             }
         }
     }
