@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Http;
 /**
  * @method Pago find($get)
  * @method static findOrFail($pagoId)
+ * @property int id
+ * @property int tipo_pago
+ * @property Compra compra
  */
 class Pago extends Model{
 
@@ -20,13 +23,14 @@ class Pago extends Model{
         return $this->belongsTo(Compra::class);
     }
 
-    public function procesarPago(){
+    public function procesarPago($telefono = ""){
         $compra = $this->compra;
         $compra->estado = 'x' . $this->tipo_pago;    //dennotara no pagado (x1, x2, x3 ...)
         $compra->save();
         switch ($this->tipo_pago){
             case 1:
-                return $this->procesarPost();
+            case 4:
+                return $this->procesarPost($telefono);
                 break;
             case 2:
             case 3:
@@ -39,10 +43,10 @@ class Pago extends Model{
     }
 
     /**
+     * @param $telefono
      * @return Application|ResponseFactory|Response
      */
-    public function procesarPost(){
-        /** @var Compra $compra */
+    public function procesarPost($telefono = ""){
         $compra = $this->compra;
         $user = $compra->user;
         $precioTotalString = number_format($compra->precioTotal(),2,'.','');
@@ -55,7 +59,7 @@ class Pago extends Model{
                 "shop_process_id"=> $this->id,
                 "amount"=> $precioTotalString,
                 "currency"=> "PYG",
-                "additional_data"=> "",
+                "additional_data"=> $telefono,
                 "description"=> "Compra de " . $user->name,
                 "return_url"=> env('APP_URL').'/carrito/historial',      //retorna ?status=payment_success si funciono
                 "cancel_url"=> env('APP_URL').'/carrito/historial',

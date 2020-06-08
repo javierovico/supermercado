@@ -75,6 +75,8 @@ class Compra extends Model{
             return 'Pagado';
         }else if($this->estado == 'x1'){
             return 'Pago online pendiente';
+        }else if($this->estado == 'x4'){
+            return 'Pago online pendiente Zimple';
         }else if($this->estado == 'x2'){
             return 'Contraentrega pendiente (d/c)';
         }else if($this->estado == 'x3'){

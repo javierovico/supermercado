@@ -41,9 +41,19 @@
                             <select v-model="metodoPago" class="custom-select" id="inputGroupSelect01">
                                 <option disabled value="">Selecciona...</option>
                                 <option value="1">Pago online via Bancard</option>
+                                <option value="4">Pago online via Bancard Zimple</option>
                                 <option value="2">Tarjeta Credito/Debito contraentrega</option>
                                 <option value="3">Efectivo Contraentrega</option>
                             </select>
+                        </div>
+                        <div v-show="metodoPago == 4" class="input-group mb-3">
+                            <label class="sr-only" for="inlineFormInputGroupUsername2">09...</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Telefono</div>
+                                </div>
+                                <input v-model="telefonoSimple" type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="09...">
+                            </div>
                         </div>
                     </template>
                     <div  id="iframe-container"/>
@@ -68,6 +78,7 @@
                 cargando: false,
                 metodoPago: '',
                 delivery: null,
+                telefonoSimple: ''
             }
         },
         watch:{
@@ -90,11 +101,16 @@
                     compraId: this.modal.compraId,
                     metodo: this.metodoPago,
                     delivery: this.delivery?'1':'0',
+                    telefono: this.metodoPago==4?this.telefonoSimple:'',
                 }).then((response)=>{
                     switch(this.metodoPago){
                         case '1':
                         case 1:
                             this.mostrarBancard(response.data.process_id);
+                            break;
+                        case '4':
+                        case 4:
+                            this.mostrarBancardZimple(response.data.process_id);
                             break;
                         case 2:
                         case 3:
@@ -113,7 +129,10 @@
             },
             mostrarBancard(processId){
                 Bancard.Checkout.createForm('iframe-container', processId, {});
-            }
+            },
+            mostrarBancardZimple(processId){
+                Bancard.Zimple.createForm('iframe-container', processId, {});
+            },
         }
     }
 </script>

@@ -148,8 +148,9 @@ class ComprasController extends Controller
         $user = Auth::user();
         $compraId = $request->validate([
             'compraId' => 'required|integer|min:1',
-            'metodo' => 'required|in:1,2,3',
-            'delivery' => 'required|boolean'
+            'metodo' => 'required|in:1,2,3,4',
+            'delivery' => 'required|boolean',
+            'telefono' => 'max:20'
         ])['compraId'];
         $compra =  Compra::find($compraId);
         //borrar el producto delivery (si existiese)
@@ -175,7 +176,7 @@ class ComprasController extends Controller
         $pago->compra()->associate($compra);
         $pago->tipo_pago = ($metodoPago = $request->get('metodo'));
         $pago->save();
-        return $pago->procesarPago();
+        return $pago->procesarPago($request->get('telefono',''));
     }
 
     public function respuestaVPOST(Request $request){

@@ -60,7 +60,7 @@
                             <a href="#!">
                                 <div id="imagencontent" class="img-thumbnail card-img-top embed-responsive-item" >
                                     <img @error="imageDefault" :alt="'Imagen Producto'+producto.nombre" class="img-thumbnail card-img-top embed-responsive-item"  :src="$url+producto.codigo+'.jpg'" style="object-fit: cover">
-                                    <img v-if="categoriaId==null" src="/img/destacado.png" class="img-thumbnail card-img-top embed-responsive-item" style="background: transparent"/>
+                                    <img v-if="categoriaId==null && busquedaTexto.length==0" src="/img/destacado.png" class="img-thumbnail card-img-top embed-responsive-item" style="background: transparent"/>
                                 </div>
                             </a>
                         </div>
